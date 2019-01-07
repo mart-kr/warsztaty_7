@@ -1,18 +1,21 @@
 package pl.coderslab.warsztaty_7.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.warsztaty_7.model.Role;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.repository.UserRepository;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-@RestController
+@Controller
 public class testController {
 
     @Autowired
@@ -45,5 +48,17 @@ public class testController {
     @GetMapping("/admin/")
     public String roleCheck2() {
         return "You have got admin role (configuration check)";
+    }
+
+    // Do wyrzucenia przykład do Thymeleafa
+    @Value("${welcome.message:test}")
+    private String message = "Hello World";
+
+
+    //do usunięcia, przykład działającego Thymeleafa
+    @RequestMapping("/thymeleaf")
+    public String welcome(Map<String, Object> model) {
+        model.put("message", this.message);
+        return "welcome";
     }
 }
