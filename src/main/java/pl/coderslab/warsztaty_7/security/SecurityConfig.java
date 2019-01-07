@@ -25,7 +25,6 @@ import javax.sql.DataSource;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private DataSource dataSource;
     private UserDetailsServiceImpl userDetailsService;
 
     @Bean
@@ -37,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/add-admin")
-                .permitAll().antMatchers("/admin/**").hasRole("ADMIN")
+                .authorizeRequests().antMatchers("/add-admin", "/home", "/home/**").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/**").authenticated()
                 .and().formLogin()
                 .and().logout();
@@ -48,11 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
-    }
-
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
     }
 
     @Autowired

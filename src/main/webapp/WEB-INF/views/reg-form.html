@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Register new user</title>
+</head>
+<body>
+    <h1>Registration</h1>
+    <!--Formularz (pokaże się tylko jeśli użytkownik nie jest zalogowany)-->
+    <div sec:authorize="isAnonymous()">
+        <p>Please fill in the form to register and use application</p>
+        <form action="/home/registration" th:action="@{/home/registration}" th:object="${user}" method="post">
+            <span th:if="${#fields.hasErrors('*')}" th:errors="*{username}"></span><br>
+            <label for="username">Email address:</label><br>
+            <input type="text" th:field="${user.username}" id="username"/><br>
+
+            <span th:if="${#fields.hasErrors('*')}" th:errors="*{firstName}"></span><br>
+            <label for="first-name">First name:</label><br>
+            <input type="text" th:field="${user.firstName}" id="first-name"/><br>
+
+            <span th:if="${#fields.hasErrors('*')}" th:errors="*{password}"></span><br>
+            <label for="password">Password:</label><br>
+            <input type="password" th:field="${user.password}" id="password"/><br>
+
+            <input type="submit" value="Submit!"/>
+        </form>
+    </div>
+    <!--Wiadomość dla zalogowanego użytkownika-->
+    <div sec:authorize="isAuthenticated()">
+        <p>Logged in user can't register a new one. Please log out if you want to register</p>
+    </div>
+
+
+
+</body>
+</html>
