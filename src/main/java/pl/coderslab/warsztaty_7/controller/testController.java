@@ -54,12 +54,12 @@ public class testController {
         return "You have got admin role (configuration check)";
     }
 
-    // Do wyrzucenia przykład do Thymeleafa
+    //do wyrzucenia - przykład do Thymeleafa
     @Value("${welcome.message:test}")
     private String message = "Hello World";
 
 
-    //do usunięcia, przykład działającego Thymeleafa
+    //do wyrzucenia - przykład działającego Thymeleafa
     @RequestMapping("/thymeleaf")
     public String welcome(Map<String, Object> model) {
         model.put("message", this.message);
