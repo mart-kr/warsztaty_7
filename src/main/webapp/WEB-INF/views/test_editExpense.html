@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Test Expenses</title>
+</head>
+<body>
+    <h3>Edit expense</h3>
+    <form action="/home/expense/edit/{id}" th:action="@{/home/expense/edit/{id}(id=${expense.id})}" th:object="${expense}" method="post">
+        <p>Expense value: <input type="text" th:field="*{value}" /></p>
+        <select th:field="*{expenseCategory.id}">
+            <option
+                th:each="expenseCategory: ${expenseCategories}"
+                th:value="${expenseCategory.id}"
+                th:text="${expenseCategory.name}"></option>
+        </select>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>

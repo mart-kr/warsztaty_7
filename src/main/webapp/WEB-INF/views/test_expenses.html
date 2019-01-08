@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Test Expenses</title>
+</head>
+<body>
+    <h1>Expenses list</h1>
+    <table>
+        <tr th:each="expense : ${expenses}">
+            <td th:text="${expense.id}">1</td>
+            <td th:text="${expense.value}">1</td>
+            <td th:text="${expense.expenseCategory.name}">...</td>
+        </tr>
+    </table>
+    <h3>Add expense</h3>
+    <form action="/home/expense/" th:action="@{/home/expense/}" th:object="${expense}" method="post">
+        <p>Expense value: <input type="text" th:field="*{value}" /></p>
+        <select th:field="*{expenseCategory.id}">
+            <option
+                th:each="expenseCategory: ${expenseCategories}"
+                th:value="${expenseCategory.id}"
+                th:text="${expenseCategory.name}"></option>
+        </select>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>

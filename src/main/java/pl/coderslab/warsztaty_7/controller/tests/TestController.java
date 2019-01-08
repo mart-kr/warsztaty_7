@@ -1,4 +1,4 @@
-package pl.coderslab.warsztaty_7.controller;
+package pl.coderslab.warsztaty_7.controller.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Controller
-public class testController {
+public class TestController {
 
     @Autowired
     private UserRepository repository;
