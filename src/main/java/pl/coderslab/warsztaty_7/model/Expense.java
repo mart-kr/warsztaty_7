@@ -13,7 +13,7 @@ public class Expense {
     private Long id;
 
     @Column
-    private BigDecimal value;
+    private BigDecimal amount;
 
     @ManyToOne
     @JoinColumn(name = "expense_categories_id")
@@ -23,15 +23,15 @@ public class Expense {
 
     public Expense() {}
 
-    public Expense(BigDecimal value, ExpenseCategory expenseCategory) {
-        this.value = value;
+    public Expense(BigDecimal amount, ExpenseCategory expenseCategory) {
+        this.amount = amount;
         this.expenseCategory = expenseCategory;
     }
 
     //TODO: do usunięcia?
-    public Expense(Long id, BigDecimal value, ExpenseCategory expenseCategory) {
+    public Expense(Long id, BigDecimal amount, ExpenseCategory expenseCategory) {
         this.id = id;
-        this.value = value;
+        this.amount = amount;
         this.expenseCategory = expenseCategory;
     }
 
@@ -43,12 +43,12 @@ public class Expense {
         this.id = id;
     }
 
-    public BigDecimal getValue() {
-        return value;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public ExpenseCategory getExpenseCategory() {
@@ -63,7 +63,7 @@ public class Expense {
     public String toString() {
         return "Expense{" +
                 "id=" + id +
-                ", value=" + value +
+                ", amount=" + amount +
                 ", expenseCategory=" + expenseCategory.toString() +
                 '}';
     }

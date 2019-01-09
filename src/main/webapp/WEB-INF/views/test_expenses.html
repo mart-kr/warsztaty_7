@@ -9,13 +9,13 @@
     <table>
         <tr th:each="expense : ${expenses}">
             <td th:text="${expense.id}">1</td>
-            <td th:text="${expense.value}">1</td>
+            <td th:text="${expense.amount}">1</td>
             <td th:text="${expense.expenseCategory.name}">...</td>
         </tr>
     </table>
     <h3>Add expense</h3>
     <form action="/home/expense/" th:action="@{/home/expense/}" th:object="${expense}" method="post">
-        <p>Expense value: <input type="text" th:field="*{value}" /></p>
+        <p>Expense amount: <input type="text" th:field="*{amount}" /></p>
         <select th:field="*{expenseCategory.id}">
             <option
                 th:each="expenseCategory: ${expenseCategories}"
