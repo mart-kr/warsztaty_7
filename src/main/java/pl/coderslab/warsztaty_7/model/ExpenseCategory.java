@@ -1,21 +1,18 @@
 package pl.coderslab.warsztaty_7.model;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "expense_categories")
-
 public class ExpenseCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     @NotEmpty
@@ -28,32 +25,24 @@ public class ExpenseCategory {
     @Column(name = "created_by")
     private Long createdBy;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdDate;
-
     @OneToMany(mappedBy = "expenseCategory", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<Expense> expenseList = new ArrayList<>();
 
     public ExpenseCategory() {}
 
-    public ExpenseCategory(String name, boolean isGlobal, Long createdBy, LocalDateTime createdDate) {
+    public ExpenseCategory(String name, boolean isGlobal, Long createdBy) {
         this.name = name;
         this.isGlobal = isGlobal;
         this.createdBy = createdBy;
-        this.createdDate = createdDate;
     }
 
     //TODO: do usunięcia?
-    public ExpenseCategory(Long id, String name, boolean isGlobal, Long createdBy, LocalDateTime createdDate) {
+    public ExpenseCategory(Long id, String name, boolean isGlobal, Long createdBy) {
         this.id = id;
         this.name = name;
         this.isGlobal = isGlobal;
         this.createdBy = createdBy;
-        this.createdDate = createdDate;
     }
-
-
 
     public Long getId() {
         return id;
@@ -87,13 +76,19 @@ public class ExpenseCategory {
         this.createdBy = createdBy;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
+    public List<Expense> getExpenseList() {
+        return expenseList;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+    public void setExpenseList(List<Expense> expenseList) {
+        this.expenseList = expenseList;
     }
+
+    public void addExpense(Expense expense) {
+        this.expenseList.add(expense);
+        expense.setExpenseCategory(this);
+    }
+
 
     @Override
     public String toString() {
@@ -102,7 +97,6 @@ public class ExpenseCategory {
                 ", name='" + name + '\'' +
                 ", isGlobal=" + isGlobal +
                 ", createdBy=" + createdBy +
-                ", createdDate=" + createdDate +
                 '}';
     }
 }
