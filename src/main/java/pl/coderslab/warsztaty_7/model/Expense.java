@@ -16,10 +16,12 @@ public class Expense {
     private BigDecimal amount;
 
     @ManyToOne
-    @JoinColumn(name = "expense_categories_id")
+    @JoinColumn(name = "expense_category_id")
     private ExpenseCategory expenseCategory;
 
-    //TODO: dodać relację do Receipt
+    @ManyToOne
+    @JoinColumn(name = "receipt_id")
+    private Receipt receipt;
 
     public Expense() {}
 
@@ -29,10 +31,11 @@ public class Expense {
     }
 
     //TODO: do usunięcia?
-    public Expense(Long id, BigDecimal amount, ExpenseCategory expenseCategory) {
+    public Expense(Long id, BigDecimal amount, ExpenseCategory expenseCategory, Receipt receipt) {
         this.id = id;
         this.amount = amount;
         this.expenseCategory = expenseCategory;
+        this.receipt = receipt;
     }
 
     public Long getId() {
@@ -59,12 +62,21 @@ public class Expense {
         this.expenseCategory = expenseCategory;
     }
 
+    public Receipt getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
+    }
+
     @Override
     public String toString() {
         return "Expense{" +
                 "id=" + id +
                 ", amount=" + amount +
-                ", expenseCategory=" + expenseCategory.toString() +
+                ", expenseCategory=" + expenseCategory +
+                ", receipt=" + receipt +
                 '}';
     }
 }

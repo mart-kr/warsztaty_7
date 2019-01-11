@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Test Receipts</title>
+</head>
+<body>
+<h1>Receipts list</h1>
+<table>
+    <tr th:each="receipt : ${receipts}">
+        <td th:text="${receipt.id}">1</td>
+        <td th:text="${receipt.amount}">1</td>
+        <td th:text="${receipt.dateOfPayment}">...</td>
+        <td th:text="${receipt.placeOfPayment}">...</td>
+        <td th:text="${receipt.note}">...</td>
+    </tr>
+</table>
+<!--<h3>Add receipt</h3>
+<form action="/home/receipt/add" th:action="@{/home/receipt/add}" th:object="${receipt}" method="post">
+    <p>Receipt amount: <input type="text" th:field="*{receipt.amount}" /></p>
+    <p>Date of payment: <input type="date" th:field="*{receipt.dateOfPayment}"></p>
+    <p>Place of payment: <input type="text" th:field="*{receipt.placeOfPayment}"></p>
+    <p>Note: <textarea cols="5" rows="3" th:field="*{receipt.note}"></textarea> </p>
+    <input type="submit" value="Submit"/>
+</form>-->
+</body>
