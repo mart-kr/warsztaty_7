@@ -1,0 +1,14 @@
+Budget app:
+
+
+- czy zostawiamy catalog WEB-INF? wszystko z defaultu można umieszczać w resources
+
+- jak obsługujemy wszystkie encje na tle innych userów/budżetów? dodajemy jakieś pole do każdej z encji z budżetem/userem?
+
+- soft delete
+
+- gdy usuniemy categorię, co robimy z polami w expensach? tak, żeby były nullami czy coś innego?
+
+- jak przypisać z lksty wyboru w formularzu obiekt do dawanego obiektu (Marta :) )
+
+- jak wsadzić do bazy categorie ktore mają być z deafultu “globalne”? Tyczy to tak samo np. adminów. Osobny SQL? Jakoś przez Hibernate’a?
