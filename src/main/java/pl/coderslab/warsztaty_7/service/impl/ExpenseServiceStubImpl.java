@@ -3,9 +3,11 @@ package pl.coderslab.warsztaty_7.service.impl;
 import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
+import pl.coderslab.warsztaty_7.model.Receipt;
 import pl.coderslab.warsztaty_7.service.ExpenseService;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,9 +17,9 @@ import java.util.stream.Collectors;
 public class ExpenseServiceStubImpl implements ExpenseService {
 
     private List<Expense> expenses = new ArrayList<Expense>() {{
-        add(new Expense(1L, new BigDecimal(100), new ExpenseCategory(1L, "kat1", true, null)));
-        add(new Expense(2L, new BigDecimal(200.55), new ExpenseCategory(2L, "kat2", true, null)));
-        add(new Expense(3L, new BigDecimal(333), new ExpenseCategory(3L, "kat3", true, null)));
+        add(new Expense(1L, new BigDecimal(100), new ExpenseCategory(1L, "kat1", true, null),new Receipt(1L, new BigDecimal(100), LocalDate.parse("2019-01-01"), "sklep1", "notatka1") ));
+        add(new Expense(2L, new BigDecimal(200.55), new ExpenseCategory(2L, "kat2", true, null), new Receipt(2L, new BigDecimal(200.55), LocalDate.parse("2019-01-01"), "sklep1", "notatka1")));
+        add(new Expense(3L, new BigDecimal(333), new ExpenseCategory(3L, "kat3", true, null), new Receipt(3L, new BigDecimal(333), LocalDate.parse("2019-01-01"), "sklep1", "notatka1")));
     }};
 
     private List<ExpenseCategory> expenseCategories = new ArrayList<ExpenseCategory>() {{
@@ -56,7 +58,14 @@ public class ExpenseServiceStubImpl implements ExpenseService {
     public List<Expense> findByCategoryId(Long id) {
         return this.expenses.stream()
                 .filter(p -> p.getExpenseCategory().getId().equals(id))
-                .collect((Collectors.toList()));
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Expense> findByReceiptId(Long id) {
+        return this.expenses.stream()
+                .filter(p -> p.getReceipt().getId().equals(id))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Receipt</title>
+</head>
+<body>
+<h3>Edit Receipt</h3>
+<form action="#" th:action="@{/home/receipt/edit/{id}(id=${receipt.id})}" th:object="${receipt}" method="post">
+    <p>Receipt amount: <input type="text" th:field="*{amount}" /></p>
+    <p>Date of payment: <input type="date" th:field="*{dateOfPayment}"></p>
+    <p>Place of payment: <input type="text" th:field="*{placeOfPayment}"></p>
+    <p>Note: <textarea cols="30" rows="3" th:field="*{note}"></textarea></p>
+    <input type="submit" value="Submit"/>
+</form>
+</body>

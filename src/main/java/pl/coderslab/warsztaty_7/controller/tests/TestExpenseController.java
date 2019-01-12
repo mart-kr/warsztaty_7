@@ -47,6 +47,12 @@ public class TestExpenseController {
         return "test_expenses";
     }
 
+    @GetMapping(value = "/receipt/{id}")
+    public String findExpencesByReceipt(@PathVariable Long id, Model model) {
+        model.addAttribute("expenses", expenseService.findByReceiptId(id));
+        return "test_expenses";
+    }
+
     @GetMapping(value = "/edit/{id}")
     public String editExpense(@PathVariable Long id, Model model) {
         model.addAttribute("expense", expenseService.findById(id));
