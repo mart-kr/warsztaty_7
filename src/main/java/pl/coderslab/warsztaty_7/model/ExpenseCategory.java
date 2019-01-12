@@ -1,9 +1,16 @@
 package pl.coderslab.warsztaty_7.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +34,24 @@ public class ExpenseCategory {
 
     @OneToMany(mappedBy = "expenseCategory", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<Expense> expenseList = new ArrayList<>();
+
+    @CreatedBy
+    @Column(name = "created_by", insertable = false, updatable = false)
+    private Long createdUserId;
+
+    @CreationTimestamp
+    //@CreatedDate
+    @Column(name = "created_date", nullable = false, updatable = false )
+    private LocalDateTime createdDate;
+
+    @LastModifiedBy
+    @Column(name = "updated_by")
+    private Long lastUpdatedUserId;
+
+    @UpdateTimestamp
+    //@LastModifiedDate
+    @Column(name = "updated_date")
+    private LocalDateTime lastModifiedDate;
 
     public ExpenseCategory() {}
 

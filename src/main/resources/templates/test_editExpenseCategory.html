@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Expense Category</title>
+</head>
+<body>
+<h3>Edit expense category</h3>
+<form action="#" th:action="@{/home/expenseCategory/edit/{id}(id=${expenseCategory.id})}" th:object="${expenseCategory}" method="post">
+    <p>Name: <input type="text" th:field="*{name}" /></p>
+    <input type="submit" value="Submit"/>
+</form>
+</body>

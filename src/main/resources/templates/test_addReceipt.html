@@ -5,7 +5,7 @@
     <title>Add Receipt</title>
 </head>
 <body>
-<h3>Add Receipt</h3>
+<h3>Add receipt</h3>
 <form action="#" th:action="@{/home/receipt/add}" th:object="${receipt}" method="post">
     <p>Receipt amount: <input type="text" th:field="*{amount}" /></p>
     <p>Date of payment: <input type="date" th:value="*{dateOfPayment}" th:field="*{dateOfPayment}"></p>

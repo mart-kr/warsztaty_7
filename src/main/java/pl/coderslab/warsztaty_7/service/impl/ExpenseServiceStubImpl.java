@@ -34,10 +34,10 @@ public class ExpenseServiceStubImpl implements ExpenseService {
         return this.expenses;
     }
 
-    @Override
+/*    @Override
     public List<ExpenseCategory> findAllCategories() {
         return this.expenseCategories;
-    }
+    }*/
 
     @Override
     public List<Expense> findByCategory(ExpenseCategory expenseCategory) {
@@ -46,13 +46,13 @@ public class ExpenseServiceStubImpl implements ExpenseService {
                 .collect(Collectors.toList());
     }
 
-    @Override
+/*    @Override
     public ExpenseCategory findCategoryById(Long id) {
         return this.expenseCategories.stream()
                 .filter(p -> p.getId().equals(id))
                 .findFirst()
                 .orElse(null);
-    }
+    }*/
 
     @Override
     public List<Expense> findByCategoryId(Long id) {

@@ -59,5 +59,4 @@ public class TestReceiptController {
         return "redirect:http://localhost:8080/home/receipt/all";
     }
 
-
 }

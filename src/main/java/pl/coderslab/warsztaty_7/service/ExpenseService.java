@@ -17,6 +17,6 @@ public interface ExpenseService {
     void deleteById(Long id);
 
     //TODO: Do usunięcia/przeniesienia do oddzielnego interfejsu
-    List<ExpenseCategory> findAllCategories();
-    ExpenseCategory findCategoryById(Long id);
+/*    List<ExpenseCategory> findAllCategories();
+    ExpenseCategory findCategoryById(Long id);*/
 }

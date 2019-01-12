@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
+import pl.coderslab.warsztaty_7.service.ExpenseCategoryService;
 import pl.coderslab.warsztaty_7.service.ExpenseService;
 
 import java.util.List;
@@ -16,14 +17,17 @@ public class TestExpenseController {
 
     private final ExpenseService expenseService;
 
+    private final ExpenseCategoryService expenseCategoryService;
+
     @Autowired
-    public TestExpenseController(ExpenseService expenseService) {
+    public TestExpenseController(ExpenseService expenseService, ExpenseCategoryService expenseCategoryService) {
         this.expenseService = expenseService;
+        this.expenseCategoryService = expenseCategoryService;
     }
 
     @ModelAttribute(name = "expenseCategories")
     public List<ExpenseCategory> findAllCategories() {
-        return expenseService.findAllCategories();
+        return expenseCategoryService.findAll();
     }
 
     @ModelAttribute(name = "expenses")
@@ -61,16 +65,16 @@ public class TestExpenseController {
 
     @PostMapping(value = "/")
     public String createExpense(@ModelAttribute Expense expense) {
-        Long categoryId = expense.getExpenseCategory().getId();
-        expense.setExpenseCategory(expenseService.findCategoryById(categoryId)); //TODO: to jest tymczasowe rozwiązanie
+        //Long categoryId = expense.getExpenseCategory().getId();
+        //expense.setExpenseCategory(expenseService.findCategoryById(categoryId)); //TODO: to jest tymczasowe rozwiązanie
         expenseService.create(expense);
         return "test_expenses";
     }
 
     @PostMapping(value = "/edit/{id}")
     public String editExpense(@ModelAttribute Expense expense) {
-        Long categoryId = expense.getExpenseCategory().getId();
-        expense.setExpenseCategory(expenseService.findCategoryById(categoryId)); //TODO: to jest tymczasowe rozwiązanie
+//        Long categoryId = expense.getExpenseCategory().getId();
+//        expense.setExpenseCategory(expenseCategoryService.findById(categoryId)); //TODO: to jest tymczasowe rozwiązanie
         expenseService.edit(expense);
         return "redirect:http://localhost:8080/home/expense/";
     }
