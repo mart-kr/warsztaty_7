@@ -113,9 +113,9 @@ public class Income {
         return "Income{" +
                 "id=" + id +
                 ", amount=" + amount +
-                ", placeOfPayment='" + placeOfPayment + '\'' +
+                ", placeOfPayment='" + placeOfPayment +
                 ", dateOfPayment=" + dateOfPayment +
-                ", incomeNote='" + incomeNote + '\'' +
+                ", incomeNote='" + incomeNote +
                 ", incomeCategory=" + incomeCategory +
                 '}';
     }
