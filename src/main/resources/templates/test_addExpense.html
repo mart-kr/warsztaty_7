@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Edit Expense</title>
+    <title>Add Expense</title>
 </head>
 <body>
-    <h3>Edit expense</h3>
-    <form action="#" th:action="@{/home/expense/edit/{id}(id=${expense.id})}" th:object="${expense}" method="post">
+    <h3>Add expense</h3>
+    <form action="#" th:action="@{/home/expense/add}" th:object="${expense}" method="post">
         <p>Expense amount: <input type="text" th:field="*{amount}" /></p>
         <select th:field="*{expenseCategory.id}">
             <option

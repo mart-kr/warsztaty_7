@@ -40,7 +40,7 @@ public class TestExpenseController {
         return new Expense();
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/all")
     public String allExpenses() {
         return "test_expenses";
     }
@@ -57,18 +57,23 @@ public class TestExpenseController {
         return "test_expenses";
     }
 
-    @GetMapping(value = "/edit/{id}")
-    public String editExpense(@PathVariable Long id, Model model) {
-        model.addAttribute("expense", expenseService.findById(id));
-        return "test_editExpense";
+    @GetMapping(value = "/add")
+    public String showCreateExpenseForm() {
+        return "test_addExpense";
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/add")
     public String createExpense(@ModelAttribute Expense expense) {
         //Long categoryId = expense.getExpenseCategory().getId();
         //expense.setExpenseCategory(expenseService.findCategoryById(categoryId)); //TODO: to jest tymczasowe rozwiązanie
         expenseService.create(expense);
-        return "test_expenses";
+        return "redirect:http://localhost:8080/home/expense/all";
+    }
+
+    @GetMapping(value = "/edit/{id}")
+    public String editExpense(@PathVariable Long id, Model model) {
+        model.addAttribute("expense", expenseService.findById(id));
+        return "test_editExpense";
     }
 
     @PostMapping(value = "/edit/{id}")
@@ -76,13 +81,13 @@ public class TestExpenseController {
 //        Long categoryId = expense.getExpenseCategory().getId();
 //        expense.setExpenseCategory(expenseCategoryService.findById(categoryId)); //TODO: to jest tymczasowe rozwiązanie
         expenseService.edit(expense);
-        return "redirect:http://localhost:8080/home/expense/";
+        return "redirect:http://localhost:8080/home/expense/all";
     }
 
     @GetMapping(value = "delete/{id}")
     public String deleteExpense(@PathVariable Long id) {
         expenseService.deleteById(id);
-        return "redirect:http://localhost:8080/home/expense/";
+        return "redirect:http://localhost:8080/home/expense/all";
     }
 
 }
