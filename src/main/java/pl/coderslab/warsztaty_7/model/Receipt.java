@@ -31,9 +31,9 @@ public class Receipt extends Auditable{
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
     private List<Expense> expenses;
 
-    //TODO: relacja z Account
-
-    //TODO: relacja z User
+    @ManyToOne
+    @JoinColumn(name = "bank_account_id")
+    private BankAccount bankAccount;
 
     public Receipt() {}
 
@@ -104,6 +104,14 @@ public class Receipt extends Auditable{
     public void addExpense(Expense expense) {
         this.expenses.add(expense);
         expense.setReceipt(this);
+    }
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     @Override

@@ -29,8 +29,13 @@ public class Income extends Auditable {
     private String incomeNote;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "income_categories_id")
+    @JoinColumn(name = "income_category_id")
     private IncomeCategory incomeCategory;
+
+    @ManyToOne
+    @JoinColumn(name = "bank_account_id")
+    private BankAccount bankAccount;
+
 
     //TODO: pole na relację z kontem
 
@@ -97,6 +102,14 @@ public class Income extends Auditable {
 
     public void setIncomeCategory(IncomeCategory incomeCategory) {
         this.incomeCategory = incomeCategory;
+    }
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     @Override
