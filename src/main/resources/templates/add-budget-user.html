@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new user to budget</title>
+</head>
+<body>
+    <h1>Add new user to your budget</h1>
+    <form action="/home/budget/add-user" method="post">
+        <label for="user-email">Enter existing user email adress:</label>
+        <input type="email" id="user-email" name="new-user">
+        <input type="submit" value="Add user">
+    </form>
+</body>
+</html>
