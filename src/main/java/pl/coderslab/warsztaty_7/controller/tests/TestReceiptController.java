@@ -31,32 +31,33 @@ public class TestReceiptController {
 
     @GetMapping(value = "/add")
     public String showCreateReceiptForm(Model model) {
-        model.addAttribute("action", "home/receipt/add");
-        return "test_addReceipt";
+        model.addAttribute("action", "/home/receipt/add");
+        return "test_receiptForm";
     }
 
     @PostMapping(value = "/add")
     public String createReceipt(@ModelAttribute Receipt receipt) {
         receiptService.create(receipt);
-        return "redirect:http://localhost:8080/home/receipt/all";
+        return "redirect:/home/receipt/all";
     }
 
-    @GetMapping(value = "edit/{id}")
+    @GetMapping(value = "/edit/{id}")
     public String showEditReceiptForm(@PathVariable Long id, Model model) {
+        model.addAttribute("action", "/home/receipt/edit/" + id);
         model.addAttribute("receipt", receiptService.findById(id));
-        return "test_editReceipt";
+        return "test_receiptForm";
     }
 
-    @PostMapping(value = "edit/{id}")
+    @PostMapping(value = "/edit/{id}")
     public String editReceipt(@PathVariable Long id, @ModelAttribute Receipt receipt) {
         receiptService.edit(receipt);
-        return "redirect:http://localhost:8080/home/receipt/all";
+        return "redirect:/home/receipt/all";
     }
 
     @GetMapping(value = "delete/{id}")
     public String deleteReceipt(@PathVariable Long id) {
         receiptService.deleteById(id);
-        return "redirect:http://localhost:8080/home/receipt/all";
+        return "redirect:/home/receipt/all";
     }
 
 }

@@ -30,18 +30,14 @@ public class TestExpenseController {
         return expenseCategoryService.findAll();
     }
 
-    @ModelAttribute(name = "expenses")
-    public List<Expense> findAllExpenses() {
-        return expenseService.findAll();
-    }
-
     @ModelAttribute(name = "expense")
     public Expense createEmptyExpense() {
         return new Expense();
     }
 
     @GetMapping(value = "/all")
-    public String allExpenses() {
+    public String allExpenses(Model model) {
+        model.addAttribute("expenses", expenseService.findAll());
         return "test_expenses";
     }
 
@@ -58,8 +54,9 @@ public class TestExpenseController {
     }
 
     @GetMapping(value = "/add")
-    public String showCreateExpenseForm() {
-        return "test_addExpense";
+    public String showCreateExpenseForm(Model model) {
+        model.addAttribute("action", "/home/expense/add");
+        return "test_expenseForm";
     }
 
     @PostMapping(value = "/add")
@@ -67,13 +64,14 @@ public class TestExpenseController {
         //Long categoryId = expense.getExpenseCategory().getId();
         //expense.setExpenseCategory(expenseService.findCategoryById(categoryId)); //TODO: to jest tymczasowe rozwiązanie
         expenseService.create(expense);
-        return "redirect:http://localhost:8080/home/expense/all";
+        return "redirect:/home/expense/all";
     }
 
     @GetMapping(value = "/edit/{id}")
-    public String editExpense(@PathVariable Long id, Model model) {
+    public String showEditExpenseForm(@PathVariable Long id, Model model) {
+        model.addAttribute("action", "/home/expense/edit/" + id);
         model.addAttribute("expense", expenseService.findById(id));
-        return "test_editExpense";
+        return "test_expenseForm";
     }
 
     @PostMapping(value = "/edit/{id}")
@@ -81,13 +79,13 @@ public class TestExpenseController {
 //        Long categoryId = expense.getExpenseCategory().getId();
 //        expense.setExpenseCategory(expenseCategoryService.findById(categoryId)); //TODO: to jest tymczasowe rozwiązanie
         expenseService.edit(expense);
-        return "redirect:http://localhost:8080/home/expense/all";
+        return "redirect:/home/expense/all";
     }
 
     @GetMapping(value = "delete/{id}")
     public String deleteExpense(@PathVariable Long id) {
         expenseService.deleteById(id);
-        return "redirect:http://localhost:8080/home/expense/all";
+        return "redirect:/home/expense/all";
     }
 
 }

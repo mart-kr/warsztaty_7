@@ -31,31 +31,33 @@ public class TestExpenseCategoryController {
 
     @GetMapping(value = "/add")
     public String showCreateExpenseCategoryForm(Model model) {
-        return "test_addExpenseCategory";
+        model.addAttribute("action", "/home/expenseCategory/add");
+        return "test_expenseCategoryForm";
     }
 
     @PostMapping(value = "/add")
     public String createExpenseCategory(@ModelAttribute ExpenseCategory expenseCategory) {
         expenseCategoryService.create(expenseCategory);
-        return "redirect:http://localhost:8080/home/expenseCategory/all";
+        return "redirect:/home/expenseCategory/all";
     }
 
     @GetMapping(value = "edit/{id}")
     public String showEditExpenseCategoryForm(@PathVariable Long id, Model model) {
+        model.addAttribute("action", "/home/expenseCategory/edit/" + id);
         model.addAttribute("expenseCategory", expenseCategoryService.findById(id));
-        return "test_editExpenseCategory";
+        return "test_expenseCategoryForm";
     }
 
     @PostMapping(value = "edit/{id}")
     public String editExpenseCategory(@PathVariable Long id, @ModelAttribute ExpenseCategory expenseCategory) {
         expenseCategoryService.edit(expenseCategory);
-        return "redirect:http://localhost:8080/home/expenseCategory/all";
+        return "redirect:/home/expenseCategory/all";
     }
 
     @GetMapping(value = "delete/{id}")
     public String deleteExpenseCategory(@PathVariable Long id) {
         expenseCategoryService.deleteById(id);
-        return "redirect:http://localhost:8080/home/expenseCategory/all";
+        return "redirect:/home/expenseCategory/all";
     }
 
 }

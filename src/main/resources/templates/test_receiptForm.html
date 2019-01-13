@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Receipt Form</title>
+</head>
+<body>
+    <h3>
+        <span th:if="${receipt.id == null}">Add receipt</span>
+        <span th:unless="${receipt.id == null}">Edit receipt</span>
+    </h3>
+    <form action="#" th:action="@{${action}}" th:object="${receipt}" method="post">
+        <p>Receipt amount: <input type="text" th:field="*{amount}" /></p>
+        <p>Date of payment: <input type="date" th:value="*{dateOfPayment}" th:field="*{dateOfPayment}"></p>
+        <p>Place of payment: <input type="text" th:field="*{placeOfPayment}"></p>
+        <p>Note: <textarea cols="30" rows="3" th:field="*{note}"></textarea></p>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>

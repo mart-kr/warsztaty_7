@@ -5,8 +5,11 @@
     <title>Edit Expense Category</title>
 </head>
 <body>
-<h3>Edit expense category</h3>
-<form action="#" th:action="@{/home/expenseCategory/edit/{id}(id=${expenseCategory.id})}" th:object="${expenseCategory}" method="post">
+<h3>
+    <span th:if="${expenseCategory.id == null}">Add expense category</span>
+    <span th:unless="${expenseCategory.id == null}">Edit expense category</span>
+</h3>
+<form action="#" th:action="@{${action}}" th:object="${expenseCategory}" method="post">
     <p>Name: <input type="text" th:field="*{name}" /></p>
     <input type="submit" value="Submit"/>
 </form>
