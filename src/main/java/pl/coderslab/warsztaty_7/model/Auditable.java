@@ -1,7 +1,5 @@
 package pl.coderslab.warsztaty_7.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -22,17 +20,15 @@ public abstract class Auditable {
     protected Long createdByUserId;
 
     @CreatedDate
-    @CreationTimestamp
     @Column(name = "created_date", nullable = false, updatable = false)
     protected LocalDateTime creationDate;
 
     @LastModifiedBy
-    @Column(name = "updated_by", nullable = false, updatable = false)
+    @Column(name = "updated_by")
     protected Long updatedByUserId;
 
     @LastModifiedDate
-    @UpdateTimestamp
-    @Column(name="update_date", nullable = false, updatable = false)
+    @Column(name="update_date")
     protected LocalDateTime updatedDate;
 
     public Long getCreatedByUserId() {
