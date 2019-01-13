@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Budget</title>
+</head>
+<body>
+    <h1>Budget(s?) list</h1>
+    <table>
+        <tr th:each="budget : ${budgets}">
+            <td th:text="${budget.id}">1</td>
+            <td th:text="${budget.name}">...</td>
+        </tr>
+    </table>
+</body>
+</html>

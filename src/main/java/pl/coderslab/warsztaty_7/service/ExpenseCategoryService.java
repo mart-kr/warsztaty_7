@@ -1,6 +1,5 @@
 package pl.coderslab.warsztaty_7.service;
 
-import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
 
 import java.util.List;

@@ -24,6 +24,10 @@ public class BankAccount extends Auditable {
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
     private List<Income> deposits;
 
+    @ManyToOne
+    @JoinColumn(name = "budget_id")
+    private Budget budget;
+
     public BankAccount() {}
 
     public BankAccount(String name, BigDecimal balance) {
@@ -79,5 +83,13 @@ public class BankAccount extends Auditable {
     public void addDeposit(Income income) {
         this.deposits.add(income);
         income.setBankAccount(this);
+    }
+
+    public Budget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
     }
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget form</title>
+</head>
+<body>
+    <h3>
+        <span th:if="${budget.id == null}">Add budget</span>
+        <span th:unless="${budget.id == null}">Edit expense</span>
+    </h3>
+    <form action="#" th:action="@{${action}}" th:object="${budget}" method="post">
+        <p>Budget name: <input type="text" th:field="*{name}" /></p>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>
