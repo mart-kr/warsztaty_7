@@ -16,6 +16,6 @@ public interface IncomeService {
     void deleteById(Long id);
 
     //Do usunięcia/przeniesienia do oddzielnego interfejsu
-    List<IncomeCategory> findAllCategories();
-    IncomeCategory findCategoryById(Long id);
+//    List<IncomeCategory> findAllCategories();
+//    IncomeCategory findCategoryById(Long id);
 }

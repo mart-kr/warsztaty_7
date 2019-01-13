@@ -1,10 +1,15 @@
 package pl.coderslab.warsztaty_7.model;
 
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +32,6 @@ public class IncomeCategory extends Auditable {
     @OneToMany(mappedBy = "incomeCategory", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Income> incomeList = new ArrayList<>();
 
-    //TODO:pole na relacje z userem/budzetem?
-
-
     public IncomeCategory() {
     }
 
@@ -39,13 +41,11 @@ public class IncomeCategory extends Auditable {
     }
 
     //TODO: Do usunięcia po podmianie repository z podłączeniem do DB
-
     public IncomeCategory(Long id, String name, boolean isGlobal) {
         this.id = id;
         this.name = name;
         this.isGlobal = isGlobal;
     }
-
 
     public Long getId() {
         return id;
@@ -94,7 +94,7 @@ public class IncomeCategory extends Auditable {
     public String toString() {
         return "IncomeCategory{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + name +
                 ", isGlobal=" + isGlobal +
                 ", incomeList=" + incomeList +
                 ", createdByUserId=" + createdByUserId +

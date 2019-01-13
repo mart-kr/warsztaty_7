@@ -7,22 +7,11 @@
 <body>
     <h1>Incomes list</h1>
     <table>
-        <tr th:each="income: ${incomes}">
+        <tr th:each="income : ${incomes}">
             <td th:text="${income.id}">1</td>
             <td th:text="${income.amount}">1</td>
             <td th:text="${income.incomeCategory.name}">...</td>
         </tr>
     </table>
-    <h3>Add income</h3>
-    <form action="/home/income/" th:action="@{/home/income/}" th:object="${income}" method="post">
-        <p>Income amount: <input type="text" th:field="*{amount}" /></p>
-        <select th:field="*{incomeCategory.id}">
-            <option
-                th:each="incomeCategory: ${incomeCategories}"
-                th:value="${incomeCategory.id}"
-                th:text="${incomeCategory.name}"></option>
-        </select>
-        <input type="submit" value="Submit"/>
-    </form>
 </body>
 </html>

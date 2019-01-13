@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Income form</title>
+</head>
+<body>
+    <h3>
+        <span th:if="${income.id == null}">Add income</span>
+        <span th:unless="${income.id == null}">Edit income</span>
+    </h3>
+    <form action="#" th:action="@{${action}}" th:object="${income}" method="post">
+        <p>Income amount: <input type="text" th:field="*{amount}" /></p>
+        <select th:field="*{incomeCategory.id}">
+            <option
+                    th:each="incomeCategory: ${incomeCategories}"
+                    th:value="${incomeCategory.id}"
+                    th:text="${incomeCategory.name}"></option>
+        </select>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Income Categories</title>
+</head>
+<body>
+    <h1>Income categories list</h1>
+    <table>
+        <tr th:each="incomeCategory : ${incomeCategories}">
+            <td th:text="${incomeCategory.id}">1</td>
+            <td th:text="${incomeCategory.name}">...</td>
+        </tr>
+    </table>
+</body>
+</html>

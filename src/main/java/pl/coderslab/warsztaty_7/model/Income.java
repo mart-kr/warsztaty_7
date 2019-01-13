@@ -1,6 +1,8 @@
 package pl.coderslab.warsztaty_7.model;
 
-import org.hibernate.validator.constraints.NotEmpty;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,14 +17,12 @@ public class Income extends Auditable {
     private Long id;
 
     @Column
-    @NotEmpty
     private BigDecimal amount;
 
     @Column (name = "place_of_payment")
     private String placeOfPayment;
 
     @Column(name = "date_of_payment")
-    @NotEmpty
     private LocalDateTime dateOfPayment;
 
     @Column(name = "income_note")
@@ -32,22 +32,13 @@ public class Income extends Auditable {
     @JoinColumn(name = "income_categories_id")
     private IncomeCategory incomeCategory;
 
-
     //TODO: pole na relację z kontem
 
-    //TODO: pole na relację z userem
+    public Income() {}
 
-    //TODO: pole na relacje z budzetem? -> pytania do Marcina
-
-
-    public Income() {
-    }
-
-    public Income(BigDecimal amount, String placeOfPayment, LocalDateTime dateOfPayment, String incomeNote) {
+    public Income(BigDecimal amount, IncomeCategory incomeCategory) {
         this.amount = amount;
-        this.placeOfPayment = placeOfPayment;
-        this.dateOfPayment = dateOfPayment;
-        this.incomeNote = incomeNote;
+        this.incomeCategory = incomeCategory;
     }
 
     //TODO: Do usunięcia po podmianie repository z podłączeniem do DB
@@ -113,9 +104,9 @@ public class Income extends Auditable {
         return "Income{" +
                 "id=" + id +
                 ", amount=" + amount +
-                ", placeOfPayment='" + placeOfPayment + '\'' +
+                ", placeOfPayment='" + placeOfPayment +
                 ", dateOfPayment=" + dateOfPayment +
-                ", incomeNote='" + incomeNote + '\'' +
+                ", incomeNote='" + incomeNote +
                 ", incomeCategory=" + incomeCategory +
                 ", createdByUserId=" + createdByUserId +
                 ", creationDate=" + creationDate +

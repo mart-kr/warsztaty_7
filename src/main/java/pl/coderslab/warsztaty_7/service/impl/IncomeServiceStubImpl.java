@@ -35,10 +35,10 @@ public class IncomeServiceStubImpl implements IncomeService {
         return this.incomes;
     }
 
-    @Override
-    public List<IncomeCategory> findAllCategories() {
-        return this.incomeCategories;
-    }
+//    @Override
+//    public List<IncomeCategory> findAllCategories() {
+//        return this.incomeCategories;
+//    }
 
     @Override
     public List<Income> findByCategory(IncomeCategory incomeCategory) {
@@ -47,13 +47,13 @@ public class IncomeServiceStubImpl implements IncomeService {
                 .collect((Collectors.toList()));
     }
 
-    @Override
-    public IncomeCategory findCategoryById(Long id) {
-        return this.incomeCategories.stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
+//    @Override
+//    public IncomeCategory findCategoryById(Long id) {
+//        return this.incomeCategories.stream()
+//                .filter(p -> p.getId().equals(id))
+//                .findFirst()
+//                .orElse(null);
+//    }
 
     @Override
     public List<Income> findByCategoryId(Long id) {
