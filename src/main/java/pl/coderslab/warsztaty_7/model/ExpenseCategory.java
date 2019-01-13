@@ -16,7 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "expense_categories")
-public class ExpenseCategory {
+public class ExpenseCategory extends Auditable {
 
     @Id
     @GeneratedValue
@@ -29,44 +29,21 @@ public class ExpenseCategory {
     @Column(name = "is_global")
     private boolean isGlobal;
 
-    @Column(name = "created_by")
-    private Long createdBy;
-
     @OneToMany(mappedBy = "expenseCategory", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    List<Expense> expenseList = new ArrayList<>();
-
-    @CreatedBy
-    @Column(name = "created_by", insertable = false, updatable = false)
-    private Long createdUserId;
-
-    @CreationTimestamp
-    //@CreatedDate
-    @Column(name = "created_date", nullable = false, updatable = false )
-    private LocalDateTime createdDate;
-
-    @LastModifiedBy
-    @Column(name = "updated_by")
-    private Long lastUpdatedUserId;
-
-    @UpdateTimestamp
-    //@LastModifiedDate
-    @Column(name = "updated_date")
-    private LocalDateTime lastModifiedDate;
+    private List<Expense> expenseList = new ArrayList<>();
 
     public ExpenseCategory() {}
 
-    public ExpenseCategory(String name, boolean isGlobal, Long createdBy) {
+    public ExpenseCategory(String name, boolean isGlobal) {
         this.name = name;
         this.isGlobal = isGlobal;
-        this.createdBy = createdBy;
     }
 
     //TODO: do usunięcia?
-    public ExpenseCategory(Long id, String name, boolean isGlobal, Long createdBy) {
+    public ExpenseCategory(Long id, String name, boolean isGlobal) {
         this.id = id;
         this.name = name;
         this.isGlobal = isGlobal;
-        this.createdBy = createdBy;
     }
 
     public Long getId() {
@@ -93,14 +70,6 @@ public class ExpenseCategory {
         isGlobal = global;
     }
 
-    public Long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
-    }
-
     public List<Expense> getExpenseList() {
         return expenseList;
     }
@@ -114,14 +83,17 @@ public class ExpenseCategory {
         expense.setExpenseCategory(this);
     }
 
-
     @Override
     public String toString() {
         return "ExpenseCategory{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", isGlobal=" + isGlobal +
-                ", createdBy=" + createdBy +
+                ", expenseList=" + expenseList +
+                ", createdByUserId=" + createdByUserId +
+                ", creationDate=" + creationDate +
+                ", updatedByUserId=" + updatedByUserId +
+                ", updatedDate=" + updatedDate +
                 '}';
     }
 }

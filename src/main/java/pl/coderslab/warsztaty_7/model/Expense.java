@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "expenses")
-public class Expense {
+public class Expense extends Auditable {
 
     @Id
     @GeneratedValue
@@ -30,24 +30,6 @@ public class Expense {
     @ManyToOne
     @JoinColumn(name = "receipt_id")
     private Receipt receipt;
-
-    @CreatedBy
-    @Column(name = "created_by", insertable = false, updatable = false)
-    private Long createdUserId;
-
-    @CreationTimestamp
-    //@CreatedDate
-    @Column(name = "created_date", nullable = false, updatable = false )
-    private LocalDateTime createdDate;
-
-    @LastModifiedBy
-    @Column(name = "updated_by")
-    private Long lastUpdatedUserId;
-
-    @UpdateTimestamp
-    //@LastModifiedDate
-    @Column(name = "updated_date")
-    private LocalDateTime lastModifiedDate;
 
     public Expense() {}
 
@@ -103,6 +85,10 @@ public class Expense {
                 ", amount=" + amount +
                 ", expenseCategory=" + expenseCategory +
                 ", receipt=" + receipt +
+                ", createdByUserId=" + createdByUserId +
+                ", creationDate=" + creationDate +
+                ", updatedByUserId=" + updatedByUserId +
+                ", updatedDate=" + updatedDate +
                 '}';
     }
 }

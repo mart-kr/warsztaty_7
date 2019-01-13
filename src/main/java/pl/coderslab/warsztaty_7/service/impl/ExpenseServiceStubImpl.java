@@ -17,15 +17,15 @@ import java.util.stream.Collectors;
 public class ExpenseServiceStubImpl implements ExpenseService {
 
     private List<Expense> expenses = new ArrayList<Expense>() {{
-        add(new Expense(1L, new BigDecimal(100), new ExpenseCategory(1L, "kat1", true, null),new Receipt(1L, new BigDecimal(100), LocalDate.parse("2019-01-01"), "sklep1", "notatka1") ));
-        add(new Expense(2L, new BigDecimal(200.55), new ExpenseCategory(2L, "kat2", true, null), new Receipt(2L, new BigDecimal(200.55), LocalDate.parse("2019-01-01"), "sklep1", "notatka1")));
-        add(new Expense(3L, new BigDecimal(333), new ExpenseCategory(3L, "kat3", true, null), new Receipt(3L, new BigDecimal(333), LocalDate.parse("2019-01-01"), "sklep1", "notatka1")));
+        add(new Expense(1L, new BigDecimal(100), new ExpenseCategory(1L, "kat1", true),new Receipt(1L, new BigDecimal(100), LocalDate.parse("2019-01-01"), "sklep1", "notatka1") ));
+        add(new Expense(2L, new BigDecimal(200.55), new ExpenseCategory(2L, "kat2", true), new Receipt(2L, new BigDecimal(200.55), LocalDate.parse("2019-01-01"), "sklep1", "notatka1")));
+        add(new Expense(3L, new BigDecimal(333), new ExpenseCategory(3L, "kat3", true), new Receipt(3L, new BigDecimal(333), LocalDate.parse("2019-01-01"), "sklep1", "notatka1")));
     }};
 
     private List<ExpenseCategory> expenseCategories = new ArrayList<ExpenseCategory>() {{
-       add(new ExpenseCategory(4L, "kat4", true, null));
-       add(new ExpenseCategory(5L, "kat5", true, null));
-       add(new ExpenseCategory(6L, "kat6", true, null));
+       add(new ExpenseCategory(4L, "kat4", true));
+       add(new ExpenseCategory(5L, "kat5", true));
+       add(new ExpenseCategory(6L, "kat6", true));
     }};
 
 

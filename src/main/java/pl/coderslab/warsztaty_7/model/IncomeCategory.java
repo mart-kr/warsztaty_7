@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "income_categories")
-public class IncomeCategory {
+public class IncomeCategory extends Auditable {
 
     @Id
     @GeneratedValue
@@ -97,6 +97,10 @@ public class IncomeCategory {
                 ", name='" + name + '\'' +
                 ", isGlobal=" + isGlobal +
                 ", incomeList=" + incomeList +
+                ", createdByUserId=" + createdByUserId +
+                ", creationDate=" + creationDate +
+                ", updatedByUserId=" + updatedByUserId +
+                ", updatedDate=" + updatedDate +
                 '}';
     }
 }

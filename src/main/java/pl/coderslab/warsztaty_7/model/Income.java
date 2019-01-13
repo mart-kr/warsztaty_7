@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "incomes")
-public class Income {
+public class Income extends Auditable {
 
     @Id
     @GeneratedValue
@@ -113,10 +113,14 @@ public class Income {
         return "Income{" +
                 "id=" + id +
                 ", amount=" + amount +
-                ", placeOfPayment='" + placeOfPayment +
+                ", placeOfPayment='" + placeOfPayment + '\'' +
                 ", dateOfPayment=" + dateOfPayment +
-                ", incomeNote='" + incomeNote +
+                ", incomeNote='" + incomeNote + '\'' +
                 ", incomeCategory=" + incomeCategory +
+                ", createdByUserId=" + createdByUserId +
+                ", creationDate=" + creationDate +
+                ", updatedByUserId=" + updatedByUserId +
+                ", updatedDate=" + updatedDate +
                 '}';
     }
 }

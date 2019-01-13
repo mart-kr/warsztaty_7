@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "receipts")
-public class Receipt {
+public class Receipt extends Auditable{
 
     @Id
     @GeneratedValue
@@ -114,6 +114,11 @@ public class Receipt {
                 ", dateOfPayment=" + dateOfPayment +
                 ", placeOfPayment='" + placeOfPayment + '\'' +
                 ", note='" + note + '\'' +
+                ", expenses=" + expenses +
+                ", createdByUserId=" + createdByUserId +
+                ", creationDate=" + creationDate +
+                ", updatedByUserId=" + updatedByUserId +
+                ", updatedDate=" + updatedDate +
                 '}';
     }
 }
