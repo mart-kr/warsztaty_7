@@ -5,6 +5,8 @@
     <title>Income form</title>
 </head>
 <body>
+    <div th:include="fragments/test_topBar :: topBar"></div>
+
     <h3>
         <span th:if="${income.id == null}">Add income</span>
         <span th:unless="${income.id == null}">Edit income</span>

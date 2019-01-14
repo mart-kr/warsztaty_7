@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.warsztaty_7.model.Budget;
-import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.service.BudgetService;
 
 @Controller

@@ -5,6 +5,8 @@
     <title>Test Budget</title>
 </head>
 <body>
+    <div th:include="fragments/test_topBar :: topBar"></div>
+
     <h1>Budget(s?) list</h1>
     <table>
         <tr th:each="budget : ${budgets}">

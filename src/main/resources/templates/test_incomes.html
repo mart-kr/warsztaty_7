@@ -5,6 +5,8 @@
     <title>Test Incomes</title>
 </head>
 <body>
+    <div th:include="fragments/test_topBar :: topBar"></div>
+
     <h1>Incomes list</h1>
     <table>
         <tr th:each="income : ${incomes}">
