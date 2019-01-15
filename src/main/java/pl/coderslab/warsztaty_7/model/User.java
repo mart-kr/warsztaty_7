@@ -11,6 +11,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -46,7 +47,7 @@ public class User implements Serializable {
     private boolean accountNonLocked;
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
@@ -59,7 +60,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String firstName, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Set<Role> roles) {
+    public User(String username, String firstName, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Set<Role> roles, Budget budget) {
         this.username = username;
         this.firstName = firstName;
         this.password = password;
@@ -68,6 +69,7 @@ public class User implements Serializable {
         this.credentialsNonExpired = credentialsNonExpired;
         this.accountNonLocked = accountNonLocked;
         this.roles = roles;
+        this.budget = budget;
     }
 
     public User(User user) {
@@ -80,6 +82,7 @@ public class User implements Serializable {
         this.accountNonLocked = user.isAccountNonLocked();
         this.credentialsNonExpired = user.isCredentialsNonExpired();
         this.roles = user.getRoles();
+        this.budget = user.getBudget();
     }
 
     public Long getId() {
@@ -154,4 +157,34 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
+    public Budget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return isEnabled() == user.isEnabled() &&
+                isAccountNonExpired() == user.isAccountNonExpired() &&
+                isCredentialsNonExpired() == user.isCredentialsNonExpired() &&
+                isAccountNonLocked() == user.isAccountNonLocked() &&
+                Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getUsername(), user.getUsername()) &&
+                Objects.equals(getFirstName(), user.getFirstName()) &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getRoles(), user.getRoles()) &&
+                Objects.equals(getBudget(), user.getBudget());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId(), getUsername(), getFirstName(), getPassword(), isEnabled(), isAccountNonExpired(), isCredentialsNonExpired(), isAccountNonLocked(), getRoles(), getBudget());
+    }
 }

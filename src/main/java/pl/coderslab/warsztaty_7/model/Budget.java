@@ -61,4 +61,17 @@ public class Budget extends Auditable{
         bankAccounts.remove(bankAccount);
         bankAccount.setBudget(null); //ToDO: zmienić usuwanie na zmianę flagi
     }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+        user.setBudget(this);
+    }
 }
