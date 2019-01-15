@@ -27,7 +27,6 @@ public class HomePublicController {
         return new User();
     }
 
-
     @GetMapping("/registration")
     public String registrationForm() {
         return "reg-form";
