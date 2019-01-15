@@ -5,6 +5,8 @@
     <title>Receipt Form</title>
 </head>
 <body>
+    <div th:include="fragments/test_topBar :: topBar"></div>
+
     <h3>
         <span th:if="${receipt.id == null}">Add receipt</span>
         <span th:unless="${receipt.id == null}">Edit receipt</span>

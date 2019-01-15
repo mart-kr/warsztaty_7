@@ -86,7 +86,7 @@ public class IncomeCategory extends Auditable {
 
     public void deleteIncome(Income income){
         incomeList.remove(income);
-        income.setIncomeCategory(null); //ToDO:czy na pewno tak ma wyglądać?
+        income.setIncomeCategory(null); //ToDO:zmienić usuwanie na zmianę flagi
     }
 
 
