@@ -11,24 +11,11 @@ import pl.coderslab.warsztaty_7.service.UserService;
 @Primary
 public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> {
 
-    private BankAccountServiceJpaImpl bankAccountServiceJpa;
-    private BudgetServiceJpaImpl budgetServiceJpa;
-    private ExpenseCategoryServiceJpaImpl expenseCategoryServiceJpa;
-    private ExpenseServiceJpaImpl expenseServiceJpa;
-    private IncomeCategoryServiceJpaImpl incomeCategoryServiceJpa;
-    private IncomeServiceJpaImpl incomeServiceJpa;
-    private ReceiptServiceJpaImpl receiptServiceJpa;
     private UserService userService;
 
     @Autowired
-    public SecurityServiceJpaImpl(BankAccountServiceJpaImpl bankAccountServiceJpa, BudgetServiceJpaImpl budgetServiceJpa, ExpenseCategoryServiceJpaImpl expenseCategoryServiceJpa, ExpenseServiceJpaImpl expenseServiceJpa, IncomeCategoryServiceJpaImpl incomeCategoryServiceJpa, IncomeServiceJpaImpl incomeServiceJpa, ReceiptServiceJpaImpl receiptServiceJpa) {
-        this.bankAccountServiceJpa = bankAccountServiceJpa;
-        this.budgetServiceJpa = budgetServiceJpa;
-        this.expenseCategoryServiceJpa = expenseCategoryServiceJpa;
-        this.expenseServiceJpa = expenseServiceJpa;
-        this.incomeCategoryServiceJpa = incomeCategoryServiceJpa;
-        this.incomeServiceJpa = incomeServiceJpa;
-        this.receiptServiceJpa = receiptServiceJpa;
+    public SecurityServiceJpaImpl(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
