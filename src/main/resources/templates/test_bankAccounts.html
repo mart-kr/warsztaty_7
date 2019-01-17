@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Test Accounts</title>
+</head>
+<body>
+    <div th:include="fragments/test_topBar :: topBar"></div>
+
+    <h1>Accounts list</h1>
+    <table>
+        <tr th:each="bankAccount : ${bankAccounts}">
+            <td th:text="${bankAccount.id}">1</td>
+            <td th:text="${bankAccount.name}">...</td>
+            <td th:text="${bankAccount.balance}">1</td>
+        </tr>
+    </table>
+</body>

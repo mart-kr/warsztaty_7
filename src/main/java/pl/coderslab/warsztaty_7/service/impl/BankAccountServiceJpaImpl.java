@@ -1,29 +1,32 @@
 package pl.coderslab.warsztaty_7.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.BankAccount;
-import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.repository.BankAccountRepository;
 import pl.coderslab.warsztaty_7.service.BankAccountService;
 
 import java.util.List;
 
 @Service
-@Primary
 public class BankAccountServiceJpaImpl implements BankAccountService {
 
-    private BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
 
     @Autowired
     public BankAccountServiceJpaImpl(BankAccountRepository bankAccountRepository) {
         this.bankAccountRepository = bankAccountRepository;
     }
 
+
     @Override
     public List<BankAccount> findAll() {
         return bankAccountRepository.findAll();
+    }
+
+    @Override
+    public List<BankAccount> findByBudgetId(Long id) {
+        return bankAccountRepository.findAllByBudgetId(id);
     }
 
     @Override
@@ -45,5 +48,4 @@ public class BankAccountServiceJpaImpl implements BankAccountService {
     public void deleteById(Long id) {
         bankAccountRepository.delete(id);
     }
-
 }
