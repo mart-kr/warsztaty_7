@@ -30,4 +30,6 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User findUserById(Long id) { return userRepository.findOne(id); }
+
 }
