@@ -34,11 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .csrf().disable()
+//                .authorizeRequests().antMatchers("/add-admin", "/home", "/home/**", "/exception").permitAll()
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/**").authenticated()
+//                .and().formLogin()
+//                .and().logout();
         http
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/add-admin", "/home", "/home/**", "/exception").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/**").authenticated()
+                .authorizeRequests().antMatchers("/**").permitAll()
                 .and().formLogin()
                 .and().logout();
     }
