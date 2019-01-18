@@ -52,7 +52,7 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "budget_id")
     private Budget budget;
 
@@ -70,6 +70,17 @@ public class User implements Serializable {
         this.accountNonLocked = accountNonLocked;
         this.roles = roles;
         this.budget = budget;
+    }
+
+    public User(String username, String firstName, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Set<Role> roles) {
+        this.username = username;
+        this.firstName = firstName;
+        this.password = password;
+        this.enabled = enabled;
+        this.accountNonExpired = accountNonExpired;
+        this.credentialsNonExpired = credentialsNonExpired;
+        this.accountNonLocked = accountNonLocked;
+        this.roles = roles;
     }
 
     public User(User user) {

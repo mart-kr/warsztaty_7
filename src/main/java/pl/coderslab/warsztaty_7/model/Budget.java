@@ -1,6 +1,7 @@
 package pl.coderslab.warsztaty_7.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -8,17 +9,17 @@ import java.util.List;
 public class Budget extends Auditable{
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
     private String name;
 
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
-    private List<BankAccount> bankAccounts;
+    private List<BankAccount> bankAccounts = new ArrayList<>();
 
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     //TODO: transfery
 

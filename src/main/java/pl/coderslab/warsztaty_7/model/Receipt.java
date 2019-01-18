@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,7 @@ public class Receipt extends Auditable{
     private String note;
 
     @OneToMany(mappedBy = "receipt", cascade = CascadeType.ALL)
-    private List<Expense> expenses;
+    private List<Expense> expenses = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "bank_account_id")

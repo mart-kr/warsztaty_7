@@ -3,10 +3,14 @@ package pl.coderslab.warsztaty_7.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.Receipt;
+import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.repository.ReceiptRepository;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -49,5 +53,14 @@ public class ReceiptServiceJpaImpl implements ReceiptService {
     @Override
     public Receipt findByExpenseId(Long id) {
         return null;
+    }
+
+    @Override
+    public List<Receipt> findLast5ReceiptsForBudget(Budget budget) {
+        Collection<Long> ids = new ArrayList<>();
+        for (User user: budget.getUsers()) {
+            ids.add(user.getId());
+        }
+        return receiptRepository.findTop5ReceiptsByCreatedByUserIdInOrderByDateOfPaymentDesc(ids);
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -9,11 +9,8 @@
 </head>
 <body>
 <div class="list-group">
-    <a href="#" class="list-group-item list-group-item-action">Receipt1</a>
-    <a href="#" class="list-group-item list-group-item-action">Receipt2</a>
-    <a href="#" class="list-group-item list-group-item-action">Receipt3</a>
-    <a href="#" class="list-group-item list-group-item-action">Receipt4</a>
-    <a href="#" class="list-group-item list-group-item-action">Receipt5</a>
+    <a href="#" th:each="receipt : ${last5Receipts}" th:text="|Kwota: ${receipt.amount} Data: ${receipt.dateOfPayment} Notka: ${receipt.note}|"
+       class="list-group-item list-group-item-action">Receipt1</a>
 </div>
 </body>
 </html>

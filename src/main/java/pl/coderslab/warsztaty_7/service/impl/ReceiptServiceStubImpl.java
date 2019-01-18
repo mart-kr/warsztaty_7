@@ -1,15 +1,13 @@
 package pl.coderslab.warsztaty_7.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.Receipt;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,5 +71,10 @@ public class ReceiptServiceStubImpl implements ReceiptService {
     @Override
     public Receipt findByExpenseId(Long id) {
         return null;
+    }
+
+    @Override
+    public List<Receipt> findLast5ReceiptsForBudget(Budget budget) {
+        return Collections.emptyList();
     }
 }
