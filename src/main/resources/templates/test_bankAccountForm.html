@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Account Form</title>
+</head>
+<body>
+    <div th:include="fragments/test_topBar :: topBar"></div>
+
+    <h3>
+        <span th:if="${bankAccount.id == null}">Add account</span>
+        <span th:unless="${bankAccount.id == null}">Edit account</span>
+    </h3>
+    <form action="#" th:action="@{${action}}" th:object="${bankAccount}" method="post">
+        <p>Account name: <input type="text" th:field="*{name}" /></p>
+        <p>Starting balance: <input type="text" th:field="*{balance}"></p>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>

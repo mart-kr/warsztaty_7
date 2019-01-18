@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface IncomeRepository extends JpaRepository<Income, Long> {
 
-    public List<Income> findAllByIncomeCategory(IncomeCategory incomeCategory);
-    public List<Income> findAllByIncomeCategoryId(Long id);
+    List<Income> findAllByIncomeCategory(IncomeCategory incomeCategory);
+    List<Income> findAllByIncomeCategoryId(Long id);
 }

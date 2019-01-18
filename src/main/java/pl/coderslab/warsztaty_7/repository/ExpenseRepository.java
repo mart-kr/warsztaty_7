@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-    public List<Expense> findAllByExpenseCategory(ExpenseCategory expenseCategory);
-    public List<Expense> findAllByExpenseCategoryId(Long id);
-    public List<Expense> findAllByReceiptId(Long id);
+    List<Expense> findAllByExpenseCategory(ExpenseCategory expenseCategory);
+    List<Expense> findAllByExpenseCategoryId(Long id);
+    List<Expense> findAllByReceiptId(Long id);
 
 }
