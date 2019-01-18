@@ -25,7 +25,7 @@ public class TestController {
 
     @GetMapping("/home")
     public String hello() {
-        return "fragments/menu-navbar";
+        return "test";
     }
 
     @GetMapping("/add-admin")
