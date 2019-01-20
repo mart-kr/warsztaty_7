@@ -73,10 +73,7 @@ public class TestReceiptController {
     }
 
     @GetMapping(value = "/last5")
-    public String last5Receipts(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Optional<User> optionalUser = userService.findUserByUsername(auth.getName());
-        User user = optionalUser.map(User::new).orElseThrow(() -> new UsernameNotFoundException("BLABLA"));
+    public String last5Receipts(@AuthenticationPrincipal User user, Model model) {
         Budget budget = new Budget();
         budget.setName("test budget");
         budget.addUser(user);

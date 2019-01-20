@@ -35,7 +35,7 @@ public class TestController {
         roles.add(new Role("ADMIN"));
         Set<Role> roles1 = new HashSet<>();
         roles1.add(new Role("USER"));
-        repository.save(new User("user2@email.com","user1name",encoder.encode("123456789"), true, true,true,true, roles1));
+        repository.save(new User("user1@email.com","user1name",encoder.encode("123456789"), true, true,true,true, roles1));
         repository.save(new User("admin@email.com", "admin1name", encoder.encode("123456789"), true, true, true, true, roles));
         return "added default admin and user";
     }
