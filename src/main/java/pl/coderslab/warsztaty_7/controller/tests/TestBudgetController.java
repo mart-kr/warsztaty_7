@@ -1,21 +1,26 @@
 package pl.coderslab.warsztaty_7.controller.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.warsztaty_7.model.Budget;
+import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.BudgetService;
+import pl.coderslab.warsztaty_7.service.UserService;
 
 @Controller
 @RequestMapping(value = "home/budget")
 public class TestBudgetController {
 
     private final BudgetService budgetService;
+    private final UserService userService;
 
     @Autowired
-    public TestBudgetController(BudgetService budgetService) {
+    public TestBudgetController(BudgetService budgetService, UserService userService) {
         this.budgetService = budgetService;
+        this.userService = userService;
     }
 
     @ModelAttribute
@@ -36,8 +41,10 @@ public class TestBudgetController {
     }
 
     @PostMapping(value = "/add")
-    public String createBudget(@ModelAttribute Budget budget) {
-        budgetService.create(budget);
+    public String createBudget(@AuthenticationPrincipal User user, @ModelAttribute Budget budget) {
+        budgetService.create(budget); // TODO: rozwiązać w lepszy sposób problem "org.hibernate.PersistentObjectException: detached entity passed to persist: pl.coderslab.warsztaty_7.model.User"
+        budget.addUser(user);
+        budgetService.edit(budget);
         return "redirect:/home/budget/all";
     }
 

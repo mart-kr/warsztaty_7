@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -8,10 +8,19 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
 <body>
-<nav class="nav nav-pills nav-fill">
-    <a class="nav-item nav-link" href="#">Account1</a>
-    <a class="nav-item nav-link" href="#">Account2</a>
-    <a class="nav-item nav-link" href="#">Account3</a>
-</nav>
+    <div>
+        <h4>Moje konta</h4>
+        <ul class="nav nav-pills" >
+            <li class="nav-item" th:each="bankAccount : ${bankAccounts}">
+                <a class="nav-item nav-link" th:href="@{/home/bankAccount/edit/{id}(id=${bankAccount.id})}">
+                    <span th:text="${bankAccount.name}"></span><br>
+                    <span th:text="${bankAccount.balance}"></span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="/home/bankAccount/add">Dodaj</a>
+            </li>
+        </ul>
+    </div>
 </body>
 </html>
