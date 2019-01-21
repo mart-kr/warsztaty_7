@@ -3,6 +3,7 @@ package pl.coderslab.warsztaty_7.controller.tests;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.repository.UserRepository;
+import pl.coderslab.warsztaty_7.service.SecurityService;
+import pl.coderslab.warsztaty_7.service.impl.SecurityServiceJpaImpl;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -20,6 +23,8 @@ public class TestController {
 
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private SecurityServiceJpaImpl securityService;
     @Autowired
     private PasswordEncoder encoder;
 
@@ -51,6 +56,25 @@ public class TestController {
     @ResponseBody
     public String roleCheck2() {
         return "You have got admin role (configuration check)";
+    }
+
+    // pozwala na wywołanie metody tylko jeśli zalogowany użytkownik
+    // posiada którąkolwiek z ról (admin bądź user)
+    // TO WSZYSTKO PEWNIE WYWALI 10 BŁĘDÓW WIĘC RACZEJ NIE TESTUJCIE :D
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping("/security-example")
+    // pobiera z securityContextHolder obiekt authentication, na nim wywołuje metode getPrincipal
+    // principal jest castowany na naszego User'a
+    public String securityExample(@AuthenticationPrincipal User user) {
+        // to tylko dla przyklady jak bedzie wygladać sprawdzanie czy user moze edytowac encję
+        IncomeCategory incomeCategory = new IncomeCategory();
+        if (securityService.canEditEntity(user, incomeCategory)) {
+            //wywolanie jakiegoś serwisu itp itd
+            // np. incomeCategoryService.edit(entity);
+            return "redirect:/home";
+        } else {
+            return "redirect:/error";
+        }
     }
 
 }
