@@ -1,10 +1,12 @@
 package pl.coderslab.warsztaty_7.controller.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
+import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.ExpenseCategoryService;
 
 @Controller
@@ -24,8 +26,8 @@ public class TestExpenseCategoryController {
     }
 
     @GetMapping(value = "/all")
-    public String allExpenseCategories(Model model) {
-        model.addAttribute("expenseCategories", expenseCategoryService.findAll());
+    public String allExpenseCategories(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("expenseCategories", expenseCategoryService.findAllForBudgetId(user.getBudget().getId()));
         return "test_expenseCategories";
     }
 
@@ -36,7 +38,8 @@ public class TestExpenseCategoryController {
     }
 
     @PostMapping(value = "/add")
-    public String createExpenseCategory(@ModelAttribute ExpenseCategory expenseCategory) {
+    public String createExpenseCategory(@AuthenticationPrincipal User user, @ModelAttribute ExpenseCategory expenseCategory) {
+        expenseCategory.setBudget(user.getBudget());
         expenseCategoryService.create(expenseCategory);
         return "redirect:/home/expenseCategory/all";
     }

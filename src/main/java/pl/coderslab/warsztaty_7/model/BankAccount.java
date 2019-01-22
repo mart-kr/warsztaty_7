@@ -2,6 +2,7 @@ package pl.coderslab.warsztaty_7.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,10 +20,10 @@ public class BankAccount extends Auditable {
     private BigDecimal balance;
 
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
-    private List<Receipt> withdrawals;
+    private List<Receipt> withdrawals = new ArrayList<>();
 
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
-    private List<Income> deposits;
+    private List<Income> deposits = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "budget_id")

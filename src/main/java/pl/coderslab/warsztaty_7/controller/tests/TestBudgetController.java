@@ -42,10 +42,15 @@ public class TestBudgetController {
 
     @PostMapping(value = "/add")
     public String createBudget(@AuthenticationPrincipal User user, @ModelAttribute Budget budget) {
-        budgetService.create(budget); // TODO: rozwiązać w lepszy sposób problem "org.hibernate.PersistentObjectException: detached entity passed to persist: pl.coderslab.warsztaty_7.model.User"
-        budget.addUser(user);
-        budgetService.edit(budget);
-        return "redirect:/home/budget/all";
+        if (user.getBudget() == null) {
+            budgetService.create(budget); // TODO: rozwiązać w lepszy sposób problem "org.hibernate.PersistentObjectException: detached entity passed to persist: pl.coderslab.warsztaty_7.model.User"
+            budget.addUser(user);
+            budgetService.edit(budget);
+            return "redirect:/home/budget/all";
+        } else {
+            return "redirect:/home";
+        }
+
     }
 
     @GetMapping(value = "/edit/{id}")

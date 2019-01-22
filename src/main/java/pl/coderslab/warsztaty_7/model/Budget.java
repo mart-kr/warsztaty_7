@@ -21,6 +21,9 @@ public class Budget extends Auditable{
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
     private List<User> users = new ArrayList<>();
 
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
+    private List<ExpenseCategory> expenseCategories = new ArrayList<>();
+
     //TODO: transfery
 
     //TODO: targety
@@ -74,5 +77,28 @@ public class Budget extends Auditable{
     public void addUser(User user) {
         users.add(user);
         user.setBudget(this);
+    }
+
+    public void deleteUser(User user) {
+       users.remove(user);
+       user.setBudget(null);
+    }
+
+    public List<ExpenseCategory> getExpenseCategories() {
+        return expenseCategories;
+    }
+
+    public void setExpenseCategories(List<ExpenseCategory> expenseCategories) {
+        this.expenseCategories = expenseCategories;
+    }
+
+    public void addExpenseCategory(ExpenseCategory expenseCategory) {
+        expenseCategories.add(expenseCategory);
+        expenseCategory.setBudget(this);
+    }
+
+    public void deleteExpenseCategory(ExpenseCategory expenseCategory) {
+        expenseCategories.remove(expenseCategory);
+        expenseCategory.setBudget(null);
     }
 }

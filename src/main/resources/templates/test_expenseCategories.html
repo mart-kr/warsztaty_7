@@ -11,12 +11,11 @@
 <body>
     <div th:include="fragments/test_topBar :: topBar"></div>
 
-    <h1>Expense categories list</h1>
-        <table>
-            <tr th:each="receipt : ${expenseCategories}">
-                <td th:text="${receipt.id}">1</td>
-                <td th:text="${receipt.name}">...</td>
-            </tr>
-        </table>
+    <h3>Kategorie wydatków</h3>
+    <div class="list-group">
+        <a href="#" th:each="expenseCategory : ${expenseCategories}" th:text="${expenseCategory.name}"
+           class="list-group-item list-group-item-action">Kategoria</a>
+        <a class="nav-item nav-link" href="/home/expenseCategory/add">Dodaj</a>
+    </div>
 </body>
 </html>

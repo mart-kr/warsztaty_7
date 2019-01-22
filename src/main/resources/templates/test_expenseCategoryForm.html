@@ -17,6 +17,7 @@
     </h3>
     <form action="#" th:action="@{${action}}" th:object="${expenseCategory}" method="post">
         <p>Name: <input type="text" th:field="*{name}" /></p>
+        <input type="hidden" th:field="*{budget}">
         <input type="submit" value="Submit"/>
     </form>
 </body>

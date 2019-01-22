@@ -42,4 +42,9 @@ public class ExpenseCategoryServiceJpaImpl implements ExpenseCategoryService {
     public void deleteById(Long id) {
         expenseCategoryRepository.delete(id);
     }
+
+    @Override
+    public List<ExpenseCategory> findAllForBudgetId(Long id) {
+        return expenseCategoryRepository.findAllByIsGlobalIsTrueOrBudgetIdOrderByName(id);
+    }
 }

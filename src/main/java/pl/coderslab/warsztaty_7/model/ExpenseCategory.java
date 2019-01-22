@@ -25,6 +25,10 @@ public class ExpenseCategory extends Auditable {
     @OneToMany(mappedBy = "expenseCategory", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Expense> expenseList = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "budget_id")
+    private Budget budget;
+
     public ExpenseCategory() {}
 
     public ExpenseCategory(String name, boolean isGlobal) {
@@ -74,6 +78,14 @@ public class ExpenseCategory extends Auditable {
     public void addExpense(Expense expense) {
         this.expenseList.add(expense);
         expense.setExpenseCategory(this);
+    }
+
+    public Budget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
     }
 
     @Override
