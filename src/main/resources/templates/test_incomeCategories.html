@@ -10,13 +10,12 @@
 </head>
 <body>
     <div th:include="fragments/test_topBar :: topBar"></div>
-
-    <h1>Income categories list</h1>
-    <table>
-        <tr th:each="incomeCategory : ${incomeCategories}">
-            <td th:text="${incomeCategory.id}">1</td>
-            <td th:text="${incomeCategory.name}">...</td>
-        </tr>
-    </table>
+    
+    <h3>Kategorie przychodów</h3>
+    <div class="list-group">
+        <a href="#" th:each="incomeCategory : ${incomeCategories}" th:text="${incomeCategory.name}"
+           class="list-group-item list-group-item-action">Kategoria</a>
+        <a class="nav-item nav-link" href="/home/incomeCategory/add">Dodaj</a>
+    </div>
 </body>
 </html>

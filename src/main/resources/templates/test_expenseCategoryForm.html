@@ -12,13 +12,13 @@
     <div th:include="fragments/test_topBar :: topBar"></div>
 
     <h3>
-        <span th:if="${expenseCategory.id == null}">Add expense category</span>
-        <span th:unless="${expenseCategory.id == null}">Edit expense category</span>
+        <span th:if="${expenseCategory.id == null}">Dodaj kategorię wydatków</span>
+        <span th:unless="${expenseCategory.id == null}">Edytuj kategorię wydatków</span>
     </h3>
     <form action="#" th:action="@{${action}}" th:object="${expenseCategory}" method="post">
-        <p>Name: <input type="text" th:field="*{name}" /></p>
+        <p>Nazwa: <input type="text" th:field="*{name}" /></p>
         <input type="hidden" th:field="*{budget}">
-        <input type="submit" value="Submit"/>
+        <input type="submit" value="Zapisz"/>
     </form>
 </body>
 </html>

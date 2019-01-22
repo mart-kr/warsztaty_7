@@ -40,4 +40,9 @@ public class IncomeCategoryServiceJpaImpl implements IncomeCategoryService {
     public void deleteById(Long id) {
         incomeCategoryRepository.delete(id);
     }
+
+    @Override
+    public List<IncomeCategory> findAllForBudgetId(Long id) {
+        return incomeCategoryRepository.findAllByIsGlobalIsTrueOrBudgetIdOrderByName(id);
+    }
 }

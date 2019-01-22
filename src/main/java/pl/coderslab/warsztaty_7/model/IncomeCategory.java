@@ -32,6 +32,10 @@ public class IncomeCategory extends Auditable {
     @OneToMany(mappedBy = "incomeCategory", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Income> incomeList = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "budget_id")
+    private Budget budget;
+
     public IncomeCategory() {
     }
 
@@ -89,6 +93,13 @@ public class IncomeCategory extends Auditable {
         income.setIncomeCategory(null); //ToDO:zmienić usuwanie na zmianę flagi
     }
 
+    public Budget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+    }
 
     @Override
     public String toString() {

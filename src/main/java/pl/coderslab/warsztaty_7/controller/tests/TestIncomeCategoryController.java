@@ -1,10 +1,12 @@
 package pl.coderslab.warsztaty_7.controller.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.warsztaty_7.model.IncomeCategory;
+import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.IncomeCategoryService;
 
 @Controller
@@ -24,8 +26,8 @@ public class TestIncomeCategoryController {
     }
 
     @GetMapping(value = "/all")
-    public String allIncomeCategories(Model model){
-        model.addAttribute("incomeCategories", incomeCategoryService.findAll());
+    public String allIncomeCategories(@AuthenticationPrincipal User user, Model model){
+        model.addAttribute("incomeCategories", incomeCategoryService.findAllForBudgetId(user.getBudget().getId()));
         return "test_incomeCategories";
     }
 
@@ -36,7 +38,8 @@ public class TestIncomeCategoryController {
     }
 
     @PostMapping(value = "/add")
-    public String createIncomeCategory(@ModelAttribute IncomeCategory incomeCategory) {
+    public String createIncomeCategory(@AuthenticationPrincipal User user, @ModelAttribute IncomeCategory incomeCategory) {
+        incomeCategory.setBudget(user.getBudget());
         incomeCategoryService.create(incomeCategory);
         return "redirect:http://localhost:8080/home/incomeCategory/all";
     }

@@ -8,6 +8,7 @@ import java.util.List;
 public interface IncomeCategoryService {
 
     List<IncomeCategory> findAll();
+    List<IncomeCategory> findAllForBudgetId(Long id);
     IncomeCategory findById(Long id);
     IncomeCategory create(IncomeCategory incomeCategory);
     IncomeCategory edit(IncomeCategory incomeCategory);
