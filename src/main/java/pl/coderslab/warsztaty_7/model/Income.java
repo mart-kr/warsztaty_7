@@ -38,9 +38,6 @@ public class Income extends Auditable {
     @JoinColumn(name = "bank_account_id")
     private BankAccount bankAccount;
 
-
-    //TODO: pole na relację z kontem
-
     public Income() {}
 
     public Income(BigDecimal amount, LocalDate dateOfPayment, IncomeCategory incomeCategory) {
@@ -128,6 +125,8 @@ public class Income extends Auditable {
                 ", creationDate=" + creationDate +
                 ", updatedByUserId=" + updatedByUserId +
                 ", updatedDate=" + updatedDate +
+                ", bankAccountId=" + bankAccount.getId() +
+                ", bankAccountBalance=" + bankAccount.getBalance() +
                 '}';
     }
 }

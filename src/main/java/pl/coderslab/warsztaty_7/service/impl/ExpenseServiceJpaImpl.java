@@ -1,5 +1,6 @@
 package pl.coderslab.warsztaty_7.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.Expense;
@@ -15,6 +16,7 @@ public class ExpenseServiceJpaImpl implements ExpenseService {
 
     private ExpenseRepository expenseRepository;
 
+    @Autowired
     public ExpenseServiceJpaImpl(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;
     }

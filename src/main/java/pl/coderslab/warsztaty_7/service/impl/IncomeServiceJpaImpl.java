@@ -1,12 +1,15 @@
 package pl.coderslab.warsztaty_7.service.impl;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.Budget;
+import pl.coderslab.warsztaty_7.model.BankAccount;
 import pl.coderslab.warsztaty_7.model.Income;
 import pl.coderslab.warsztaty_7.model.IncomeCategory;
 import pl.coderslab.warsztaty_7.model.User;
+import pl.coderslab.warsztaty_7.repository.BankAccountRepository;
 import pl.coderslab.warsztaty_7.repository.IncomeRepository;
 import pl.coderslab.warsztaty_7.service.IncomeService;
 
@@ -19,10 +22,13 @@ import java.util.List;
 @Primary
 public class IncomeServiceJpaImpl implements IncomeService {
 
-    private IncomeRepository incomeRepository;
+    private final IncomeRepository incomeRepository;
+    private final BankAccountRepository bankAccountRepository;
 
-    public IncomeServiceJpaImpl(IncomeRepository incomeRepository) {
+    @Autowired
+    public IncomeServiceJpaImpl(IncomeRepository incomeRepository, BankAccountRepository bankAccountRepository) {
         this.incomeRepository = incomeRepository;
+        this.bankAccountRepository = bankAccountRepository;
     }
 
     @Override
@@ -47,6 +53,10 @@ public class IncomeServiceJpaImpl implements IncomeService {
 
     @Override
     public Income create(Income income) {
+        BankAccount selectedBankAccount = bankAccountRepository.findOne(income.getBankAccount().getId());
+        BigDecimal balanceBeforeTransaction = selectedBankAccount.getBalance();
+        BigDecimal balanceAfterTransaction = balanceBeforeTransaction.add(income.getAmount()); //TODO: dodać obsługę nulli - ustalić jak chcemy rzucać wyjątki (dodatkowo do walidacji formularzy)
+        selectedBankAccount.setBalance(balanceAfterTransaction);
         return this.incomeRepository.save(income);
     }
 

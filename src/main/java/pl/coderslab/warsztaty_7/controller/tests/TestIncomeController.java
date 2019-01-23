@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.warsztaty_7.model.*;
+import pl.coderslab.warsztaty_7.service.BankAccountService;
 import pl.coderslab.warsztaty_7.service.IncomeCategoryService;
 import pl.coderslab.warsztaty_7.service.IncomeService;
 
@@ -17,13 +18,14 @@ import java.util.List;
 public class TestIncomeController {
 
     private final IncomeService incomeService;
-
     private final IncomeCategoryService incomeCategoryService;
+    private final BankAccountService bankAccountService;
 
     @Autowired
-    public TestIncomeController(IncomeService incomeService, IncomeCategoryService incomeCategoryService) {
+    public TestIncomeController(IncomeService incomeService, IncomeCategoryService incomeCategoryService, BankAccountService bankAccountService) {
         this.incomeService = incomeService;
         this.incomeCategoryService = incomeCategoryService;
+        this.bankAccountService = bankAccountService;
     }
 
     @ModelAttribute(name = "incomeCategories")
@@ -39,6 +41,11 @@ public class TestIncomeController {
     @ModelAttribute(name = "income")
     public Income createEmptyIncome(){
         return new Income();
+    }
+
+    @ModelAttribute(name = "bankAccounts")
+    public List<BankAccount> findBankAccountsForBudget(@AuthenticationPrincipal User user) {
+        return bankAccountService.findByBudgetId(user.getBudget().getId());
     }
 
     @GetMapping(value = "/all")
@@ -67,7 +74,7 @@ public class TestIncomeController {
     @GetMapping(value = "/edit/{id}")
     public String showEditIncomeForm(@PathVariable Long id, Model model) {
         model.addAttribute("action", "/home/income/edit/" + id);
-        model.addAttribute("incomeCategory", incomeService.findById(id));
+        model.addAttribute("income", incomeService.findById(id));
         return "test_incomeForm";
     }
 
