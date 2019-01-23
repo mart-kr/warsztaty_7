@@ -11,10 +11,9 @@
 <body>
     <div th:include="fragments/test_topBar :: topBar"></div>
 
-    <h1>Receipts list</h1>
+    <h3>Moje wydatki</h3>
     <table>
         <tr th:each="receipt : ${receipts}">
-            <td th:text="${receipt.id}">1</td>
             <td th:text="${receipt.amount}">1</td>
             <td th:text="${receipt.dateOfPayment}">...</td>
             <td th:text="${receipt.placeOfPayment}">...</td>

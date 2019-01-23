@@ -5,9 +5,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.warsztaty_7.model.BankAccount;
 import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.Receipt;
 import pl.coderslab.warsztaty_7.model.User;
+import pl.coderslab.warsztaty_7.service.BankAccountService;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 import pl.coderslab.warsztaty_7.service.UserService;
 
@@ -19,22 +21,27 @@ import java.util.List;
 public class TestReceiptController {
 
     private final ReceiptService receiptService;
-    private final UserService userService;
+    private final BankAccountService bankAccountService;
 
     @Autowired
-    public TestReceiptController(ReceiptService receiptService, UserService userService) {
+    public TestReceiptController(ReceiptService receiptService, BankAccountService bankAccountService) {
         this.receiptService = receiptService;
-        this.userService = userService;
+        this.bankAccountService = bankAccountService;
     }
 
-    @ModelAttribute
+    @ModelAttribute(name = "receipt")
     public Receipt createEmptyReceipt() {
         return new Receipt();
     }
 
+    @ModelAttribute(name = "bankAccounts")
+    public List<BankAccount> findBankAccountsForBudget(@AuthenticationPrincipal User user) {
+        return bankAccountService.findByBudgetId(user.getBudget().getId());
+    }
+
     @GetMapping(value = "/all")
-    public String allReceipts(Model model) {
-        model.addAttribute("receipts", receiptService.findAllOrderedByDate());
+    public String allReceipts(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("receipts", receiptService.findAllForBudgetOrderedByDate(user.getBudget()));
         return "test_receipts";
     }
 
@@ -82,19 +89,10 @@ public class TestReceiptController {
     @GetMapping(value = "/thisMonth")
     @ResponseBody
     public String findReceiptsFromThisMonth(@AuthenticationPrincipal User user, Model model){
-        creatingBudget(user);
         BigDecimal sumOfReceiptsFromThisMonth = receiptService.sumAllFromThisMonth(user.getBudget());
 //        model.addAttribute("sumOfIncomesFromThisMonth", sumOfIncomesFromThisMonth);
 
         return "Suma: " + String.valueOf(sumOfReceiptsFromThisMonth);
     }
-
-
-    //później do usunięcia
-    private Budget creatingBudget(User user){
-        Budget budget = new Budget();
-        budget.setName("test budget");
-        budget.addUser(user);
-        return budget;
-    }
+    
 }

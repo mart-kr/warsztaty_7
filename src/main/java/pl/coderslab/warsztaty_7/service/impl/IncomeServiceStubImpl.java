@@ -24,6 +24,11 @@ public class IncomeServiceStubImpl implements IncomeService {
                 new IncomeCategory(3L, "kat3", true)));
     }};
 
+    @Override
+    public List<Income> findAllForBudgetOrderedByDate(Budget budget) {
+        return null;
+    }
+
     private List<IncomeCategory> incomeCategories = new ArrayList<IncomeCategory>() {{
             add(new IncomeCategory(4L, "kat4", true));
             add(new IncomeCategory(5L, "kat5", true));

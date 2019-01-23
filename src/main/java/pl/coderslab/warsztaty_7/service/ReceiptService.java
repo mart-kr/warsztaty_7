@@ -9,19 +9,13 @@ import java.util.List;
 public interface ReceiptService {
 
     List<Receipt> findAllOrderedByDate();
-
+    List<Receipt> findAllForBudgetOrderedByDate(Budget budget);
     Receipt findById(Long id);
-
     Receipt create(Receipt receipt);
-
     Receipt edit(Receipt receipt);
-
     void deleteById(Long id);
-
     Receipt findByExpenseId(Long id);
-
     List<Receipt> findLast5ReceiptsForBudget(Budget budget);
-
     BigDecimal sumAllFromThisMonth(Budget budget);
 
 

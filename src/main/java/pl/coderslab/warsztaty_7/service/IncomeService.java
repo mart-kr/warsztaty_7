@@ -10,6 +10,7 @@ import java.util.List;
 public interface IncomeService {
 
     List<Income> findAll();
+    List<Income> findAllForBudgetOrderedByDate(Budget budget);
     List<Income> findByCategory(IncomeCategory incomeCategory);
     List<Income> findByCategoryId(Long id);
     Income findById(Long id);

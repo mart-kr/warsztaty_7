@@ -27,6 +27,11 @@ public class ReceiptServiceStubImpl implements ReceiptService {
     }
 
     @Override
+    public List<Receipt> findAllForBudgetOrderedByDate(Budget budget) {
+        return null;
+    }
+
+    @Override
     public Receipt findById(Long id) {
         return this.receipts.stream()
                 .filter(p -> p.getId().equals(id))

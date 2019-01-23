@@ -11,10 +11,9 @@
 <body>
     <div th:include="fragments/test_topBar :: topBar"></div>
 
-    <h1>Incomes list</h1>
+    <h3>Moje przychody</h3>
     <table>
         <tr th:each="income : ${incomes}">
-            <td th:text="${income.id}">1</td>
             <td th:text="${income.amount}">1</td>
             <td th:text="${income.incomeCategory.name}">...</td>
         </tr>

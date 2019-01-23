@@ -16,13 +16,15 @@
         <span th:unless="${income.id == null}">Edytuj przychód</span>
     </h3>
     <form action="#" th:action="@{${action}}" th:object="${income}" method="post">
-        <select th:field="*{bankAccount.id}">
-            <option
-                    th:each="bankAccount: ${bankAccounts}"
-                    th:value="${bankAccount.id}"
-                    th:text="|${bankAccount.name}, saldo: ${bankAccount.balance}|">
-            </option>
-        </select>
+        <p>Konto:
+            <select th:field="*{bankAccount.id}">
+                <option
+                        th:each="bankAccount: ${bankAccounts}"
+                        th:value="${bankAccount.id}"
+                        th:text="|${bankAccount.name}, saldo: ${bankAccount.balance}|">
+                </option>
+            </select>
+        </p>
         <p>Kwota: <input type="text" th:field="*{amount}" /></p>
         <p>Data: <input type="date" th:value="*{dateOfPayment}" th:field="*{dateOfPayment}"></p>
         <p>Źródło przychodu: <input type="text" th:field="*{placeOfPayment}"></p>

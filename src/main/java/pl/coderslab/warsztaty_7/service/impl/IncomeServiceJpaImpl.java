@@ -37,6 +37,11 @@ public class IncomeServiceJpaImpl implements IncomeService {
     }
 
     @Override
+    public List<Income> findAllForBudgetOrderedByDate(Budget budget) {
+        return incomeRepository.findAllByBankAccountBudgetOrderByDateOfPaymentDesc(budget);
+    }
+
+    @Override
     public List<Income> findByCategory(IncomeCategory incomeCategory) {
         return this.incomeRepository.findAllByIncomeCategory(incomeCategory);
     }
@@ -55,19 +60,36 @@ public class IncomeServiceJpaImpl implements IncomeService {
     public Income create(Income income) {
         BankAccount selectedBankAccount = bankAccountRepository.findOne(income.getBankAccount().getId());
         BigDecimal balanceBeforeTransaction = selectedBankAccount.getBalance();
-        BigDecimal balanceAfterTransaction = balanceBeforeTransaction.add(income.getAmount()); //TODO: dodać obsługę nulli - ustalić jak chcemy rzucać wyjątki (dodatkowo do walidacji formularzy)
-        selectedBankAccount.setBalance(balanceAfterTransaction);
+        selectedBankAccount.setBalance(balanceBeforeTransaction.add(income.getAmount())); //TODO: dodać obsługę nulli - ustalić jak chcemy rzucać wyjątki (dodatkowo do walidacji formularzy)
         return this.incomeRepository.save(income);
     }
 
     @Override
     public Income edit(Income income) {
+        Income originalIncome = incomeRepository.findOne(income.getId());
+        BankAccount originalBankAccount = bankAccountRepository.findOne(originalIncome.getBankAccount().getId());
+        BankAccount selectedBankAccount = bankAccountRepository.findOne(income.getBankAccount().getId());
+        BigDecimal selectedOldBalance = selectedBankAccount.getBalance();
+        BigDecimal originalAmount = originalIncome.getAmount();
+
+        if (originalBankAccount.equals(selectedBankAccount)) {
+            BigDecimal amountDiff = income.getAmount().subtract(originalAmount);
+            selectedBankAccount.setBalance(selectedOldBalance.add(amountDiff));
+        } else {
+            BigDecimal originalOldBalance = originalBankAccount.getBalance();
+            originalBankAccount.setBalance(originalOldBalance.subtract(originalAmount));
+            selectedBankAccount.setBalance(selectedOldBalance.add(income.getAmount()));
+        }
         return this.incomeRepository.save(income);
     }
 
     //TODO: do zmiany
     @Override
     public void deleteById(Long id) {
+        Income selectedIncome = incomeRepository.findOne(id);
+        BankAccount selectedBankAccount = bankAccountRepository.findOne(selectedIncome.getBankAccount().getId());
+        BigDecimal balanceBeforeRemoval = selectedBankAccount.getBalance();
+        selectedBankAccount.setBalance(balanceBeforeRemoval.subtract(selectedIncome.getAmount()));
         this.incomeRepository.delete(id);
     }
 

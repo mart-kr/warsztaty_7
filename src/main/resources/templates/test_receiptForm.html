@@ -12,14 +12,23 @@
     <div th:include="fragments/test_topBar :: topBar"></div>
 
     <h3>
-        <span th:if="${receipt.id == null}">Add receipt</span>
-        <span th:unless="${receipt.id == null}">Edit receipt</span>
+        <span th:if="${receipt.id == null}">Dodaj wydatek</span>
+        <span th:unless="${receipt.id == null}">Edytuj wydatek</span>
     </h3>
     <form action="#" th:action="@{${action}}" th:object="${receipt}" method="post">
-        <p>Receipt amount: <input type="text" th:field="*{amount}" /></p>
-        <p>Date of payment: <input type="date" th:value="*{dateOfPayment}" th:field="*{dateOfPayment}"></p>
-        <p>Place of payment: <input type="text" th:field="*{placeOfPayment}"></p>
-        <p>Note: <textarea cols="30" rows="3" th:field="*{note}"></textarea></p>
-        <input type="submit" value="Submit"/>
+        <p>Konto:
+            <select th:field="*{bankAccount.id}">
+                <option
+                        th:each="bankAccount: ${bankAccounts}"
+                        th:value="${bankAccount.id}"
+                        th:text="|${bankAccount.name}, saldo: ${bankAccount.balance}|">
+                </option>
+            </select>
+        </p>
+        <p>Kwota: <input type="text" th:field="*{amount}" /></p>
+        <p>Data: <input type="date" th:value="*{dateOfPayment}" th:field="*{dateOfPayment}"></p>
+        <p>Adresat: <input type="text" th:field="*{placeOfPayment}"></p>
+        <p>Notatka: <textarea cols="30" rows="3" th:field="*{note}"></textarea></p>
+        <input type="submit" value="Zapisz"/>
     </form>
 </body>

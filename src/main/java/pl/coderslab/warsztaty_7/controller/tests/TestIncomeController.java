@@ -33,11 +33,6 @@ public class TestIncomeController {
         return incomeCategoryService.findAll();
     }
 
-    @ModelAttribute(name = "incomes")
-    public List<Income> findAllIncomes(){
-        return incomeService.findAll();
-    }
-
     @ModelAttribute(name = "income")
     public Income createEmptyIncome(){
         return new Income();
@@ -49,7 +44,8 @@ public class TestIncomeController {
     }
 
     @GetMapping(value = "/all")
-    public String allExpenses() {
+    public String allIncomes(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("incomes", incomeService.findAllForBudgetOrderedByDate(user.getBudget()));
         return "test_incomes";
     }
 
@@ -93,20 +89,10 @@ public class TestIncomeController {
     @GetMapping(value = "/thisMonth")
     @ResponseBody
     public String findIncomesFromThisMonth(@AuthenticationPrincipal User user, Model model){
-        creatingBudget(user);
         BigDecimal sumOfIncomesFromThisMonth = incomeService.sumAllFromThisMonth(user.getBudget());
 //        model.addAttribute("sumOfIncomesFromThisMonth", sumOfIncomesFromThisMonth);
 
         return "Suma: " + String.valueOf(sumOfIncomesFromThisMonth);
-    }
-
-
-    //później do usunięcia
-    private Budget creatingBudget(User user){
-        Budget budget = new Budget();
-        budget.setName("test budget");
-        budget.addUser(user);
-        return budget;
     }
 
 
