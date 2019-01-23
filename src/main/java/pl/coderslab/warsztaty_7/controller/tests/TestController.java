@@ -2,6 +2,7 @@ package pl.coderslab.warsztaty_7.controller.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpStatusCodeException;
 import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.repository.UserRepository;
 import pl.coderslab.warsztaty_7.service.SecurityService;
@@ -69,11 +71,15 @@ public class TestController {
         // to tylko dla przyklady jak bedzie wygladać sprawdzanie czy user moze edytowac encję
         IncomeCategory incomeCategory = new IncomeCategory();
         if (securityService.canEditEntity(user, incomeCategory)) {
-            //wywolanie jakiegoś serwisu itp itd
+            // wywolanie jakiegoś serwisu itp itd
             // np. incomeCategoryService.edit(entity);
             return "redirect:/home";
         } else {
-            return "redirect:/error";
+            // jesli user nie ma prawa do edycji to rzucamy błąd
+            // AccesDeniedException ustawia status http na 403 czyli Forbidden
+            // Błąd jest automatycznie obslugiwany przez springa ktory odsyla do
+            // naszej strony błędu /error.html
+            throw new AccessDeniedException("User is not allowed to edit this entity");
         }
     }
 
