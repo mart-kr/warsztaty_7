@@ -1,15 +1,20 @@
 package pl.coderslab.warsztaty_7.controller.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
+import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.ExpenseCategoryService;
 import pl.coderslab.warsztaty_7.service.ExpenseService;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/home/expense")
@@ -86,6 +91,17 @@ public class TestExpenseController {
     public String deleteExpense(@PathVariable Long id) {
         expenseService.deleteById(id);
         return "redirect:/home/expense/all";
+    }
+
+    @GetMapping(value = "/thisMonth")
+    public String expensesInThisMonth(@AuthenticationPrincipal User user, Model model) {
+        if (user.getBudget() == null) {
+            throw new AccessDeniedException("User with no budget can't access this method");
+        }
+        List<Expense> thisMonthExpenses = expenseService.findExpensesInThisMonthForBudget(user.getBudget());
+        Map<String, BigDecimal> sortedExpenses = expenseService.sortedSumOfExpensesInCategory(thisMonthExpenses);
+        model.addAttribute("sortedExpenses", sortedExpenses);
+        return "fragments/expenses-sum";
     }
 
 }

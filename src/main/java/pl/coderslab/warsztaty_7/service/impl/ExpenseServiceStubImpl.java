@@ -1,6 +1,7 @@
 package pl.coderslab.warsztaty_7.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
 import pl.coderslab.warsztaty_7.model.Receipt;
@@ -8,9 +9,7 @@ import pl.coderslab.warsztaty_7.service.ExpenseService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,4 +104,16 @@ public class ExpenseServiceStubImpl implements ExpenseService {
         }
         throw  new RuntimeException("Expense not found: " + id);
     }
+
+    @Override
+    public List<Expense> findExpensesInThisMonthForBudget(Budget budget) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Map<String, BigDecimal> sortedSumOfExpensesInCategory(List<Expense> expenses) {
+        return Collections.emptyMap();
+    }
+
+
 }
