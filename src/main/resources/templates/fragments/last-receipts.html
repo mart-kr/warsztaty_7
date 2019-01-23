@@ -8,8 +8,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="list-group">
-    <a href="#" th:each="receipt : ${last5Receipts}" th:text="|Kwota: ${receipt.amount} Data: ${receipt.dateOfPayment} Notka: ${receipt.note}|"
+<div th:fragment="last-receipts" class="list-group">
+    <a href="#" th:if="${last5Receipts.isEmpty()}" th:text="'W twoim budżecie nie ma żadnych wydatków. Kliknij aby dodać nowy wydatek'"
+       class="list-group-item list-group-item-action">Brak wydatków w budżecie</a>
+    <a href="#" th:unless="${last5Receipts.isEmpty()}" th:each="receipt : ${last5Receipts}" th:text="|Kwota: ${receipt.amount} Data: ${receipt.dateOfPayment} Notka: ${receipt.note}|"
        class="list-group-item list-group-item-action">Receipt1</a>
 </div>
 </body>
