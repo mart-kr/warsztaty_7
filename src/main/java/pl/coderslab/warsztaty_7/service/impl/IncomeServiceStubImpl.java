@@ -1,6 +1,7 @@
 package pl.coderslab.warsztaty_7.service.impl;
 
 import org.springframework.stereotype.Service;
+import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.Income;
 import pl.coderslab.warsztaty_7.model.IncomeCategory;
 import pl.coderslab.warsztaty_7.service.IncomeService;
@@ -99,6 +100,10 @@ public class IncomeServiceStubImpl implements IncomeService {
         throw new RuntimeException("Income not fund: " + id);
     }
 
+    @Override
+    public BigDecimal sumAllFromThisMonth(Budget budget) {
+        return null;
+    }
 
 
 }

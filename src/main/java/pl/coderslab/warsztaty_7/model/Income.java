@@ -1,11 +1,12 @@
 package pl.coderslab.warsztaty_7.model;
 
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,11 +20,12 @@ public class Income extends Auditable {
     @Column
     private BigDecimal amount;
 
-    @Column (name = "place_of_payment")
+    @Column(name = "place_of_payment")
     private String placeOfPayment;
 
     @Column(name = "date_of_payment")
-    private LocalDateTime dateOfPayment;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate dateOfPayment;
 
     @Column(name = "income_note")
     private String incomeNote;
@@ -41,8 +43,9 @@ public class Income extends Auditable {
 
     public Income() {}
 
-    public Income(BigDecimal amount, IncomeCategory incomeCategory) {
+    public Income(BigDecimal amount, LocalDate dateOfPayment, IncomeCategory incomeCategory) {
         this.amount = amount;
+        this.dateOfPayment = dateOfPayment;
         this.incomeCategory = incomeCategory;
     }
 
@@ -51,7 +54,7 @@ public class Income extends Auditable {
         this.id = id;
         this.amount = amount;
         this.placeOfPayment = placeOfPayment;
-        this.dateOfPayment = LocalDateTime.now();
+        this.dateOfPayment = LocalDate.now();
         this.incomeNote = incomeNote;
         this.incomeCategory = incomeCategory;
     }
@@ -80,11 +83,11 @@ public class Income extends Auditable {
         this.placeOfPayment = placeOfPayment;
     }
 
-    public LocalDateTime getDateOfPayment() {
+    public LocalDate getDateOfPayment() {
         return dateOfPayment;
     }
 
-    public void setDateOfPayment(LocalDateTime dateOfPayment) {
+    public void setDateOfPayment(LocalDate dateOfPayment) {
         this.dateOfPayment = dateOfPayment;
     }
 

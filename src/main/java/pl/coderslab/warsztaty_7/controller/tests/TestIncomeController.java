@@ -1,14 +1,15 @@
 package pl.coderslab.warsztaty_7.controller.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.warsztaty_7.model.Income;
-import pl.coderslab.warsztaty_7.model.IncomeCategory;
+import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.service.IncomeCategoryService;
 import pl.coderslab.warsztaty_7.service.IncomeService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -76,10 +77,29 @@ public class TestIncomeController {
         return "redirect:http://localhost:8080/home/income/all";
     }
 
-    @GetMapping(value = "delete/{id}")
+    @GetMapping(value = "/delete/{id}")
     public String deleteIncome(@PathVariable Long id) {
         incomeService.deleteById(id);
         return "redirect:http://localhost:8080/home/income/all";
+    }
+
+    @GetMapping(value = "/thisMonth")
+    @ResponseBody
+    public String findIncomesFromThisMonth(@AuthenticationPrincipal User user, Model model){
+        creatingBudget(user);
+        BigDecimal sumOfIncomesFromThisMonth = incomeService.sumAllFromThisMonth(user.getBudget());
+//        model.addAttribute("sumOfIncomesFromThisMonth", sumOfIncomesFromThisMonth);
+
+        return "Suma: " + String.valueOf(sumOfIncomesFromThisMonth);
+    }
+
+
+    //później do usunięcia
+    private Budget creatingBudget(User user){
+        Budget budget = new Budget();
+        budget.setName("test budget");
+        budget.addUser(user);
+        return budget;
     }
 
 

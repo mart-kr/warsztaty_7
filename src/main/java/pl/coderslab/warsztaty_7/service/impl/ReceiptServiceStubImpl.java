@@ -77,4 +77,9 @@ public class ReceiptServiceStubImpl implements ReceiptService {
     public List<Receipt> findLast5ReceiptsForBudget(Budget budget) {
         return Collections.emptyList();
     }
+
+    @Override
+    public BigDecimal sumAllFromThisMonth(Budget budget) {
+        return null;
+    }
 }

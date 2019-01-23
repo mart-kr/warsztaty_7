@@ -1,15 +1,18 @@
 package pl.coderslab.warsztaty_7.service.impl;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.Income;
 import pl.coderslab.warsztaty_7.model.IncomeCategory;
-import pl.coderslab.warsztaty_7.repository.ExpenseRepository;
+import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.repository.IncomeRepository;
 import pl.coderslab.warsztaty_7.service.IncomeService;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -56,5 +59,22 @@ public class IncomeServiceJpaImpl implements IncomeService {
     @Override
     public void deleteById(Long id) {
         this.incomeRepository.delete(id);
+    }
+
+    @Override
+    public BigDecimal sumAllFromThisMonth(Budget budget) {
+
+        Collection<Long> ids = new ArrayList<>();
+        for (User user: budget.getUsers()) {
+            ids.add(user.getId());
+        }
+        List<Income> incomes = incomeRepository.findAllByThisMonth(ids);
+        BigDecimal incomesSumFromThisMonth = BigDecimal.ZERO;
+
+        for (Income income : incomes){
+            incomesSumFromThisMonth = incomesSumFromThisMonth.add(income.getAmount());
+        }
+
+        return incomesSumFromThisMonth;
     }
 }

@@ -1,10 +1,7 @@
 package pl.coderslab.warsztaty_7.controller.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +11,8 @@ import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 import pl.coderslab.warsztaty_7.service.UserService;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/home/receipt")
@@ -82,4 +79,22 @@ public class TestReceiptController {
         return "fragments/last-receipts";
     }
 
+    @GetMapping(value = "/thisMonth")
+    @ResponseBody
+    public String findReceiptsFromThisMonth(@AuthenticationPrincipal User user, Model model){
+        creatingBudget(user);
+        BigDecimal sumOfReceiptsFromThisMonth = receiptService.sumAllFromThisMonth(user.getBudget());
+//        model.addAttribute("sumOfIncomesFromThisMonth", sumOfIncomesFromThisMonth);
+
+        return "Suma: " + String.valueOf(sumOfReceiptsFromThisMonth);
+    }
+
+
+    //później do usunięcia
+    private Budget creatingBudget(User user){
+        Budget budget = new Budget();
+        budget.setName("test budget");
+        budget.addUser(user);
+        return budget;
+    }
 }

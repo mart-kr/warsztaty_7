@@ -9,6 +9,7 @@ import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.repository.ReceiptRepository;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -62,5 +63,22 @@ public class ReceiptServiceJpaImpl implements ReceiptService {
             ids.add(user.getId());
         }
         return receiptRepository.findTop5ReceiptsByCreatedByUserIdInOrderByDateOfPaymentDesc(ids);
+    }
+
+    @Override
+    public BigDecimal sumAllFromThisMonth(Budget budget) {
+
+        Collection<Long> ids = new ArrayList<>();
+        for (User user: budget.getUsers()) {
+            ids.add(user.getId());
+        }
+        List<Receipt> receipts = receiptRepository.findAllByThisMonth(ids);
+        BigDecimal receiptsSumFromThisMonth = BigDecimal.ZERO;
+
+        for (Receipt receipt : receipts){
+            receiptsSumFromThisMonth = receiptsSumFromThisMonth.add(receipt.getAmount());
+        }
+
+        return receiptsSumFromThisMonth;
     }
 }
