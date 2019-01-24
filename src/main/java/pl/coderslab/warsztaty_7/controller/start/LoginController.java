@@ -63,8 +63,7 @@ public class LoginController {
             return "reg-form";
         } else {
             newUserService.saveNewUser(user);
-            redirectAttributes.addAttribute("register", "Teraz możesz się zalogować.");
-            return "redirect:/start/login";
+            return "redirect:/start/login?register";
         }
     }
 
