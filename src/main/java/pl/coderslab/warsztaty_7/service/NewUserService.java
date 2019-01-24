@@ -16,18 +16,19 @@ import java.util.Set;
 public class NewUserService {
 
     private PasswordEncoder passwordEncoder;
-
     private UserService userService;
+    private RoleService roleService;
 
     @Autowired
-    public NewUserService(PasswordEncoder passwordEncoder, UserService userService) {
+    public NewUserService(PasswordEncoder passwordEncoder, UserService userService, RoleService roleService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     public void saveNewUser(User user) {
         Set<Role> roles = new HashSet<>();
-        roles.add(new Role("USER"));
+        roles.add(roleService.findRoleByName("USER"));
         user.setEnabled(true);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);

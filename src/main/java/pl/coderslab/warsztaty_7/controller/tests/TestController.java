@@ -30,10 +30,10 @@ public class TestController {
     @Autowired
     private PasswordEncoder encoder;
 
-    @GetMapping("/home")
-    public String hello() {
-        return "test";
-    }
+//    @GetMapping("/home")
+//    public String hello() {
+//        return "test";
+//    }
 
     @GetMapping("/add-admin")
     @ResponseBody

@@ -1,6 +1,7 @@
 package pl.coderslab.warsztaty_7.model;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -20,9 +21,11 @@ public class User implements Serializable {
 
     @Column(name = "user_name", nullable = false, unique = true)
     @Email
+    @NotBlank
     private String username;
 
     @Column(name = "first_name", nullable = false)
+    @NotBlank
     private String firstName;
 
     @Column(name = "password", nullable = false)

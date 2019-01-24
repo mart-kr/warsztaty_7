@@ -3,32 +3,49 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8"/>
-    <title>Register new user</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <title>BudgetApp - rejestracja</title>
 </head>
 <body>
-    <h1>Registration</h1>
     <!--Formularz (pokaże się tylko jeśli użytkownik nie jest zalogowany)-->
-    <div sec:authorize="isAnonymous()">
-        <p>Please fill in the form to register and use application</p>
-        <form action="/home/registration" th:action="@{/home/registration}" th:object="${user}" method="post">
-            <span th:if="${#fields.hasErrors('*')}" th:errors="*{username}"></span><br>
-            <label for="username">Email address:</label><br>
-            <input type="text" th:field="${user.username}" id="username"/><br>
-
-            <span th:if="${#fields.hasErrors('*')}" th:errors="*{firstName}"></span><br>
-            <label for="first-name">First name:</label><br>
-            <input type="text" th:field="${user.firstName}" id="first-name"/><br>
-
-            <span th:if="${#fields.hasErrors('*')}" th:errors="*{password}"></span><br>
-            <label for="password">Password:</label><br>
-            <input type="password" th:field="${user.password}" id="password"/><br>
-
-            <input type="submit" value="Submit!"/>
+    <div sec:authorize="isAnonymous()" class="container-fluid align-self-center mt-5 w-50">
+        <p class="h2">Wypełnij formularz aby móc skorzystać z aplikacji</p>
+        <form action="/start/register" th:object="${user}" method="post">
+            <div class="form-group">
+                <div th:if="${#fields.hasErrors('username')}" th:text="'Adres email jest niepoprawny lub jest już zarejestrowany.'"
+                      class="alert alert-danger" role="alert">Błędny email</div>
+                <label for="email">Podaj email</label>
+                <input type="email" th:field="${user.username}" id="email" placeholder="Email" class="form-control" required="required">
+                <small id="email-help" class="form-text text-muted">Wpisz swój adres email.
+                    Będziesz go używał do logowania się w aplikacji</small>
+            </div>
+            <div class="form-group">
+                <div th:if="${#fields.hasErrors('password')}" th:text="'Podane hasło jest niepoprawne.'"
+                      class="alert alert-danger" role="alert">Błędne hasło</div>
+                <label for="first-name">Podaj hasło</label>
+                <input type="password" th:field="${user.password}" id="password" placeholder="Hasło" class="form-control" required="required">
+                <small id="password-help" class="form-text text-muted">Wpisz hasło.
+                    Bezpieczne hasło powinno się składać z min. 8 znaków, zawierać cyfry oraz małe i duże litery</small>
+            </div>
+            <div class="form-group">
+                <div th:if="${#fields.hasErrors('firstName')}" th:text="'Podane imię jest niepoprawne.'"
+                      class="alert alert-danger" role="alert">Błędne imię</div>
+                <label for="first-name">Jak masz na imię?</label>
+                <input type="text" th:field="${user.firstName}" id="first-name" class="form-control" required="required">
+                <small id="first-name-help" class="form-text text-muted">Podaj swoje imię abysmy
+                    wiedzieli jak się do Ciebie zwracać</small>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Zarejestruj się"/>
         </form>
     </div>
     <!--Wiadomość dla zalogowanego użytkownika-->
-    <div sec:authorize="isAuthenticated()">
-        <p>Logged in user can't register a new one. Please log out if you want to register</p>
+    <div sec:authorize="isAuthenticated()" class="alert alert-danger container-fluid align-self-center mt-5 w-50" role="alert">
+        <p>Jesteś zalogowany jako: <span sec:authentication="name"></span>.</p>
+        <p>Aby zarejestrować nowego użytkownika musisz się wylogować.</p>
+        <a class="btn btn-danger" href="/start/login?logout">Wyloguj się</a>
     </div>
 
 
