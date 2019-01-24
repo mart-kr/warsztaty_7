@@ -43,7 +43,7 @@ public class TestBankAccountController {
     @GetMapping(value = "/add")
     public String showCreateBankAccountForm(Model model) {
         model.addAttribute("action", "/home/bankAccount/add");
-        return "test_bankAccountForm";
+        return "bankAccountForm";
     }
 
     @PostMapping(value = "/add")
@@ -57,7 +57,7 @@ public class TestBankAccountController {
     public String showEditBankAccountForm(@PathVariable Long id, Model model) {
         model.addAttribute("action", "/home/bankAccount/edit/" + id);
         model.addAttribute("bankAccount", bankAccountService.findById(id));
-        return "test_bankAccountForm";
+        return "bankAccountForm";
     }
 
     @PostMapping(value = "/edit/{id}")

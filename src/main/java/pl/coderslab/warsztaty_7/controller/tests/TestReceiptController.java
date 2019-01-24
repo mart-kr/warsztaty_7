@@ -94,5 +94,5 @@ public class TestReceiptController {
 
         return "Suma: " + String.valueOf(sumOfReceiptsFromThisMonth);
     }
-    
+
 }

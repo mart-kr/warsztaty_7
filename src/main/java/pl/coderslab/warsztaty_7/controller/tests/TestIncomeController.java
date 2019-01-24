@@ -58,7 +58,7 @@ public class TestIncomeController {
     @GetMapping(value = "/add")
     public String showCreateIncomeForm(Model model) {
         model.addAttribute("action", "/home/income/add");
-        return "test_incomeForm";
+        return "incomeForm";
     }
 
     @PostMapping(value = "/add")
@@ -71,7 +71,7 @@ public class TestIncomeController {
     public String showEditIncomeForm(@PathVariable Long id, Model model) {
         model.addAttribute("action", "/home/income/edit/" + id);
         model.addAttribute("income", incomeService.findById(id));
-        return "test_incomeForm";
+        return "incomeForm";
     }
 
     @PostMapping(value = "/edit/{id}")

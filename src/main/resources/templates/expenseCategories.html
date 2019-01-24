@@ -13,7 +13,7 @@
 
     <h3>Kategorie wydatków</h3>
     <div class="list-group">
-        <a href="#" th:each="expenseCategory : ${expenseCategories}" th:text="${expenseCategory.name}"
+        <a th:each="expenseCategory : ${expenseCategories}" th:href="@{/home/expenseCategory/edit/{id}(id=${expenseCategory.id})}" th:text="${expenseCategory.name}"
            class="list-group-item list-group-item-action">Kategoria</a>
         <a class="nav-item nav-link" href="/home/expenseCategory/add">Dodaj</a>
     </div>

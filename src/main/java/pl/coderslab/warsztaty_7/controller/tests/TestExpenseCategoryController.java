@@ -28,13 +28,13 @@ public class TestExpenseCategoryController {
     @GetMapping(value = "/all")
     public String allExpenseCategories(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("expenseCategories", expenseCategoryService.findAllForBudgetId(user.getBudget().getId()));
-        return "test_expenseCategories";
+        return "expenseCategories";
     }
 
     @GetMapping(value = "/add")
     public String showCreateExpenseCategoryForm(Model model) {
         model.addAttribute("action", "/home/expenseCategory/add");
-        return "test_expenseCategoryForm";
+        return "expenseCategoryForm";
     }
 
     @PostMapping(value = "/add")
@@ -48,7 +48,7 @@ public class TestExpenseCategoryController {
     public String showEditExpenseCategoryForm(@PathVariable Long id, Model model) {
         model.addAttribute("action", "/home/expenseCategory/edit/" + id);
         model.addAttribute("expenseCategory", expenseCategoryService.findById(id));
-        return "test_expenseCategoryForm";
+        return "expenseCategoryForm";
     }
 
     @PostMapping(value = "edit/{id}")

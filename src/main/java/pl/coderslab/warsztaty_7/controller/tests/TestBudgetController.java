@@ -37,7 +37,7 @@ public class TestBudgetController {
     @GetMapping(value = "/add")
     public String showCreateBudgetForm(Model model) {
         model.addAttribute("action", "/home/budget/add");
-        return "test_budgetForm";
+        return "budgetForm";
     }
 
     @PostMapping(value = "/add")
@@ -57,7 +57,7 @@ public class TestBudgetController {
     public String showEditBudgetForm(@PathVariable Long id, Model model) {
         model.addAttribute("action", "/home/budget/edit/" + id);
         model.addAttribute("budget", budgetService.findById(id));
-        return "test_budgetForm";
+        return "budgetForm";
     }
 
     @PostMapping(value = "/edit/{id}")

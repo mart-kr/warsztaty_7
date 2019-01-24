@@ -11,15 +11,23 @@
 <body>
     <div th:include="fragments/test_topBar :: topBar"></div>
 
-    <h3>
-        <span th:if="${incomeCategory.id == null}">Dodaj kategorię przychodów</span>
-        <span th:unless="${incomeCategory.id == null}">Edytuj kategorię przychodów</span>
-    </h3>
-    <form action="#" th:action="@{${action}}" th:object="${incomeCategory}" method="post">
-        <p>Nazwa: <input type="text" th:field="*{name}" /></p>
-        <input type="hidden" th:field="*{budget}"/>
-        <input type="submit" value="Zapisz"/>
-    </form>
+    <div class="container-fluid align-self-center mt-5 w-50">
+        <h3>
+            <span th:if="${incomeCategory.id == null}">Dodaj kategorię przychodów</span>
+            <span th:unless="${incomeCategory.id == null}">Edytuj kategorię przychodów</span>
+        </h3>
+        <form action="#" th:action="@{${action}}" th:object="${incomeCategory}" method="post">
+            <div class="form-group">
+                <label for="name">Nazwa</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" />
+                <input type="hidden" th:field="*{budget}"/>
+            </div>
+            <div class="form-row">
+                <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
+                <a class="btn btn-primary" role="button" th:if="${incomeCategory.id != null}" th:href="@{/home/incomeCategory/delete/{id}(id=${incomeCategory.id})}">Usuń</a></button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
 

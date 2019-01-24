@@ -28,13 +28,13 @@ public class TestIncomeCategoryController {
     @GetMapping(value = "/all")
     public String allIncomeCategories(@AuthenticationPrincipal User user, Model model){
         model.addAttribute("incomeCategories", incomeCategoryService.findAllForBudgetId(user.getBudget().getId()));
-        return "test_incomeCategories";
+        return "incomeCategories";
     }
 
     @GetMapping(value = "/add")
     public String showCreateIncomeCategoryForm(Model model) {
         model.addAttribute("action", "/home/incomeCategory/add");
-        return "test_incomeCategoryForm";
+        return "incomeCategoryForm";
     }
 
     @PostMapping(value = "/add")
@@ -48,7 +48,7 @@ public class TestIncomeCategoryController {
     public String showEditIncomeCategoryForm(@PathVariable Long id, Model model) {
         model.addAttribute("action", "/home/incomeCategory/edit/" + id);
         model.addAttribute("incomeCategory", incomeCategoryService.findById(id));
-        return "test_incomeCategoryForm";
+        return "incomeCategoryForm";
     }
 
     @PostMapping(value = "/edit/{id}")
