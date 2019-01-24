@@ -11,24 +11,47 @@
 <body>
     <div th:include="fragments/test_topBar :: topBar"></div>
 
-    <h3>
-        <span th:if="${receipt.id == null}">Dodaj wydatek</span>
-        <span th:unless="${receipt.id == null}">Edytuj wydatek</span>
-    </h3>
-    <form action="#" th:action="@{${action}}" th:object="${receipt}" method="post">
-        <p>Konto:
-            <select th:field="*{bankAccount.id}">
-                <option
-                        th:each="bankAccount: ${bankAccounts}"
-                        th:value="${bankAccount.id}"
-                        th:text="|${bankAccount.name}, saldo: ${bankAccount.balance}|">
-                </option>
-            </select>
-        </p>
-        <p>Kwota: <input type="text" th:field="*{amount}" /></p>
-        <p>Data: <input type="date" th:value="*{dateOfPayment}" th:field="*{dateOfPayment}"></p>
-        <p>Adresat: <input type="text" th:field="*{placeOfPayment}"></p>
-        <p>Notatka: <textarea cols="30" rows="3" th:field="*{note}"></textarea></p>
-        <input type="submit" value="Zapisz"/>
-    </form>
+    <div class="container-fluid align-self-center mt-5 w-50 ">
+
+        <h3>
+            <span th:if="${receipt.id == null}">Dodaj wydatek</span>
+            <span th:unless="${receipt.id == null}">Edytuj wydatek</span>
+        </h3>
+        <form action="#" th:action="@{${action}}" th:object="${receipt}" method="post">
+            <div class="form-group">
+                <label for="bankAccount">Konto</label>
+                <select class="form-control" id="bankAccount" th:field="*{bankAccount.id}">
+                    <option
+                            th:each="bankAccount: ${bankAccounts}"
+                            th:value="${bankAccount.id}"
+                            th:text="|${bankAccount.name}, saldo: ${bankAccount.balance}|">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">Kwota</label>
+                <input type="text" class="form-control" id="amount" th:field="*{amount}" />
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="date">Data</label>
+                    <input type="date" class="form-control" id="date" th:value="*{dateOfPayment}" th:field="*{dateOfPayment}">
+                </div>
+                <div class="form-group col-md-8">
+                    <label for="placeOfPayment">Adresat</label>
+                    <input type="text" class="form-control" id="placeOfPayment" th:field="*{placeOfPayment}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="note">Notatka</label>
+                <textarea cols="30" rows="3" class="form-control" id="note" th:field="*{note}"></textarea>
+            </div>
+            <div class="form-row">
+                <button class="btn btn-primary mr-1" type="submit">Zapisz</button>
+                <a class="btn btn-primary" role="button" th:if="${receipt.id != null}" th:href="@{/home/receipt/delete/{id}(id=${receipt.id})}">Usuń</a>
+            </div>
+
+        </form>
+    </div>
 </body>
+</html>

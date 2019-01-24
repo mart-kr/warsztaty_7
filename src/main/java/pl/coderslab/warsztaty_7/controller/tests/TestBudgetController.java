@@ -46,11 +46,8 @@ public class TestBudgetController {
             budgetService.create(budget); // TODO: rozwiązać w lepszy sposób problem "org.hibernate.PersistentObjectException: detached entity passed to persist: pl.coderslab.warsztaty_7.model.User"
             budget.addUser(user);
             budgetService.edit(budget);
-            return "redirect:/home/budget/all";
-        } else {
-            return "redirect:/home";
         }
-
+        return "redirect:/home";
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -63,12 +60,12 @@ public class TestBudgetController {
     @PostMapping(value = "/edit/{id}")
     public String editBudget(@ModelAttribute Budget budget) {
         budgetService.edit(budget);
-        return "redirect:/home/budget/all";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "delete/{id}")
     public String deleteBudget(@PathVariable Long id) {
         budgetService.deleteById(id);
-        return "redirect:/home/budget/all";
+        return "redirect:/home";
     }
 }

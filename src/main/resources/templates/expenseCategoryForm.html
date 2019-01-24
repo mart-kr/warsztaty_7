@@ -24,7 +24,7 @@
             </div>
             <div class="form-row">
                 <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
-                <a class="btn btn-primary" role="button" th:if="${expenseCategory.id != null}" th:href="@{/home/expenseCategory/delete/{id}(id=${expenseCategory.id})}">Usuń</a></button>
+                <a class="btn btn-primary" role="button" th:if="${expenseCategory.id != null}" th:href="@{/home/expenseCategory/delete/{id}(id=${expenseCategory.id})}">Usuń</a>
             </div>
         </form>
     </div>
