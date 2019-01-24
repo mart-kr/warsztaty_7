@@ -46,7 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/add-admin","/home/**","/home").permitAll()
                 .antMatchers("/**").authenticated()
                 .and().formLogin()
-                .and().logout();
+                .loginPage("/start/login").permitAll()
+                .defaultSuccessUrl("/home", false)
+                .failureUrl("/start/login?error")
+                .and().logout().permitAll();
+                //.logoutUrl("/start/login?logout");
     }
 
     @Override
