@@ -9,12 +9,17 @@
 </head>
 <body>
 <div th:fragment="lastReceipts" class="list-group">
-    <th:block th:if="${lastReceipts}" >
-        <a href="#" th:if="${lastReceipts.isEmpty()}" th:text="'W twoim budżecie nie ma żadnych wydatków. Kliknij aby dodać nowy wydatek'"
-           class="list-group-item list-group-item-action">Brak wydatków w budżecie</a>
-        <a href="#" th:unless="${lastReceipts.isEmpty()}" th:each="receipt : ${lastReceipts}" th:text="|Kwota: ${receipt.amount} Data: ${receipt.dateOfPayment} Notka: ${receipt.note}|"
-           class="list-group-item list-group-item-action">Receipt1</a>
-    </th:block>
+    <div class="card border-secondary m-3">
+        <div class="card-header font-weight-bold">Ostatnie wydatki</div>
+        <div class="card-body">
+            <th:block th:if="${lastReceipts}" >
+                <a href="/home/receipt/add" th:if="${lastReceipts.isEmpty()}" th:text="'W twoim budżecie nie ma żadnych wydatków. Kliknij aby dodać nowy wydatek'"
+                   class="list-group-item list-group-item-action">Brak wydatków w budżecie</a>
+                <a th:href="@{/home/receipt/edit/{id}(id=${receipt.id})}" th:unless="${lastReceipts.isEmpty()}" th:each="receipt : ${lastReceipts}" th:text="|Kwota: ${receipt.amount} Data: ${receipt.dateOfPayment} Notka: ${receipt.note}|"
+                   class="list-group-item list-group-item-action">Receipt1</a>
+            </th:block>
+        </div>
+    </div>
 </div>
 </body>
 </html>

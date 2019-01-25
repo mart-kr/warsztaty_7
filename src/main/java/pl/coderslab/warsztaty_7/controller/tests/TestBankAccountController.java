@@ -50,7 +50,7 @@ public class TestBankAccountController {
     public String createBankAccount(@AuthenticationPrincipal User user, @ModelAttribute BankAccount bankAccount) {
         bankAccount.setBudget(user.getBudget());
         bankAccountService.create(bankAccount);
-        return "redirect:/home/bankAccount/all";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -63,13 +63,13 @@ public class TestBankAccountController {
     @PostMapping(value = "/edit/{id}")
     public String editBankAccount(@PathVariable Long id, @ModelAttribute BankAccount bankAccount) {
         bankAccountService.edit(bankAccount);
-        return "redirect:/home/bankAccount/all";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "/delete/{id}")
     public String deleteBankAccount(@PathVariable Long id) {
         bankAccountService.deleteById(id);
-        return "redirect:/home/bankAccount/all";
+        return "redirect:/home";
     }
 
 

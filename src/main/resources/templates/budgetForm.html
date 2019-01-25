@@ -16,6 +16,7 @@
             <span th:if="${budget.id == null}">Dodaj budżet</span>
             <span th:unless="${budget.id == null}">Edytuj budżet</span>
         </h3>
+        <p class="font-italic">Zanim zaczniesz używać aplikacji musisz dodać swój budżet. Potem możesz zaprosić innych użytkowników do Twojego budżetu.</p>
         <form action="#" th:action="@{${action}}" th:object="${budget}" method="post">
             <div class="form-group">
                 <label for="name">Podaj nazwę</label>

@@ -54,7 +54,7 @@ public class TestReceiptController {
     @PostMapping(value = "/add")
     public String createReceipt(@ModelAttribute Receipt receipt) {
         receiptService.create(receipt);
-        return "redirect:/home/receipt/all";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -67,13 +67,13 @@ public class TestReceiptController {
     @PostMapping(value = "/edit/{id}")
     public String editReceipt(@PathVariable Long id, @ModelAttribute Receipt receipt) {
         receiptService.edit(receipt);
-        return "redirect:/home/receipt/all";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "delete/{id}")
     public String deleteReceipt(@PathVariable Long id) {
         receiptService.deleteById(id);
-        return "redirect:/home/receipt/all";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "/last5")

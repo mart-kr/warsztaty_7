@@ -32,8 +32,11 @@ public class HomeController {
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     public String homeAppPage(@AuthenticationPrincipal User user) {
-        // głowny widok aplikacji
-        return "home";
+        if (user.getBudget() == null) {
+            return "redirect:/home/budget/add";
+        } else {
+            return "home";
+        }
     }
 
 //    @PreAuthorize("hasRole('USER')")

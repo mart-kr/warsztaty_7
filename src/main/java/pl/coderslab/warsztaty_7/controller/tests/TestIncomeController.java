@@ -64,7 +64,7 @@ public class TestIncomeController {
     @PostMapping(value = "/add")
     public String createIncome(@ModelAttribute Income income) {
         incomeService.create(income);
-        return "redirect:http://localhost:8080/home/income/all";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -77,13 +77,13 @@ public class TestIncomeController {
     @PostMapping(value = "/edit/{id}")
     public String editIncome(@PathVariable Long id, @ModelAttribute Income income) {
         incomeService.edit(income);
-        return "redirect:http://localhost:8080/home/income/all";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "/delete/{id}")
     public String deleteIncome(@PathVariable Long id) {
         incomeService.deleteById(id);
-        return "redirect:http://localhost:8080/home/income/all";
+        return "redirect:/home";
     }
 
     @GetMapping(value = "/thisMonth")
