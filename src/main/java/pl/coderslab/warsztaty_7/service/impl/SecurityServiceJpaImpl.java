@@ -7,8 +7,11 @@ import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.service.SecurityService;
 import pl.coderslab.warsztaty_7.service.UserService;
 
+import javax.transaction.Transactional;
+
 @Service
 @Primary
+@Transactional
 public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> {
 
     private UserService userService;

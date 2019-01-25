@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.Role;
 import pl.coderslab.warsztaty_7.repository.RoleRepository;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class RoleService {
 
     private RoleRepository roleRepository;

@@ -32,13 +32,13 @@ public class HomeController {
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     public String homeAppPage(@AuthenticationPrincipal User user) {
-//        if (user == null) {
-//            return "redirect:/start";
-//        } else if (user.getBudget() == null) {
-//            return "redirect:/home/budget/add";
-//        } else {
+        if (user == null) {
+            return "redirect:/start";
+        } else if (user.getBudget() == null) {
+            return "redirect:/home/budget/add";
+        } else {
             return "home";
-//        }
+        }
     }
 
 //    @PreAuthorize("hasRole('USER')")

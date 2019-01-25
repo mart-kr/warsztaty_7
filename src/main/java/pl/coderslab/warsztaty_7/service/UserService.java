@@ -8,11 +8,13 @@ import pl.coderslab.warsztaty_7.model.Role;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.repository.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class UserService {
 
     private UserRepository userRepository;

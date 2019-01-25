@@ -7,9 +7,11 @@ import pl.coderslab.warsztaty_7.model.IncomeCategory;
 import pl.coderslab.warsztaty_7.repository.IncomeCategoryRepository;
 import pl.coderslab.warsztaty_7.service.IncomeCategoryService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class IncomeCategoryServiceJpaImpl implements IncomeCategoryService {
 
     @Autowired

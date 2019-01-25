@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.Role;
 import pl.coderslab.warsztaty_7.model.User;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 // Dodałem ten service żeby rozwiązać problem "circular dependencies" (zapętlanie beanów)
 // Ew. do wywalenia i metoda do wrzucenia w userService
 @Service
+@Transactional
 public class NewUserService {
 
     private PasswordEncoder passwordEncoder;

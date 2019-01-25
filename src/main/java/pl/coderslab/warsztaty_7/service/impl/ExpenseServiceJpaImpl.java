@@ -12,6 +12,7 @@ import pl.coderslab.warsztaty_7.repository.ExpenseRepository;
 import pl.coderslab.warsztaty_7.service.ExpenseService;
 import pl.coderslab.warsztaty_7.util.ExpenseUtil;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Primary
+@Transactional
 public class ExpenseServiceJpaImpl implements ExpenseService {
 
     private ExpenseRepository expenseRepository;

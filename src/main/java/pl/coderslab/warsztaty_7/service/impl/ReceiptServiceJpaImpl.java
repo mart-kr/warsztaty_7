@@ -8,6 +8,7 @@ import pl.coderslab.warsztaty_7.repository.BankAccountRepository;
 import pl.coderslab.warsztaty_7.repository.ReceiptRepository;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Service
 @Primary
+@Transactional
 public class ReceiptServiceJpaImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;

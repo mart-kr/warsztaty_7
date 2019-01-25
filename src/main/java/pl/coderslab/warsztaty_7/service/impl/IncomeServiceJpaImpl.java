@@ -13,6 +13,7 @@ import pl.coderslab.warsztaty_7.repository.BankAccountRepository;
 import pl.coderslab.warsztaty_7.repository.IncomeRepository;
 import pl.coderslab.warsztaty_7.service.IncomeService;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Service
 @Primary
+@Transactional
 public class IncomeServiceJpaImpl implements IncomeService {
 
     private final IncomeRepository incomeRepository;

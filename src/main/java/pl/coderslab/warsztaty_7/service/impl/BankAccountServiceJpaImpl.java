@@ -6,9 +6,11 @@ import pl.coderslab.warsztaty_7.model.BankAccount;
 import pl.coderslab.warsztaty_7.repository.BankAccountRepository;
 import pl.coderslab.warsztaty_7.service.BankAccountService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class BankAccountServiceJpaImpl implements BankAccountService {
 
     private final BankAccountRepository bankAccountRepository;

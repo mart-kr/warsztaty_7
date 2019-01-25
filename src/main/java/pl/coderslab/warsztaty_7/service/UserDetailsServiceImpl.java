@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.model.UserDetailsImpl;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserService userService;

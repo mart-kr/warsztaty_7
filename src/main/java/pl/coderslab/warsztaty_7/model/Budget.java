@@ -18,7 +18,7 @@ public class Budget extends Auditable{
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
     private List<BankAccount> bankAccounts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, fetch = FetchType.EAGER) //TODO: pomyśleć nad lepszym rozwiązaniem (problem przy ponownym logowaniu użytkownika)
     private List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
