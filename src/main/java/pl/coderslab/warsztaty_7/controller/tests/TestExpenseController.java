@@ -100,7 +100,7 @@ public class TestExpenseController {
         }
         List<Expense> thisMonthExpenses = expenseService.findExpensesInThisMonthForBudget(user.getBudget());
         Map<String, BigDecimal> sortedExpenses = expenseService.sortedSumOfExpensesInCategory(thisMonthExpenses);
-        model.addAttribute("sortedExpenses", sortedExpenses);
+        model.addAttribute("monthExpSum", sortedExpenses);
         return "fragments/expenses-sum";
     }
 

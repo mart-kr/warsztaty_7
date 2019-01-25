@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.warsztaty_7.model.BankAccount;
+import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.Receipt;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.BankAccountService;
@@ -28,56 +29,62 @@ public class HomeController {
     private BankAccountService bankAccountService;
     private IncomeService incomeService;
 
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     public String homeAppPage(@AuthenticationPrincipal User user) {
         // głowny widok aplikacji
-        return "test";
+        return "home";
     }
 
+//    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "lastReceipts")
     public List<Receipt> last5Receipts(@AuthenticationPrincipal User user) {
-        if (user.getBudget() != null) {
-            return receiptService.findLast5ReceiptsForBudget(user.getBudget());
-        } else {
+        if (user == null || user.getBudget() == null) {
             return null;
+        } else {
+            return receiptService.findLast5ReceiptsForBudget(user.getBudget());
         }
     }
 
+//    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthIncSum")
     public BigDecimal sumIncomesInThisMonth(@AuthenticationPrincipal User user) {
-        if (user.getBudget() != null) {
-            return incomeService.sumAllFromThisMonth(user.getBudget());
-        } else {
+        if (user == null || user.getBudget() == null) {
             return null;
+        } else {
+            return incomeService.sumAllFromThisMonth(user.getBudget());
         }
     }
 
+//    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthRecSum")
     public BigDecimal sumReceiptsInThisMonth(@AuthenticationPrincipal User user) {
-        if (user.getBudget() != null) {
-            return receiptService.sumAllFromThisMonth(user.getBudget());
-        } else {
+        if (user == null || user.getBudget() == null) {
             return null;
+        } else {
+            return receiptService.sumAllFromThisMonth(user.getBudget());
         }
     }
 
+//    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthExpSum")
     public Map<String, BigDecimal> sumExpensesInThisMonth(@AuthenticationPrincipal User user) {
-        if (user.getBudget() != null) {
-            return expenseService.sortedSumOfExpensesInCategory(
-                    expenseService.findExpensesInThisMonthForBudget(user.getBudget()));
-        } else {
+        if (user == null || user.getBudget() == null) {
             return null;
+        } else {
+//            return expenseService.sortedSumOfExpensesInCategory(
+//                    expenseService.findExpensesInThisMonthForBudget(user.getBudget()));
+            List<Expense> expensesThisMonth = expenseService.findExpensesInThisMonthForBudget(user.getBudget());
+            return expenseService.sortedSumOfExpensesInCategory(expensesThisMonth);
         }
     }
-
+//    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "accounts")
     public List<BankAccount> accounts(@AuthenticationPrincipal User user) {
-        if (user.getBudget() != null) {
-            return bankAccountService.findByBudgetId(user.getBudget().getId());
-        } else {
+        if (user == null || user.getBudget() == null) {
             return null;
+        } else {
+            return bankAccountService.findByBudgetId(user.getBudget().getId());
         }
     }
 

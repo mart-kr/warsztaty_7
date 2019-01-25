@@ -12,34 +12,36 @@
 <body>
     <!--Formularz (pokaże się tylko jeśli użytkownik nie jest zalogowany)-->
     <div sec:authorize="isAnonymous()" class="container-fluid align-self-center mt-5 w-50">
-        <p class="h2">Wypełnij formularz aby móc skorzystać z aplikacji</p>
-        <form action="/start/register" th:object="${user}" method="post">
-            <div class="form-group">
-                <div th:if="${#fields.hasErrors('username')}" th:text="'Adres email jest niepoprawny lub jest już zarejestrowany.'"
-                      class="alert alert-danger" role="alert">Błędny email</div>
-                <label for="email">Podaj email</label>
-                <input type="email" th:field="${user.username}" id="email" placeholder="Email" class="form-control" required="required">
-                <small id="email-help" class="form-text text-muted">Wpisz swój adres email.
-                    Będziesz go używał do logowania się w aplikacji</small>
-            </div>
-            <div class="form-group">
-                <div th:if="${#fields.hasErrors('password')}" th:text="'Podane hasło jest niepoprawne.'"
-                      class="alert alert-danger" role="alert">Błędne hasło</div>
-                <label for="first-name">Podaj hasło</label>
-                <input type="password" th:field="${user.password}" id="password" placeholder="Hasło" class="form-control" required="required">
-                <small id="password-help" class="form-text text-muted">Wpisz hasło.
-                    Bezpieczne hasło powinno się składać z min. 8 znaków, zawierać cyfry oraz małe i duże litery</small>
-            </div>
-            <div class="form-group">
-                <div th:if="${#fields.hasErrors('firstName')}" th:text="'Podane imię jest niepoprawne.'"
-                      class="alert alert-danger" role="alert">Błędne imię</div>
-                <label for="first-name">Jak masz na imię?</label>
-                <input type="text" th:field="${user.firstName}" id="first-name" class="form-control" required="required">
-                <small id="first-name-help" class="form-text text-muted">Podaj swoje imię abysmy
-                    wiedzieli jak się do Ciebie zwracać</small>
-            </div>
-            <input type="submit" class="btn btn-primary" value="Zarejestruj się"/>
-        </form>
+        <div class="jumbotron">
+            <p class="h2">Wypełnij formularz aby móc skorzystać z aplikacji</p>
+            <hr class="my-4">
+            <form action="/start/register" th:object="${user}" method="post">
+                <div class="form-group">
+                    <div th:if="${#fields.hasErrors('username')}" th:text="'Adres email jest niepoprawny lub jest już zarejestrowany.'"
+                          class="alert alert-danger" role="alert">Błędny email</div>
+                    <label for="email">Podaj email</label>
+                    <input type="email" th:field="${user.username}" id="email" placeholder="Email" class="form-control" required="required">
+                    <small id="email-help" class="form-text text-muted">Wpisz swój adres email.
+                        Będziesz go używał do logowania się w aplikacji</small>
+                </div>
+                <div class="form-group">
+                    <div th:if="${#fields.hasErrors('password')}" th:text="'Podane hasło jest niepoprawne.'"
+                          class="alert alert-danger" role="alert">Błędne hasło</div>
+                    <label for="first-name">Podaj hasło</label>
+                    <input type="password" th:field="${user.password}" id="password" placeholder="Hasło" class="form-control" required="required">
+                    <small id="password-help" class="form-text text-muted">Wpisz hasło.
+                        Bezpieczne hasło powinno się składać z min. 8 znaków, zawierać cyfry oraz małe i duże litery</small>
+                </div>
+                <div class="form-group">
+                    <div th:if="${#fields.hasErrors('firstName')}" th:text="'Podane imię jest niepoprawne.'"
+                          class="alert alert-danger" role="alert">Błędne imię</div>
+                    <label for="first-name">Jak masz na imię?</label>
+                    <input type="text" th:field="${user.firstName}" id="first-name" class="form-control" required="required">
+                </div>
+                <hr class="my-4">
+                <input type="submit" class="btn btn-primary" value="Zarejestruj się"/>
+            </form>
+        </div>
     </div>
     <!--Wiadomość dla zalogowanego użytkownika-->
     <div sec:authorize="isAuthenticated()" class="alert alert-danger container-fluid align-self-center mt-5 w-50" role="alert">
