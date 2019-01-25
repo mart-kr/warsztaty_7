@@ -1,17 +1,13 @@
 package pl.coderslab.warsztaty_7.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.coderslab.warsztaty_7.model.Role;
+import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.repository.UserRepository;
 
-import javax.transaction.Transactional;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
+
 
 @Service
 @Transactional

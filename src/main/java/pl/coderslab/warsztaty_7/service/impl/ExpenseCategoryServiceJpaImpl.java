@@ -2,11 +2,11 @@ package pl.coderslab.warsztaty_7.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
 import pl.coderslab.warsztaty_7.repository.ExpenseCategoryRepository;
 import pl.coderslab.warsztaty_7.service.ExpenseCategoryService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

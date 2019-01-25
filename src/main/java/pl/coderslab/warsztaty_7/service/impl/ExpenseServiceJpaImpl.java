@@ -3,7 +3,7 @@ package pl.coderslab.warsztaty_7.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
+import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
@@ -12,11 +12,9 @@ import pl.coderslab.warsztaty_7.repository.ExpenseRepository;
 import pl.coderslab.warsztaty_7.service.ExpenseService;
 import pl.coderslab.warsztaty_7.util.ExpenseUtil;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Primary
