@@ -32,11 +32,13 @@ public class HomeController {
 //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     public String homeAppPage(@AuthenticationPrincipal User user) {
-        if (user.getBudget() == null) {
-            return "redirect:/home/budget/add";
-        } else {
+//        if (user == null) {
+//            return "redirect:/start";
+//        } else if (user.getBudget() == null) {
+//            return "redirect:/home/budget/add";
+//        } else {
             return "home";
-        }
+//        }
     }
 
 //    @PreAuthorize("hasRole('USER')")
@@ -80,7 +82,7 @@ public class HomeController {
         }
     }
 
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthExpPercent")
     public Map<String, Integer> expensesInPercentageThisMonth(@AuthenticationPrincipal User user) {
         if (user == null || user.getBudget() == null) {
