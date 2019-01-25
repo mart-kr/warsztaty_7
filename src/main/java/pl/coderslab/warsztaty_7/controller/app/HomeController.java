@@ -75,10 +75,18 @@ public class HomeController {
         if (user == null || user.getBudget() == null) {
             return null;
         } else {
-//            return expenseService.sortedSumOfExpensesInCategory(
-//                    expenseService.findExpensesInThisMonthForBudget(user.getBudget()));
-            List<Expense> expensesThisMonth = expenseService.findExpensesInThisMonthForBudget(user.getBudget());
-            return expenseService.sortedSumOfExpensesInCategory(expensesThisMonth);
+            List<Expense> expenses = expenseService.findExpensesInThisMonthForBudget(user.getBudget());
+            return expenseService.sortedSumOfExpensesInCategory(expenses);
+        }
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @ModelAttribute(name = "monthExpPercent")
+    public Map<String, Integer> expensesInPercentageThisMonth(@AuthenticationPrincipal User user) {
+        if (user == null || user.getBudget() == null) {
+            return null;
+        } else {
+            return expenseService.sumOfSortedExpensesToPercentage(sumExpensesInThisMonth(user));
         }
     }
 //    @PreAuthorize("hasRole('USER')")

@@ -10,6 +10,7 @@ import pl.coderslab.warsztaty_7.model.ExpenseCategory;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.repository.ExpenseRepository;
 import pl.coderslab.warsztaty_7.service.ExpenseService;
+import pl.coderslab.warsztaty_7.util.ExpenseUtil;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,10 +22,12 @@ import java.util.stream.Collectors;
 public class ExpenseServiceJpaImpl implements ExpenseService {
 
     private ExpenseRepository expenseRepository;
+    private ExpenseUtil expenseUtil;
 
     @Autowired
-    public ExpenseServiceJpaImpl(ExpenseRepository expenseRepository) {
+    public ExpenseServiceJpaImpl(ExpenseRepository expenseRepository, ExpenseUtil expenseUtil) {
         this.expenseRepository = expenseRepository;
+        this.expenseUtil = expenseUtil;
     }
 
     @Override
@@ -81,11 +84,13 @@ public class ExpenseServiceJpaImpl implements ExpenseService {
                         (ids, begin, end);
     }
 
+    @Override
     public Map<String, BigDecimal> sortedSumOfExpensesInCategory(List<Expense> expenses) {
-        return expenses.stream()
-                .sorted((exp1, exp2) -> exp2.getAmount().compareTo(exp1.getAmount()))
-                .collect(Collectors.toMap((Expense exp) -> exp.getExpenseCategory().getName(),
-                        Expense::getAmount, (amount1, amount2) -> (amount1.add(amount2)), LinkedHashMap::new));
+        return expenseUtil.sortedSumOfExpensesInCategory(expenses);
+    }
 
+    @Override
+    public Map<String, Integer> sumOfSortedExpensesToPercentage(Map<String, BigDecimal> sortedExpenses) {
+        return expenseUtil.sortedSumOfExpensesToPercentages(sortedExpenses);
     }
 }
