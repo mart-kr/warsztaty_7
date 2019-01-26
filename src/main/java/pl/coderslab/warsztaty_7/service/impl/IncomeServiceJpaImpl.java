@@ -15,6 +15,7 @@ import pl.coderslab.warsztaty_7.repository.IncomeRepository;
 import pl.coderslab.warsztaty_7.service.IncomeService;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -97,12 +98,14 @@ public class IncomeServiceJpaImpl implements IncomeService {
 
     @Override
     public BigDecimal sumAllFromThisMonth(Budget budget) {
-
         Collection<Long> ids = new ArrayList<>();
         for (User user: budget.getUsers()) {
             ids.add(user.getId());
         }
-        List<Income> incomes = incomeRepository.findAllByThisMonth(ids);
+        LocalDate now = LocalDate.now();
+        LocalDate begin = now.withDayOfMonth(1);
+        LocalDate end = now.withDayOfMonth(now.lengthOfMonth());
+        List<Income> incomes = incomeRepository.findAllByCreatedByUserIdInAndDateOfPaymentBetween(ids, begin, end);
         BigDecimal incomesSumFromThisMonth = BigDecimal.ZERO;
 
         for (Income income : incomes){

@@ -10,6 +10,7 @@ import pl.coderslab.warsztaty_7.repository.ReceiptRepository;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -95,12 +96,14 @@ public class ReceiptServiceJpaImpl implements ReceiptService {
 
     @Override
     public BigDecimal sumAllFromThisMonth(Budget budget) {
-
         Collection<Long> ids = new ArrayList<>();
         for (User user: budget.getUsers()) {
             ids.add(user.getId());
         }
-        List<Receipt> receipts = receiptRepository.findAllByThisMonth(ids);
+        LocalDate now = LocalDate.now();
+        LocalDate begin = now.withDayOfMonth(1);
+        LocalDate end = now.withDayOfMonth(now.lengthOfMonth());
+        List<Receipt> receipts = receiptRepository.findAllByCreatedByUserIdInAndDateOfPaymentBetween(ids, begin, end);
         BigDecimal receiptsSumFromThisMonth = BigDecimal.ZERO;
 
         for (Receipt receipt : receipts){
