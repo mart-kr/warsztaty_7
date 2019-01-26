@@ -26,20 +26,14 @@ public class ExpenseUtil {
         } else {
             maxValue = expensesSum.entrySet().iterator().next().getValue();
         }
-
-//        Map<String, Integer> result = new LinkedHashMap<>();
-//        Integer value;
-//        BigDecimal bd100 = new BigDecimal(100);
-//        for (Map.Entry<String, BigDecimal> entry : expensesSum.entrySet()) {
-//            value = entry.getValue().multiply(bd100).divide(maxValue,RoundingMode.HALF_UP).intValue();
-//            result.put(entry.getKey(), value);
-//        }
-//        return result;
         List<Map.Entry<String, Integer>> result = new ArrayList<>();
         Integer value;
         BigDecimal bd100 = new BigDecimal(100);
         for (Map.Entry<String, BigDecimal> entry : expensesSum.entrySet()) {
-            value = entry.getValue().multiply(bd100).divide(maxValue,RoundingMode.HALF_UP).intValue();
+            value = entry.getValue().multiply(bd100)
+                    .divide(maxValue, RoundingMode.HALF_UP)
+                    .setScale(0, RoundingMode.HALF_UP)
+                    .intValue();
             result.add(new AbstractMap.SimpleEntry<>(entry.getKey(), value));
         }
         return result;
