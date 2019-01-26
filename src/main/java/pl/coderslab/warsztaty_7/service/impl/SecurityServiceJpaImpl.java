@@ -3,7 +3,6 @@ package pl.coderslab.warsztaty_7.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.service.SecurityService;
 import pl.coderslab.warsztaty_7.service.UserService;
@@ -11,7 +10,6 @@ import pl.coderslab.warsztaty_7.service.UserService;
 
 @Service
 @Primary
-@Transactional
 public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> {
 
     private UserService userService;

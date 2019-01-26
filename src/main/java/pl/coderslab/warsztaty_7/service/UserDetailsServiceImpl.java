@@ -12,7 +12,6 @@ import pl.coderslab.warsztaty_7.model.UserDetailsImpl;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserService userService;

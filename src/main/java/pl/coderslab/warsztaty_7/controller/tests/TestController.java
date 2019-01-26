@@ -26,7 +26,7 @@ public class TestController {
     @Autowired
     private UserRepository repository;
     @Autowired
-    private SecurityServiceJpaImpl securityService;
+    private SecurityService securityService;
     @Autowired
     private PasswordEncoder encoder;
 

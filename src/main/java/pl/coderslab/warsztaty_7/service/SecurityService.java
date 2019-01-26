@@ -1,8 +1,10 @@
 package pl.coderslab.warsztaty_7.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.warsztaty_7.model.Auditable;
 import pl.coderslab.warsztaty_7.model.Budget;
 
+@Transactional
 public interface SecurityService <U, T extends Auditable> {
 
     boolean canEditEntity(U authenticatedUser, T entity);
