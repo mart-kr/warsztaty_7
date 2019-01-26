@@ -21,13 +21,13 @@ import java.util.Map;
 @RequestMapping("/home")
 public class HomeController {
 
-    private ReceiptService receiptService;
-    private ExpenseService expenseService;
-    private BankAccountService bankAccountService;
-    private IncomeService incomeService;
-    private CashflowService cashflowService;
+    private final ReceiptService receiptService;
+    private final ExpenseService expenseService;
+    private final BankAccountService bankAccountService;
+    private final IncomeService incomeService;
+    private final CashflowService cashflowService;
 
-    //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    //    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public String homeAppPage(@AuthenticationPrincipal User user) {
         if (user == null) {

@@ -17,8 +17,8 @@ import javax.validation.Valid;
 @Controller
 public class LoginController {
 
-    private UserService userService;
-    private NewUserService newUserService;
+    private final UserService userService;
+    private final NewUserService newUserService;
 
     @ModelAttribute(name = "user")
     public User newUser() {
