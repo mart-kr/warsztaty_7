@@ -11,10 +11,7 @@ import pl.coderslab.warsztaty_7.model.BankAccount;
 import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.Receipt;
 import pl.coderslab.warsztaty_7.model.User;
-import pl.coderslab.warsztaty_7.service.BankAccountService;
-import pl.coderslab.warsztaty_7.service.ExpenseService;
-import pl.coderslab.warsztaty_7.service.IncomeService;
-import pl.coderslab.warsztaty_7.service.ReceiptService;
+import pl.coderslab.warsztaty_7.service.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,6 +25,7 @@ public class HomeController {
     private ExpenseService expenseService;
     private BankAccountService bankAccountService;
     private IncomeService incomeService;
+    private CashflowService cashflowService;
 
     //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
@@ -102,12 +100,43 @@ public class HomeController {
         }
     }
 
+//    @PreAuthorize("hasRole('USER')")
+    @ModelAttribute(name = "incomePercentCashflow")
+    public Integer incomePercentCashflow(@AuthenticationPrincipal User user) {
+        if (user == null || user.getBudget() == null) {
+            return 0;
+        } else {
+            return cashflowService.incomePercent(incomeService.sumAllFromThisMonth(user.getBudget()), receiptService.sumAllFromThisMonth(user.getBudget()));
+        }
+    }
+
+    //    @PreAuthorize("hasRole('USER')")
+    @ModelAttribute(name = "receiptPercentCashflow")
+    public Integer receiptPercentCashflow(@AuthenticationPrincipal User user) {
+        if (user == null || user.getBudget() == null) {
+            return 0;
+        } else {
+            return cashflowService.receiptPercent(receiptService.sumAllFromThisMonth(user.getBudget()), incomeService.sumAllFromThisMonth(user.getBudget()));
+        }
+    }
+
+    //    @PreAuthorize("hasRole('USER')")
+    @ModelAttribute(name = "balanceCashflow")
+    public BigDecimal balanceCashflow(@AuthenticationPrincipal User user) {
+        if (user == null || user.getBudget() == null) {
+            return null;
+        } else {
+            return cashflowService.balanceCashflow(receiptService.sumAllFromThisMonth(user.getBudget()), incomeService.sumAllFromThisMonth(user.getBudget()));
+        }
+    }
+
 
     @Autowired
-    public HomeController(ReceiptService receiptService, ExpenseService expenseService, BankAccountService bankAccountService, IncomeService incomeService) {
+    public HomeController(ReceiptService receiptService, ExpenseService expenseService, BankAccountService bankAccountService, IncomeService incomeService, CashflowService cashflowService) {
         this.receiptService = receiptService;
         this.expenseService = expenseService;
         this.bankAccountService = bankAccountService;
         this.incomeService = incomeService;
+        this.cashflowService = cashflowService;
     }
 }
