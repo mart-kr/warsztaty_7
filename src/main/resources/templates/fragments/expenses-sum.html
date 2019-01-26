@@ -16,7 +16,9 @@
                 <div th:each="expenseSum : ${monthExpSum}">
                     <div th:text="|Kwota: ${expenseSum.value} Kategoria: ${expenseSum.key}|"></div>
                     <div class="progress m-20 p-20" style="height: 20px;">
-                        <div class="progress-bar my-20" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div th:if="${monthExpPercent}" th:with="percent=${monthExpPercent[__${expenseSumStat.index}__]}"
+                             th:style="'width: '+ ${percent.value} +'%'" th:attr="aria-valuenow = ${percent.value}"
+                             class="progress-bar my-20" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
                 <div th:if="${monthExpSum.isEmpty()}">

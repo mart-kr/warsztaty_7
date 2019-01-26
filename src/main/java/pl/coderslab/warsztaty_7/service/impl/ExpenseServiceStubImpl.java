@@ -116,8 +116,8 @@ public class ExpenseServiceStubImpl implements ExpenseService {
     }
 
     @Override
-    public Map<String, Integer> sumOfSortedExpensesToPercentage(Map<String, BigDecimal> sortedExpenses) {
-        return Collections.emptyMap();
+    public List<Map.Entry<String, Integer>> sumOfSortedExpensesToPercentage(Map<String, BigDecimal> sortedExpenses) {
+        return Collections.emptyList();
     }
 
 

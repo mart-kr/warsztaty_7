@@ -29,7 +29,7 @@ public class HomeController {
     private BankAccountService bankAccountService;
     private IncomeService incomeService;
 
-//    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    //    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     @GetMapping
     public String homeAppPage(@AuthenticationPrincipal User user) {
         if (user == null) {
@@ -41,7 +41,7 @@ public class HomeController {
         }
     }
 
-//    @PreAuthorize("hasRole('USER')")
+    //    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "lastReceipts")
     public List<Receipt> last5Receipts(@AuthenticationPrincipal User user) {
         if (user == null || user.getBudget() == null) {
@@ -51,7 +51,7 @@ public class HomeController {
         }
     }
 
-//    @PreAuthorize("hasRole('USER')")
+    //    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthIncSum")
     public BigDecimal sumIncomesInThisMonth(@AuthenticationPrincipal User user) {
         if (user == null || user.getBudget() == null) {
@@ -61,7 +61,7 @@ public class HomeController {
         }
     }
 
-//    @PreAuthorize("hasRole('USER')")
+    //    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthRecSum")
     public BigDecimal sumReceiptsInThisMonth(@AuthenticationPrincipal User user) {
         if (user == null || user.getBudget() == null) {
@@ -71,7 +71,7 @@ public class HomeController {
         }
     }
 
-//    @PreAuthorize("hasRole('USER')")
+    //    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthExpSum")
     public Map<String, BigDecimal> sumExpensesInThisMonth(@AuthenticationPrincipal User user) {
         if (user == null || user.getBudget() == null) {
@@ -82,16 +82,17 @@ public class HomeController {
         }
     }
 
-//    @PreAuthorize("hasRole('USER')")
+    //    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthExpPercent")
-    public Map<String, Integer> expensesInPercentageThisMonth(@AuthenticationPrincipal User user) {
+    public List<Map.Entry<String, Integer>> expensesInPercentageThisMonth(@AuthenticationPrincipal User user) {
         if (user == null || user.getBudget() == null) {
             return null;
         } else {
             return expenseService.sumOfSortedExpensesToPercentage(sumExpensesInThisMonth(user));
         }
     }
-//    @PreAuthorize("hasRole('USER')")
+
+    //    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "accounts")
     public List<BankAccount> accounts(@AuthenticationPrincipal User user) {
         if (user == null || user.getBudget() == null) {
@@ -100,6 +101,7 @@ public class HomeController {
             return bankAccountService.findByBudgetId(user.getBudget().getId());
         }
     }
+
 
     @Autowired
     public HomeController(ReceiptService receiptService, ExpenseService expenseService, BankAccountService bankAccountService, IncomeService incomeService) {

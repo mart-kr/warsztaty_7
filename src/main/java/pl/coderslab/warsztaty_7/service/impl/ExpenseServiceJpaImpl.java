@@ -90,7 +90,7 @@ public class ExpenseServiceJpaImpl implements ExpenseService {
     }
 
     @Override
-    public Map<String, Integer> sumOfSortedExpensesToPercentage(Map<String, BigDecimal> sortedExpenses) {
+    public List<Map.Entry<String, Integer>> sumOfSortedExpensesToPercentage(Map<String, BigDecimal> sortedExpenses) {
         return expenseUtil.sortedSumOfExpensesToPercentages(sortedExpenses);
     }
 }

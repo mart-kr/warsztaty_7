@@ -30,6 +30,6 @@ public interface ExpenseService {
 
     Map<String, BigDecimal> sortedSumOfExpensesInCategory(List<Expense> expenses);
 
-    Map<String, Integer> sumOfSortedExpensesToPercentage(Map<String, BigDecimal> sortedExpenses);
+    List<Map.Entry<String, Integer>> sumOfSortedExpensesToPercentage(Map<String, BigDecimal> sortedExpenses);
 
 }

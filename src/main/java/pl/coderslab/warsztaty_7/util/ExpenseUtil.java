@@ -5,9 +5,7 @@ import pl.coderslab.warsztaty_7.model.Expense;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -21,20 +19,28 @@ public class ExpenseUtil {
 
     }
 
-    public Map<String, Integer> sortedSumOfExpensesToPercentages(Map<String, BigDecimal> expensesSum) {
+    public List<Map.Entry<String, Integer>> sortedSumOfExpensesToPercentages(Map<String, BigDecimal> expensesSum) {
         BigDecimal maxValue;
         if (expensesSum.isEmpty()) {
-            return new LinkedHashMap<>();
+            return Collections.emptyList();
         } else {
             maxValue = expensesSum.entrySet().iterator().next().getValue();
         }
 
-        Map<String, Integer> result = new LinkedHashMap<>();
+//        Map<String, Integer> result = new LinkedHashMap<>();
+//        Integer value;
+//        BigDecimal bd100 = new BigDecimal(100);
+//        for (Map.Entry<String, BigDecimal> entry : expensesSum.entrySet()) {
+//            value = entry.getValue().multiply(bd100).divide(maxValue,RoundingMode.HALF_UP).intValue();
+//            result.put(entry.getKey(), value);
+//        }
+//        return result;
+        List<Map.Entry<String, Integer>> result = new ArrayList<>();
         Integer value;
         BigDecimal bd100 = new BigDecimal(100);
         for (Map.Entry<String, BigDecimal> entry : expensesSum.entrySet()) {
             value = entry.getValue().multiply(bd100).divide(maxValue,RoundingMode.HALF_UP).intValue();
-            result.put(entry.getKey(), value);
+            result.add(new AbstractMap.SimpleEntry<>(entry.getKey(), value));
         }
         return result;
     }
