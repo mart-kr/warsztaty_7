@@ -82,5 +82,4 @@ public class TestController {
             throw new AccessDeniedException("User is not allowed to edit this entity");
         }
     }
-
 }
