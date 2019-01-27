@@ -1,6 +1,5 @@
 package pl.coderslab.warsztaty_7.service;
 
-import pl.coderslab.warsztaty_7.model.ExpenseCategory;
 import pl.coderslab.warsztaty_7.model.IncomeCategory;
 
 import java.util.List;

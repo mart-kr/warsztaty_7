@@ -106,6 +106,11 @@ public class ExpenseServiceStubImpl implements ExpenseService {
     }
 
     @Override
+    public void deleteByIds(Collection<Long> ids) {
+
+    }
+
+    @Override
     public List<Expense> findExpensesInThisMonthForBudget(Budget budget) {
         return Collections.emptyList();
     }

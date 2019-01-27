@@ -19,5 +19,6 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Expense> findAllByCreatedByUserIdInAndReceiptDateOfPaymentBetween
             (Collection<Long> userIds, LocalDate begin, LocalDate end);
 
+    void deleteAllByIdIn(Collection<Long> ids);
 
 }

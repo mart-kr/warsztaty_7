@@ -4,15 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.warsztaty_7.model.BankAccount;
-import pl.coderslab.warsztaty_7.model.Budget;
-import pl.coderslab.warsztaty_7.model.Receipt;
-import pl.coderslab.warsztaty_7.model.User;
+import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.service.BankAccountService;
+import pl.coderslab.warsztaty_7.service.ExpenseCategoryService;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
-import pl.coderslab.warsztaty_7.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -22,11 +21,13 @@ public class TestReceiptController {
 
     private final ReceiptService receiptService;
     private final BankAccountService bankAccountService;
+    private final ExpenseCategoryService expenseCategoryService;;
 
     @Autowired
-    public TestReceiptController(ReceiptService receiptService, BankAccountService bankAccountService) {
+    public TestReceiptController(ReceiptService receiptService, BankAccountService bankAccountService, ExpenseCategoryService expenseCategoryService) {
         this.receiptService = receiptService;
         this.bankAccountService = bankAccountService;
+        this.expenseCategoryService = expenseCategoryService;
     }
 
     @ModelAttribute(name = "receipt")
@@ -39,6 +40,12 @@ public class TestReceiptController {
         return bankAccountService.findByBudgetId(user.getBudget().getId());
     }
 
+    @ModelAttribute
+    public String allExpenseCategories(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("expenseCategories", expenseCategoryService.findAllForBudgetId(user.getBudget().getId()));
+        return "expenseCategories";
+    }
+
     @GetMapping(value = "/all")
     public String allReceipts(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("receipts", receiptService.findAllForBudgetOrderedByDate(user.getBudget()));
@@ -48,7 +55,22 @@ public class TestReceiptController {
     @GetMapping(value = "/add")
     public String showCreateReceiptForm(Model model) {
         model.addAttribute("action", "/home/receipt/add");
-        return "test_receiptForm";
+        return "receiptForm";
+    }
+
+    @RequestMapping(value={"/add", "/edit/{id}"}, params={"addExpense"})
+    public String addExpense(final Receipt receipt, final BindingResult bindingResult) {
+        receipt.getExpenses().add(new Expense());
+        return "receiptForm";
+    }
+
+    @RequestMapping(value={"/add", "/edit/{id}"}, params={"removeExpense"})
+    public String removeExpense(
+            final Receipt receipt, final BindingResult bindingResult,
+            final HttpServletRequest req) {
+        final Integer expenseId = Integer.valueOf(req.getParameter("removeExpense"));
+        receipt.getExpenses().remove(expenseId.intValue());
+        return "receiptForm";
     }
 
     @PostMapping(value = "/add")
@@ -61,7 +83,7 @@ public class TestReceiptController {
     public String showEditReceiptForm(@PathVariable Long id, Model model) {
         model.addAttribute("action", "/home/receipt/edit/" + id);
         model.addAttribute("receipt", receiptService.findById(id));
-        return "test_receiptForm";
+        return "receiptForm";
     }
 
     @PostMapping(value = "/edit/{id}")

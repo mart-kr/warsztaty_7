@@ -5,6 +5,7 @@ import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ public interface ExpenseService {
     Expense edit(Expense expense);
 
     void deleteById(Long id);
+
+    void deleteByIds(Collection<Long> ids);
 
     List<Expense> findExpensesInThisMonthForBudget(Budget budget);
 

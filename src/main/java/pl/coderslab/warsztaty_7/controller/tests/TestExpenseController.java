@@ -21,7 +21,6 @@ import java.util.Map;
 public class TestExpenseController {
 
     private final ExpenseService expenseService;
-
     private final ExpenseCategoryService expenseCategoryService;
 
     @Autowired

@@ -71,6 +71,11 @@ public class ExpenseServiceJpaImpl implements ExpenseService {
     }
 
     @Override
+    public void deleteByIds(Collection<Long> ids) {
+        expenseRepository.deleteAllByIdIn(ids);
+    }
+
+    @Override
     public List<Expense> findExpensesInThisMonthForBudget(Budget budget) {
         Collection<Long> ids = new ArrayList<>();
         for (User user: budget.getUsers()) {

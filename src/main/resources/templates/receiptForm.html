@@ -46,8 +46,42 @@
                 <label for="note">Notatka</label>
                 <textarea cols="30" rows="3" class="form-control" id="note" th:field="*{note}"></textarea>
             </div>
-            <div class="form-row">
-                <button class="btn btn-primary mr-1" type="submit">Zapisz</button>
+            <button type="submit" class="btn btn-primary mr-2 mb-1 float-md-right" name="addExpense">Dodaj kategorię</button>
+            <div class="form-group" th:if="${!receipt.expenses.isEmpty()}">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Kategoria</th>
+                        <th>Kwota</th>
+                        <th>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="expense,expenseStat : *{expenses}">
+                        <td th:text="${expenseStat.count}">1</td>
+                        <td>
+                            <select class="form-control" th:field="*{expenses[__${expenseStat.index}__].expenseCategory}">
+                                <option th:each="var : ${expenseCategories}"
+                                        th:value="${var.id}"
+                                        th:text="${var.name}">Kategoria</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" th:field="*{expenses[__${expenseStat.index}__].amount}" />
+                        </td>
+                        <td>
+                            <input type="hidden" th:field="*{expenses[__${expenseStat.index}__].id}">
+                            <button type="submit" class="btn btn-primary float-right" name="removeExpense"
+                                    th:value="${expenseStat.index}">Usuń kategorię</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary mr-1" type="submit" th:disabled="${receipt.expenses.isEmpty()}">Zapisz</button>
                 <a class="btn btn-primary" role="button" th:if="${receipt.id != null}" th:href="@{/home/receipt/delete/{id}(id=${receipt.id})}">Usuń</a>
             </div>
 

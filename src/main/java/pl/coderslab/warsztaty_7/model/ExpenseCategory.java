@@ -110,7 +110,6 @@ public class ExpenseCategory extends Auditable {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", isGlobal=" + isGlobal +
-                ", expenseList=" + expenseList +
                 ", createdByUserId=" + createdByUserId +
                 ", creationDate=" + creationDate +
                 ", updatedByUserId=" + updatedByUserId +
