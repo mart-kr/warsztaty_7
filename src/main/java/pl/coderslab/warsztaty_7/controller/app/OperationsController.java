@@ -1,5 +1,6 @@
 package pl.coderslab.warsztaty_7.controller.app;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,7 @@ public class OperationsController {
         return "operations";
     }
 
+    @Autowired
     public OperationsController(OperationsService operationsService) {
         this.operationsService = operationsService;
     }

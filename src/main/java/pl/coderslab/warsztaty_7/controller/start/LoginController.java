@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.NewUserService;
+import pl.coderslab.warsztaty_7.service.SecurityService;
 import pl.coderslab.warsztaty_7.service.UserService;
 
 import javax.validation.Valid;
@@ -47,11 +48,7 @@ public class LoginController {
 
     @PostMapping("/start/register")
     public String registerNewUser(@Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        // TODO: Walidator hasła
-        // walidacja dlugości hasła jest tutaj
-        // ponieważ dodanie do encji max rozmiaru 20 nie pozwala na zapisanie hashu hasła
-        // docelowo wypada zrobić oddzielny walidator dla hasła z dużymi znakami cyframi itp.
-        if (user.getPassword().length()<8 || user.getPassword().length()>20) {
+        if (!newUserService.isPasswordValid(user.getPassword())) {
             bindingResult.rejectValue("password", "password.error", "Password length must be between 8-20 characters");
         }
         if (userService.findUserByUsername(user.getUsername()).isPresent()) {

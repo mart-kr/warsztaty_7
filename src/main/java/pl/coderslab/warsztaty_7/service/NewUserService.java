@@ -9,6 +9,8 @@ import pl.coderslab.warsztaty_7.model.User;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 // Dodałem ten service żeby rozwiązać problem "circular dependencies" (zapętlanie beanów)
@@ -17,15 +19,22 @@ import java.util.Set;
 @Transactional
 public class NewUserService {
 
-    private PasswordEncoder passwordEncoder;
-    private UserService userService;
-    private RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final String PASSWORD_REGEXP = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$";
 
     @Autowired
     public NewUserService(PasswordEncoder passwordEncoder, UserService userService, RoleService roleService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
         this.roleService = roleService;
+    }
+
+    public boolean isPasswordValid(String password) {
+        Pattern pattern = Pattern.compile(PASSWORD_REGEXP);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
     }
 
     public void saveNewUser(User user) {

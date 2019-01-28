@@ -25,12 +25,13 @@
                         Będziesz go używał do logowania się w aplikacji</small>
                 </div>
                 <div class="form-group">
-                    <div th:if="${#fields.hasErrors('password')}" th:text="'Podane hasło jest niepoprawne.'"
+                    <div th:if="${#fields.hasErrors('password')}" th:text="'Podane hasło nie spełnia wymagań.'"
                           class="alert alert-danger" role="alert">Błędne hasło</div>
                     <label for="first-name">Podaj hasło</label>
                     <input type="password" th:field="${user.password}" id="password" placeholder="Hasło" class="form-control" required="required">
-                    <small id="password-help" class="form-text text-muted">Wpisz hasło.
-                        Bezpieczne hasło powinno się składać z min. 8 znaków, zawierać cyfry oraz małe i duże litery</small>
+                    <small id="password-help" class="form-text text-muted">
+                        Hasło musi się składać z 8-20 znaków, zawierać cyfry oraz małe i duże litery.
+                        Nie może zawierać białych znaków (np. spacji)</small>
                 </div>
                 <div class="form-group">
                     <div th:if="${#fields.hasErrors('firstName')}" th:text="'Podane imię jest niepoprawne.'"
