@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "receipts")
-public class Receipt extends Auditable{
+public class Receipt extends Auditable implements Operation{
 
     @Id
     @GeneratedValue
@@ -35,6 +35,9 @@ public class Receipt extends Auditable{
     @ManyToOne
     @JoinColumn(name = "bank_account_id")
     private BankAccount bankAccount;
+
+    @Transient
+    private final String TYPE = "Wydatek";
 
     public Receipt() {}
 
@@ -129,5 +132,15 @@ public class Receipt extends Auditable{
                 ", updatedByUserId=" + updatedByUserId +
                 ", updatedDate=" + updatedDate +
                 '}';
+    }
+
+    @Override
+    public LocalDate getOperationDate() {
+        return dateOfPayment;
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 }

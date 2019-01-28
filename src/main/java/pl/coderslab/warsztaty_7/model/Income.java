@@ -1,17 +1,14 @@
 package pl.coderslab.warsztaty_7.model;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "incomes")
-public class Income extends Auditable {
+public class Income extends Auditable implements Operation {
 
     @Id
     @GeneratedValue
@@ -37,6 +34,9 @@ public class Income extends Auditable {
     @ManyToOne
     @JoinColumn(name = "bank_account_id")
     private BankAccount bankAccount;
+
+    @Transient
+    private final String TYPE = "Przychód";
 
     public Income() {}
 
@@ -128,5 +128,15 @@ public class Income extends Auditable {
                 ", bankAccountId=" + bankAccount.getId() +
                 ", bankAccountBalance=" + bankAccount.getBalance() +
                 '}';
+    }
+
+    @Override
+    public LocalDate getOperationDate() {
+        return dateOfPayment;
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 }
