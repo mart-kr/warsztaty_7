@@ -2,6 +2,7 @@ package pl.coderslab.warsztaty_7.service.impl;
 
 import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.Budget;
+import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.Receipt;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 
@@ -86,5 +87,15 @@ public class ReceiptServiceStubImpl implements ReceiptService {
     @Override
     public BigDecimal sumAllFromThisMonth(Budget budget) {
         return null;
+    }
+
+    @Override
+    public Expense createNewExpense(Receipt receipt) {
+        return null;
+    }
+
+    @Override
+    public boolean validateExpensesAmount(Receipt receipt) {
+        return false;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.repository.ReceiptRepository;
+import pl.coderslab.warsztaty_7.service.BankAccountService;
 import pl.coderslab.warsztaty_7.service.ExpenseService;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 import pl.coderslab.warsztaty_7.util.ReceiptUtil;
@@ -22,14 +23,16 @@ import java.util.List;
 public class ReceiptServiceJpaImpl implements ReceiptService {
 
     private final ReceiptRepository receiptRepository;
-    private final ExpenseService expenseService;
     private final ReceiptUtil receiptUtil;
+    private final BankAccountService bankAccountService;
+    private final ExpenseService expenseService;
 
     @Autowired
-    public ReceiptServiceJpaImpl(ReceiptRepository receiptRepository, ExpenseService expenseService, ReceiptUtil receiptUtil) {
+    public ReceiptServiceJpaImpl(ReceiptRepository receiptRepository, ReceiptUtil receiptUtil, BankAccountService bankAccountService, ExpenseService expenseService) {
         this.receiptRepository = receiptRepository;
-        this.expenseService = expenseService;
         this.receiptUtil = receiptUtil;
+        this.bankAccountService = bankAccountService;
+        this.expenseService = expenseService;
     }
 
     @Override
@@ -49,27 +52,74 @@ public class ReceiptServiceJpaImpl implements ReceiptService {
 
     @Override
     public Receipt create(Receipt receipt) {
-        receiptUtil.adjustBankAccounts(receipt);
-        receiptUtil.assignExpenses(receipt);
+        adjustBankAccounts(receipt);
+        assignExpenses(receipt);
         return receiptRepository.save(receipt);
+    }
+
+    private void adjustBankAccounts(Receipt receipt) {
+        BankAccount selectedAccount = bankAccountService.findById(receipt.getBankAccount().getId());
+        BigDecimal balanceBeforeTransaction = selectedAccount.getBalance();
+        selectedAccount.setBalance(balanceBeforeTransaction.subtract(receipt.getAmount()));
+    }
+
+    private void assignExpenses(Receipt receipt) {
+        List<Expense> currentExpenses = receipt.getExpenses();
+        for (Expense expense : currentExpenses) {
+            expense.setReceipt(receipt);
+        }
     }
 
     @Override
     public Receipt edit(Receipt receipt) {
         Receipt originalReceipt = receiptRepository.findOne(receipt.getId());
-        receiptUtil.adjustBankAccounts(receipt, originalReceipt);
-        receiptUtil.assignExpenses(receipt);
+        adjustBankAccounts(receipt, originalReceipt);
+        assignExpenses(receipt);
         List<Expense> originalExpenses = findById(receipt.getId()).getExpenses();
-        List<Long> expensesToDelete = receiptUtil.findExpensesToDelete(receipt, originalExpenses);
-        expenseService.deleteByIds(expensesToDelete); //TODO: to trzeba gdzieś przenieść
+        List<Long> expensesToDelete = findExpensesToDelete(receipt, originalExpenses);
+        expenseService.deleteByIds(expensesToDelete);
         return receiptRepository.save(receipt);
+    }
+
+    private void adjustBankAccounts(Receipt receipt, Receipt originalReceipt) {
+        BankAccount originalAccount = bankAccountService.findById(originalReceipt.getBankAccount().getId());
+        BankAccount selectedAccount = bankAccountService.findById(receipt.getBankAccount().getId());
+        BigDecimal selectedOldBalance = selectedAccount.getBalance();
+        BigDecimal originalAmount = originalReceipt.getAmount();
+
+        if (originalAccount.equals(selectedAccount)) {
+            BigDecimal amountDiff = receipt.getAmount().subtract(originalAmount);
+            selectedAccount.setBalance(selectedOldBalance.subtract(amountDiff));
+        } else {
+            BigDecimal originalOldBalance = originalAccount.getBalance();
+            originalAccount.setBalance(originalOldBalance.add(originalAmount));
+            selectedAccount.setBalance(selectedOldBalance.subtract(receipt.getAmount()));
+        }
+    }
+
+    private List<Long> findExpensesToDelete(Receipt receipt, List<Expense> originalExpenses) {
+        List<Long> expensesToDelete = new ArrayList<>();
+        List<Expense> currentExpenses = receipt.getExpenses();
+
+        for (Expense originalExpense : originalExpenses) {
+            if (!currentExpenses.contains(originalExpense)) {
+                expensesToDelete.add(originalExpense.getId());
+            }
+        }
+        return expensesToDelete;
     }
 
     @Override
     public void deleteById(Long id) {
         Receipt selectedReceipt = receiptRepository.findOne(id);
-        receiptUtil.adjustBankAccountForRemoval(selectedReceipt);
+        adjustBankAccountForRemoval(selectedReceipt);
         receiptRepository.delete(id);
+    }
+
+    private void adjustBankAccountForRemoval(Receipt receipt) {
+        BankAccount selectedAccount = bankAccountService.findById(receipt.getBankAccount().getId());
+        BigDecimal balanceBeforeRemoval = selectedAccount.getBalance();
+        selectedAccount.setBalance(balanceBeforeRemoval.add(receipt.getAmount()));
     }
 
     @Override
@@ -101,7 +151,16 @@ public class ReceiptServiceJpaImpl implements ReceiptService {
         for (Receipt receipt : receipts){
             receiptsSumFromThisMonth = receiptsSumFromThisMonth.add(receipt.getAmount());
         }
-
         return receiptsSumFromThisMonth;
+    }
+
+    @Override
+    public Expense createNewExpense(Receipt receipt) {
+        return receiptUtil.createNewExpense(receipt);
+    }
+
+    @Override
+    public boolean validateExpensesAmount(Receipt receipt) {
+        return receiptUtil.validateExpensesAmount(receipt);
     }
 }

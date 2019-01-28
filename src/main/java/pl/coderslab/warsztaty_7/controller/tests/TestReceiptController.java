@@ -12,6 +12,7 @@ import pl.coderslab.warsztaty_7.service.ExpenseCategoryService;
 import pl.coderslab.warsztaty_7.service.ReceiptService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class TestReceiptController {
 
     private final ReceiptService receiptService;
     private final BankAccountService bankAccountService;
-    private final ExpenseCategoryService expenseCategoryService;;
+    private final ExpenseCategoryService expenseCategoryService;
 
     @Autowired
     public TestReceiptController(ReceiptService receiptService, BankAccountService bankAccountService, ExpenseCategoryService expenseCategoryService) {
@@ -60,7 +61,8 @@ public class TestReceiptController {
 
     @RequestMapping(value={"/add", "/edit/{id}"}, params={"addExpense"})
     public String addExpense(final Receipt receipt, final BindingResult bindingResult) {
-        receipt.getExpenses().add(new Expense());
+        Expense expense = receiptService.createNewExpense(receipt);
+        receipt.getExpenses().add(expense);
         return "receiptForm";
     }
 
@@ -74,9 +76,14 @@ public class TestReceiptController {
     }
 
     @PostMapping(value = "/add")
-    public String createReceipt(@ModelAttribute Receipt receipt) {
-        receiptService.create(receipt);
-        return "redirect:/home";
+    public String createReceipt(@Valid @ModelAttribute Receipt receipt, BindingResult bindingResult) {
+        if (receiptService.validateExpensesAmount(receipt)) {
+            receiptService.create(receipt);
+            return "redirect:/home";
+        } else {
+            bindingResult.rejectValue("amount", "amount.error");
+            return "receiptForm";
+        }
     }
 
     @GetMapping(value = "/edit/{id}")
@@ -87,9 +94,14 @@ public class TestReceiptController {
     }
 
     @PostMapping(value = "/edit/{id}")
-    public String editReceipt(@PathVariable Long id, @ModelAttribute Receipt receipt) {
-        receiptService.edit(receipt);
-        return "redirect:/home";
+    public String editReceipt(@PathVariable Long id, @Valid @ModelAttribute Receipt receipt, BindingResult bindingResult) {
+        if (receiptService.validateExpensesAmount(receipt)) {
+            receiptService.edit(receipt);
+            return "redirect:/home";
+        } else {
+            bindingResult.rejectValue("amount", "amount.error");
+            return "receiptForm";
+        }
     }
 
     @GetMapping(value = "delete/{id}")
