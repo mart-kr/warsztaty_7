@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <title>Transfer form</title>
+</head>
+<body>
+    <div th:include="fragments/test_topBar :: topBar"></div>
+
+    <div class="container-fluid align-self-center mt-5 w-50 ">
+        <div class="jumbotron">
+            <h3>
+                <span th:if="${transfer.id == null}">Dodaj transfer</span>
+                <span th:unless="${transfer.id == null}">Edytuj transfer</span>
+            </h3>
+            <hr class="my-4">
+            <form action="#" th:action="@{${action}}" th:object="${transfer}" method="post">
+                <div class="form-group">
+                    <label for="fromAccount">Z konta</label>
+                    <select class="form-control" id="fromAccount" th:field="*{fromAccount.id}">
+                        <option
+                                th:each="bankAccount: ${bankAccounts}"
+                                th:value="${bankAccount.id}"
+                                th:text="|${bankAccount.name}, saldo: ${bankAccount.balance}|">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="toAccount">Na konto</label>
+                    <select class="form-control" id="toAccount" th:field="*{toAccount.id}">
+                        <option
+                                th:each="bankAccount: ${bankAccounts}"
+                                th:value="${bankAccount.id}"
+                                th:text="|${bankAccount.name}, saldo: ${bankAccount.balance}|">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="amount">Kwota</label>
+                        <input type="text" class="form-control" id="amount" th:field="*{amount}" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="date">Data</label>
+                        <input type="date" class="form-control" id="date" th:value="*{dateOfTransfer}" th:field="*{dateOfTransfer}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="note">Notatka</label>
+                    <textarea cols="30" rows="3" class="form-control" id="note" th:field="*{note}"></textarea>
+                </div>
+                <hr class="my-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
+                    <a class="btn btn-primary" role="button" th:if="${transfer.id != null}" th:href="@{/home/transfer/delete/{id}(id=${transfer.id})}">Usuń</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -25,6 +25,12 @@ public class BankAccount extends Auditable {
     @OneToMany(mappedBy = "bankAccount", cascade = CascadeType.ALL)
     private List<Income> deposits = new ArrayList<>();
 
+    @OneToMany(mappedBy = "fromAccount", cascade = CascadeType.ALL)
+    private List<Transfer> fromTransfers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "toAccount", cascade = CascadeType.ALL)
+    private List<Transfer> toTransfers = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "budget_id")
     private Budget budget;
@@ -84,6 +90,32 @@ public class BankAccount extends Auditable {
     public void addDeposit(Income income) {
         this.deposits.add(income);
         income.setBankAccount(this);
+    }
+
+    public List<Transfer> getFromTransfers() {
+        return fromTransfers;
+    }
+
+    public void setFromTransfers(List<Transfer> fromTransfers) {
+        this.fromTransfers = fromTransfers;
+    }
+
+    public void addFromTransfer(Transfer transfer) {
+        this.fromTransfers.add(transfer);
+        transfer.setFromAccount(this);
+    }
+
+    public List<Transfer> getToTransfers() {
+        return toTransfers;
+    }
+
+    public void setToTransfers(List<Transfer> toTransfers) {
+        this.toTransfers = toTransfers;
+    }
+
+    public void addToTransfer(Transfer transfer) {
+        this.toTransfers.add(transfer);
+        transfer.setToAccount(this);
     }
 
     public Budget getBudget() {

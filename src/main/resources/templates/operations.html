@@ -40,6 +40,13 @@
                     <p th:unless="${operation.getNote()==''}" th:text="'Notatka: '+${operation.getNote()}"></p>
                 </div>
             </div>
+            <div th:if="${operation.type == 'Transfer'}" th:id="'operation'+${operationStat.index}" id="operation" class="collapse card-body">
+                <div class="card card-body">
+                    <p th:text="'Z konta: '+${operation.getFromAccount().getName()}"></p>
+                    <p th:text="'Na konto: '+${operation.getToAccount().getName()}"></p>
+                    <p th:unless="${operation.getNote()==''}" th:text="'Notatka: '+${operation.getNote()}"></p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
