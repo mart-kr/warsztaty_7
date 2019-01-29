@@ -1,0 +1,106 @@
+package pl.coderslab.warsztaty_7.controller.app;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import pl.coderslab.warsztaty_7.model.BankAccount;
+import pl.coderslab.warsztaty_7.model.Budget;
+import pl.coderslab.warsztaty_7.model.User;
+import pl.coderslab.warsztaty_7.service.BankAccountService;
+import pl.coderslab.warsztaty_7.service.SecurityService;
+import pl.coderslab.warsztaty_7.service.UserService;
+
+@Controller
+@RequestMapping(value = "/home/account")
+public class BankAccountController {
+
+    private final BankAccountService bankAccountService;
+    private final SecurityService securityService;
+
+    @Autowired
+    public BankAccountController(BankAccountService bankAccountService, SecurityService securityService) {
+        this.bankAccountService = bankAccountService;
+        this.securityService = securityService;
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @ModelAttribute(name = "bankAccount")
+    public BankAccount createEmptyBankAccount() {
+        return new BankAccount();
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping(value = "/all" )
+    public String allBankAccounts(@AuthenticationPrincipal User user, Model model) {
+        Budget userBudget = user.getBudget();
+        if (userBudget != null) {
+            model.addAttribute("bankAccounts", bankAccountService.findByBudgetId(userBudget.getId()));
+            return "fragments/bankAccounts";
+        } else {
+            return "redirect:/home/budget/add";
+        }
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping(value = "/add")
+    public String showCreateBankAccountForm(Model model) {
+        model.addAttribute("action", "/home/account/add");
+        return "bankAccountForm";
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping(value = "/add")
+    public String createBankAccount(@AuthenticationPrincipal User user, @ModelAttribute BankAccount bankAccount) {
+        if (user.getBudget()!=null) {
+            bankAccount.setBudget(user.getBudget());
+            bankAccountService.create(bankAccount);
+            return "redirect:/home";
+        } else {
+            return "redirect:/home/budget/add";
+        }
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping(value = "/edit/{id}")
+    public String showEditBankAccountForm(@AuthenticationPrincipal User user, @PathVariable Long id, Model model) {
+        BankAccount accountToEdit = bankAccountService.findById(id);
+        if (securityService.canViewOrEditEntity(user, accountToEdit)) {
+            model.addAttribute("action", "/home/account/edit/" + id);
+            model.addAttribute("bankAccount", bankAccountService.findById(id));
+            return "bankAccountForm";
+        } else {
+            throw new AccessDeniedException("You can't edit this entity");
+        }
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping(value = "/edit/{id}")
+    public String editBankAccount(@AuthenticationPrincipal User user, @PathVariable Long id, @ModelAttribute BankAccount bankAccount) {
+        if (securityService.canViewOrEditEntity(user, bankAccount) && id.equals(bankAccount.getId())) {
+            bankAccountService.edit(bankAccount);
+            return "redirect:/home";
+        } else {
+            throw new AccessDeniedException("You can't edit this entity");
+        }
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping(value = "/delete/{id}")
+    public String deleteBankAccount(@AuthenticationPrincipal User user,@PathVariable Long id) {
+        BankAccount accountToEdit = bankAccountService.findById(id);
+        if (securityService.canDeleteEntity(user, accountToEdit)) {
+            bankAccountService.deleteById(id);
+            return "redirect:/home";
+        } else {
+            throw new AccessDeniedException("You can't delete this entity");
+        }
+    }
+
+
+
+
+}

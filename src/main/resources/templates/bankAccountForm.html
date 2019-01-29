@@ -28,7 +28,7 @@
             </div>
             <div class="form-row">
                 <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
-                <a class="btn btn-primary" role="button" th:if="${bankAccount.id != null}" th:href="@{/home/bankAccount/delete/{id}(id=${bankAccount.id})}">Usuń</a>
+                <a class="btn btn-primary" role="button" th:if="${bankAccount.id != null}" th:href="@{/home/account/delete/{id}(id=${bankAccount.id})}">Usuń</a>
             </div>
         </form>
     </div>

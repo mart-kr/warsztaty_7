@@ -3,11 +3,12 @@ package pl.coderslab.warsztaty_7.service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.coderslab.warsztaty_7.model.Auditable;
 import pl.coderslab.warsztaty_7.model.Budget;
+import pl.coderslab.warsztaty_7.model.User;
 
 @Transactional
-public interface SecurityService <U, T extends Auditable> {
+public interface SecurityService <U extends User, T extends Auditable> {
 
-    boolean canEditEntity(U authenticatedUser, T entity);
+    boolean canViewOrEditEntity(U authenticatedUser, T entity);
 
     boolean canDeleteEntity(U authenticatedUser, T entity);
 

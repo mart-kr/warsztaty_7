@@ -29,7 +29,7 @@ public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> 
         final boolean receiptInstance = entity instanceof Receipt;
         final boolean targetInstance = entity instanceof Target;
         final boolean budgetInstance = entity instanceof Budget;
-//        final boolean transferInstance = entity instanceof Transfer;
+        final boolean transferInstance = entity instanceof Transfer;
         if (bankAccountInstance) {
             BankAccount bankAccount = (BankAccount) entity;
             return bankAccount.getBudget();
@@ -51,9 +51,9 @@ public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> 
         } else if (targetInstance) {
             Target target = (Target) entity;
             return target.getExpenseCategory().getBudget();
-//        } else if (transferInstance) {
-//            Transfer transfer = (Transfer) entity;
-//            return transfer.getBankAccount().getBudget();
+        } else if (transferInstance) {
+            Transfer transfer = (Transfer) entity;
+            return transfer.getFromAccount().getBudget();
         } else if (budgetInstance) {
             return (Budget) entity;
         } else {
@@ -62,7 +62,7 @@ public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> 
     }
 
     @Override
-    public boolean canEditEntity(User authenticatedUser, Auditable entity) {
+    public boolean canViewOrEditEntity(User authenticatedUser, Auditable entity) {
         if (authenticatedUser == null || entity == null) {
             return false;
         }

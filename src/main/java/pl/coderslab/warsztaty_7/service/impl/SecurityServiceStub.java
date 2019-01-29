@@ -10,7 +10,7 @@ import pl.coderslab.warsztaty_7.service.SecurityService;
 public class SecurityServiceStub implements SecurityService <User, Auditable> {
 
     @Override
-    public boolean canEditEntity(User authenticatedUser, Auditable entity) {
+    public boolean canViewOrEditEntity(User authenticatedUser, Auditable entity) {
         return true;
     }
 

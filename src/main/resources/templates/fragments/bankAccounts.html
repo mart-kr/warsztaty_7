@@ -12,19 +12,26 @@
         <div class="card border-secondary m-3">
             <div class="card-header font-weight-bold">Moje konta</div>
             <div class="card-body">
-                <ul class="nav nav-pills" >
-                    <th:block th:if="${accounts}">
-                        <p class="card-subtitle" th:if="${accounts.isEmpty()}">W Twoim budżecie nie ma jeszcze konta.</p><br>
-                        <li class="nav-item" th:unless="${accounts.isEmpty()}" th:each="bankAccount : ${accounts}">
-                            <a class="nav-item nav-link" th:href="@{/home/bankAccount/edit/{id}(id=${bankAccount.id})}">
-                                <span th:text="${bankAccount.name}"></span><br>
-                                <span th:text="${bankAccount.balance}"></span>
-                            </a>
-                        </li>
+                <th:block th:if="${accounts}">
+                    <ul th:classappend="${accounts.isEmpty()}? 'justify-content-center' : 'justify-content-left'" class="nav nav-pills">
+                        <th:block th:if="${accounts.isEmpty()}">
+                            <p class="card-subtitle text-center">
+                                W Twoim budżecie nie ma dodanych kont.<br>
+                                <a class="btn btn-primary" href="/home/account/add">Dodaj konto</a>
+                            </p>
+                        </th:block>
+                        <th:block th:unless="${accounts.isEmpty()}">
+                            <li class="nav-item" th:each="bankAccount : ${accounts}">
+                                <a class="nav-item nav-link" th:href="@{/home/bankAccount/edit/{id}(id=${bankAccount.id})}">
+                                    <span th:text="${bankAccount.name}"></span><br>
+                                    <span th:text="${bankAccount.balance}"></span>
+                                </a>
+                            </li>
+                            <li class="nav-item float-right">
+                                <a class="nav-link active" href="/home/account/add">Dodaj konto</a>
+                            </li>
+                        </th:block>
                     </th:block>
-                    <li class="nav-item">
-                        <a class="nav-item nav-link" href="/home/bankAccount/add">Dodaj</a>
-                    </li>
                 </ul>
             </div>
         </div>

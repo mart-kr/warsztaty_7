@@ -70,7 +70,7 @@ public class TestController {
     public String securityExample(@AuthenticationPrincipal User user) {
         // to tylko dla przyklady jak bedzie wygladać sprawdzanie czy user moze edytowac encję
         IncomeCategory incomeCategory = new IncomeCategory();
-        if (securityService.canEditEntity(user, incomeCategory)) {
+        if (securityService.canViewOrEditEntity(user, incomeCategory)) {
             // wywolanie jakiegoś serwisu itp itd
             // np. incomeCategoryService.edit(entity);
             return "redirect:/home";
