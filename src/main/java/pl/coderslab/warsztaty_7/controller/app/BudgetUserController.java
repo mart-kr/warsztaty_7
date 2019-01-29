@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.BudgetService;
-import pl.coderslab.warsztaty_7.service.UserService;
+import pl.coderslab.warsztaty_7.service.UserServiceImpl;
 
 import java.util.Optional;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequestMapping("/add-user")
 public class BudgetUserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final BudgetService budgetService;
 
     @PreAuthorize("hasRole('USER')")
@@ -30,7 +30,7 @@ public class BudgetUserController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping
     public String addUserToBudget(@AuthenticationPrincipal User user, @RequestParam("user-email") String userEmail) {
-        Optional<User> newUser = userService.findUserByUsername(userEmail);
+        Optional<User> newUser = userServiceImpl.findUserByUsername(userEmail);
         if (!newUser.isPresent()) {
             return "redirect:/add-user?error=user";
         } else if (newUser.get().getBudget()!= null) {
@@ -43,8 +43,8 @@ public class BudgetUserController {
         }
     }
 
-    public BudgetUserController(UserService userService, BudgetService budgetService) {
-        this.userService = userService;
+    public BudgetUserController(UserServiceImpl userServiceImpl, BudgetService budgetService) {
+        this.userServiceImpl = userServiceImpl;
         this.budgetService = budgetService;
     }
 }

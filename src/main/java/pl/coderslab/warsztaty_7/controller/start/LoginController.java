@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.NewUserService;
-import pl.coderslab.warsztaty_7.service.SecurityService;
-import pl.coderslab.warsztaty_7.service.UserService;
+import pl.coderslab.warsztaty_7.service.UserServiceImpl;
 
 import javax.validation.Valid;
 
@@ -18,7 +17,7 @@ import javax.validation.Valid;
 @Controller
 public class LoginController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final NewUserService newUserService;
 
     @ModelAttribute(name = "user")
@@ -51,7 +50,7 @@ public class LoginController {
         if (!newUserService.isPasswordValid(user.getPassword())) {
             bindingResult.rejectValue("password", "password.error", "Password length must be between 8-20 characters");
         }
-        if (userService.findUserByUsername(user.getUsername()).isPresent()) {
+        if (userServiceImpl.findUserByUsername(user.getUsername()).isPresent()) {
             bindingResult.rejectValue("username","username.error", "This email is already registered");
         }
         if (bindingResult.hasErrors()) {
@@ -63,8 +62,8 @@ public class LoginController {
     }
 
     @Autowired
-    public LoginController(UserService userService, NewUserService newUserService) {
-        this.userService = userService;
+    public LoginController(UserServiceImpl userServiceImpl, NewUserService newUserService) {
+        this.userServiceImpl = userServiceImpl;
         this.newUserService = newUserService;
     }
 }

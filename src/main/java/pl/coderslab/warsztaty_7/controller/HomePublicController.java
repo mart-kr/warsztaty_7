@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.NewUserService;
-import pl.coderslab.warsztaty_7.service.UserService;
+import pl.coderslab.warsztaty_7.service.UserServiceImpl;
 
 import javax.validation.Valid;
 
@@ -20,7 +20,7 @@ public class HomePublicController {
 
     private NewUserService newUserService;
 
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @ModelAttribute(name = "user")
     public User user() {
@@ -41,7 +41,7 @@ public class HomePublicController {
         if(user.getPassword().length()<8 || user.getPassword().length()>20) {
             bindingResult.rejectValue("password", "password.error", "Password length must be between 8-20 characters");
         }
-        if (userService.findUserByUsername(user.getUsername()).isPresent()) {
+        if (userServiceImpl.findUserByUsername(user.getUsername()).isPresent()) {
             bindingResult.rejectValue("username","username.error", "This email is already registered");
         }
         if (bindingResult.hasErrors()) {
@@ -54,8 +54,8 @@ public class HomePublicController {
     }
 
     @Autowired
-    public HomePublicController(UserService userService, NewUserService newUserService) {
-        this.userService = userService;
+    public HomePublicController(UserServiceImpl userServiceImpl, NewUserService newUserService) {
+        this.userServiceImpl = userServiceImpl;
         this.newUserService = newUserService;
     }
 }

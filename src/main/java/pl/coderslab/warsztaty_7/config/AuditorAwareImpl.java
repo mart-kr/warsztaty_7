@@ -6,7 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import pl.coderslab.warsztaty_7.model.User;
-import pl.coderslab.warsztaty_7.model.UserDetailsImpl;
 
 @Component
 public class AuditorAwareImpl implements AuditorAware<Long> {
@@ -14,7 +13,7 @@ public class AuditorAwareImpl implements AuditorAware<Long> {
     @Override
     public Long getCurrentAuditor() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.getPrincipal() instanceof UserDetailsImpl) {
+        if (auth.getPrincipal() instanceof User && auth.getPrincipal() != null) {
             User currentUser = (User) auth.getPrincipal();
             return currentUser.getId();
         } else {

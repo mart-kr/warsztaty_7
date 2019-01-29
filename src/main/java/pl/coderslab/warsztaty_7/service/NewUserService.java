@@ -20,14 +20,14 @@ import java.util.regex.Pattern;
 public class NewUserService {
 
     private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final RoleService roleService;
     private final String PASSWORD_REGEXP = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$";
 
     @Autowired
-    public NewUserService(PasswordEncoder passwordEncoder, UserService userService, RoleService roleService) {
+    public NewUserService(PasswordEncoder passwordEncoder, UserServiceImpl userServiceImpl, RoleService roleService) {
         this.passwordEncoder = passwordEncoder;
-        this.userService = userService;
+        this.userServiceImpl = userServiceImpl;
         this.roleService = roleService;
     }
 
@@ -46,7 +46,7 @@ public class NewUserService {
         user.setCredentialsNonExpired(true);
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.saveUser(user);
+        userServiceImpl.saveUser(user);
     }
 
 }

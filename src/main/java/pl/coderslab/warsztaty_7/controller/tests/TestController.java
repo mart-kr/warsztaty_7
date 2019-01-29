@@ -1,23 +1,19 @@
 package pl.coderslab.warsztaty_7.controller.tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.HttpStatusCodeException;
 import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.repository.UserRepository;
 import pl.coderslab.warsztaty_7.service.SecurityService;
-import pl.coderslab.warsztaty_7.service.impl.SecurityServiceJpaImpl;
+import pl.coderslab.warsztaty_7.service.UserServiceImpl;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -29,11 +25,21 @@ public class TestController {
     private SecurityService securityService;
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private UserServiceImpl userServiceImpl;
 
 //    @GetMapping("/home")
 //    public String hello() {
 //        return "test";
 //    }
+
+    @GetMapping("/remove")
+    public String removeBudget(@AuthenticationPrincipal User user) {
+        user.setBudget(null);
+        User userInstance = user;
+        repository.save(userInstance);
+        return "/home";
+    }
 
     @GetMapping("/add-admin")
     @ResponseBody

@@ -12,7 +12,6 @@ import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.BankAccountService;
 import pl.coderslab.warsztaty_7.service.SecurityService;
-import pl.coderslab.warsztaty_7.service.UserService;
 
 @Controller
 @RequestMapping(value = "/home/account")

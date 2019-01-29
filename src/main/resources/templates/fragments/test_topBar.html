@@ -51,8 +51,8 @@
             </ul>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <small th:text="'Użytkownik: '+${#authentication.getPrincipal().getUser().getFirstName()}" class="text-muted">USER</small>
-            <small th:if="${#authentication.getPrincipal().getUser().getBudget()}" th:text="'| Budżet: '+${#authentication.getPrincipal().getUser().getBudget().getName()}" class="text-muted">BUDGET</small>
+            <small th:text="'Użytkownik: '+${#authentication.getPrincipal().getFirstName()}" class="text-muted">USER</small>
+            <small th:if="${#authentication.getPrincipal().getBudget()}" th:text="'| Budżet: '+${#authentication.getPrincipal().getBudget().getName()}" class="text-muted">BUDGET</small>
         </div>
     </nav>
     </div>

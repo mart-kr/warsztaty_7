@@ -5,18 +5,18 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.service.SecurityService;
-import pl.coderslab.warsztaty_7.service.UserService;
+import pl.coderslab.warsztaty_7.service.UserServiceImpl;
 
 
 @Service
 @Primary
 public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> {
 
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
-    public SecurityServiceJpaImpl(UserService userService) {
-        this.userService = userService;
+    public SecurityServiceJpaImpl(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     @Override
