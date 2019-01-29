@@ -1,6 +1,7 @@
 package pl.coderslab.warsztaty_7.controller.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +14,12 @@ import pl.coderslab.warsztaty_7.service.OperationsService;
 import java.util.List;
 
 @Controller
-@RequestMapping("/operations")
+@RequestMapping("/home/operations")
 public class OperationsController {
 
     private final OperationsService operationsService;
 
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "operations")
     public List<Operation> allOperations(@AuthenticationPrincipal User user) {
         if (user == null || user.getBudget() == null) {
@@ -27,6 +29,7 @@ public class OperationsController {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public String allOperationsView() {
         return "operations";

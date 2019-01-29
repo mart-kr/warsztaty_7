@@ -17,9 +17,11 @@
             <span>Dodaj użytkownika do budżetu</span>
         </h3>
         <p class="font-italic">Osoba którą chcesz dodać do budżetu musi być zarejestrowanym użytkownikiem aplikacji i nie może korzystać z innego budżetu.</p>
-        <div th:if="${param.error == 'user'}" class="alert alert-danger">Nie znaleziono użytkownika o podanym adresie email.</div>
-        <div th:if="${param.error == 'budget'}" class="alert alert-danger">Ten użytkownik korzysta z innego budżetu.</div>
-        <div th:if="${param.success}" class="alert alert-success">Użytkownik został dodany do twojego budżetu</div>
+        <th:block th:if="${param.containsKey('error')}">
+            <div th:if="${param.error[0] ==  'user'}" class="alert alert-danger">Nie znaleziono użytkownika o podanym adresie email.</div>
+            <div th:if="${param.error[0] == 'budget'}" class="alert alert-danger">Ten użytkownik korzysta z innego budżetu.</div>
+        </th:block>
+            <div th:if="${param.success}" class="alert alert-success">Użytkownik został dodany do twojego budżetu</div>
         <form action="/add-user" method="post">
             <div class="form-group">
                 <label for="user-email">Podaj adres email użytkownika</label>
@@ -30,5 +32,6 @@
             </div>
         </form>
     </div>
+
 </body>
 </html>

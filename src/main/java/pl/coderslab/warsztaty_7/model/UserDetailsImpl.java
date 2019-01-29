@@ -1,14 +1,14 @@
 package pl.coderslab.warsztaty_7.model;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.Set;
 import java.util.stream.Collectors;
 
+@Component
 public class UserDetailsImpl extends User implements UserDetails {
 
     public UserDetailsImpl(User user) {
@@ -52,5 +52,9 @@ public class UserDetailsImpl extends User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return super.isEnabled();
+    }
+
+    public User getUser() {
+        return this;
     }
 }

@@ -1,4 +1,4 @@
-package pl.coderslab.warsztaty_7.security;
+package pl.coderslab.warsztaty_7.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

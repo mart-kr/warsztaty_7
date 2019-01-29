@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -10,8 +11,8 @@
 </head>
 <body>
     <div th:fragment="topBar">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="http://localhost:8080/home">Budget App</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+        <a class="navbar-brand" href="/home">Budget App</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -22,16 +23,16 @@
                     <!--<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>-->
                 <!--</li>-->
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/home/receipt/add">Dodaj wydatek</a>
+                    <a class="nav-link" href="/home/receipt/add">Dodaj wydatek</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/home/income/add">Dodaj przychód</a>
+                    <a class="nav-link" href="/home/income/add">Dodaj przychód</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost:8080/home/transfer/add">Dodaj przelew między kontami</a>
+                    <a class="nav-link" href="/home/transfer/add">Dodaj przelew między kontami</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/operations">Wszystkie operacje</a>
+                    <a class="nav-link" href="/home/operations">Wszystkie operacje</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,6 +49,10 @@
                     </div>
                 </li>
             </ul>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <small th:text="'Użytkownik: '+${#authentication.getPrincipal().getUser().getFirstName()}" class="text-muted">USER</small>
+            <small th:if="${#authentication.getPrincipal().getUser().getBudget()}" th:text="'| Budżet: '+${#authentication.getPrincipal().getUser().getBudget().getName()}" class="text-muted">BUDGET</small>
         </div>
     </nav>
     </div>

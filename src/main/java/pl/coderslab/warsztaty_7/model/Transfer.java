@@ -93,10 +93,6 @@ public class Transfer extends Auditable implements Operation{
         this.toAccount = toAccount;
     }
 
-    public String getTYPE() {
-        return TYPE;
-    }
-
     @Override
     public LocalDate getOperationDate() {
         return dateOfTransfer;

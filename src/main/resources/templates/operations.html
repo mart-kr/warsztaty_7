@@ -13,7 +13,7 @@
 <div class="container">
 
     <div th:if="${operations}" class="container-fluid align-self-center mt-5 w-50">
-        <div th:each="operation : ${operations}" th:classappend="${operation.getType()=='Przychód'}? 'border-success' : 'border-warning'"
+        <div th:each="operation : ${operations}" th:classappend="${operation.getType()=='Przychód'}? 'border-success' : (${operation.getType()=='Transfer'}? 'border-primary' : 'border-warning')"
             class="card border">
             <a th:attr="data-target='#operation'+${operationStat.index}, aria-controls='operation'+${operationStat.index}"
                data-toggle="collapse" data-target="#operation" aria-expanded="false" aria-controls="operation"
@@ -23,14 +23,16 @@
                 <span th:text="${operation.getOperationDate()}" class="float-right">DATA</span>
             </a>
             <div th:if="${operation.type == 'Przychód'}" th:id="'operation'+${operationStat.index}" id="operation" class="collapse card-body">
-                <div class="card card-body">
+                <div class="card-body">
                     <p th:text="'Konto: '+${operation.getBankAccount().getName()}"></p>
                     <p th:text="'Kategoria: '+${operation.getIncomeCategory().getName()}"></p>
                     <p th:unless="${operation.getIncomeNote()==''}" th:text="'Notatka: '+${operation.getIncomeNote()}"></p>
+                    <a th:href="@{/home/income/edit/{id}(id=${operation.getId()})}" class="btn btn-primary">Edytuj</a>
+                    <a href="/home/income/all" class="btn btn-primary">Zobacz wszystkie</a>
                 </div>
             </div>
             <div th:if="${operation.type == 'Wydatek'}" th:id="'operation'+${operationStat.index}" id="operation" class="collapse card-body">
-                <div class="card card-body">
+                <div class="card-body">
                     <p th:text="'Konto: '+${operation.getBankAccount().getName()}"></p>
                     <p th:text="'Adresat: '+${operation.getPlaceOfPayment()}"></p>
                     <p>Kategorie: </p>
@@ -38,13 +40,17 @@
                     <p th:text="${exp.getExpenseCategory().getName()}+' '+${exp.getAmount()}+'zł'"></p>
                     </th:block>
                     <p th:unless="${operation.getNote()==''}" th:text="'Notatka: '+${operation.getNote()}"></p>
+                    <a th:href="@{/home/receipt/edit/{id}(id=${operation.getId()})}" class="btn btn-primary">Edytuj</a>
+                    <a href="/home/receipt/all" class="btn btn-primary">Zobacz wszystkie</a>
                 </div>
             </div>
             <div th:if="${operation.type == 'Transfer'}" th:id="'operation'+${operationStat.index}" id="operation" class="collapse card-body">
-                <div class="card card-body">
+                <div class="card-body">
                     <p th:text="'Z konta: '+${operation.getFromAccount().getName()}"></p>
                     <p th:text="'Na konto: '+${operation.getToAccount().getName()}"></p>
                     <p th:unless="${operation.getNote()==''}" th:text="'Notatka: '+${operation.getNote()}"></p>
+                    <a th:href="@{/home/transfer/edit/{id}(id=${operation.getId()})}" class="btn btn-primary">Edytuj</a>
+                    <a href="/home/transfer/all" class="btn btn-primary">Zobacz wszystkie</a>
                 </div>
             </div>
         </div>
