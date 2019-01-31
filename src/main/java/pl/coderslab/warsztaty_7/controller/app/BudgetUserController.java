@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.BudgetService;
 import pl.coderslab.warsztaty_7.service.UserServiceImpl;
@@ -15,31 +14,35 @@ import pl.coderslab.warsztaty_7.service.UserServiceImpl;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/add-user")
+@RequestMapping("/home/budget/user")
 public class BudgetUserController {
 
     private final UserServiceImpl userServiceImpl;
     private final BudgetService budgetService;
 
     @PreAuthorize("hasRole('USER')")
-    @GetMapping
-    public String addUserToBudgetForm() {
-        return "add-budget-user";
+    @GetMapping("/add")
+    public String addUserToBudgetForm(@AuthenticationPrincipal User user) {
+        if (user.getBudget() == null) {
+            return "redirect:/home/budget/add";
+        }
+        return "addBudgetUser";
     }
 
     @PreAuthorize("hasRole('USER')")
-    @PostMapping
-    public String addUserToBudget(@AuthenticationPrincipal User user, @RequestParam("user-email") String userEmail) {
+    @PostMapping("/add")
+    public String addUserToBudget(@AuthenticationPrincipal User currentUser, @RequestParam("user-email") String userEmail) {
         Optional<User> newUser = userServiceImpl.findUserByUsername(userEmail);
-        if (!newUser.isPresent()) {
-            return "redirect:/add-user?error=user";
+        if (currentUser.getBudget() == null) {
+            return "redirect:/home/budget/add";
+        } else if (!newUser.isPresent()) {
+            return "redirect:/home/budget/user/add?error=user";
         } else if (newUser.get().getBudget()!= null) {
-            return "redirect:/add-user?error=budget";
+            return "redirect:/home/budget/user/add?error=budget";
         } else {
-            Budget budget = user.getBudget();
-            budget.addUser(newUser.get());
-            budgetService.edit(budget);
-            return "redirect:/add-user?success";
+            currentUser.getBudget().addUser(newUser.get());
+            budgetService.edit(currentUser.getBudget());
+            return "redirect:/home/budget/user/add?success";
         }
     }
 

@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "receipts")
@@ -142,5 +143,27 @@ public class Receipt extends Auditable implements Operation{
     @Override
     public String getType() {
         return TYPE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Receipt)) return false;
+        if (!super.equals(o)) return false;
+        Receipt receipt = (Receipt) o;
+        return Objects.equals(getId(), receipt.getId()) &&
+                Objects.equals(getAmount(), receipt.getAmount()) &&
+                Objects.equals(getDateOfPayment(), receipt.getDateOfPayment()) &&
+                Objects.equals(getPlaceOfPayment(), receipt.getPlaceOfPayment()) &&
+                Objects.equals(getNote(), receipt.getNote()) &&
+                Objects.equals(getExpenses(), receipt.getExpenses()) &&
+                Objects.equals(getBankAccount(), receipt.getBankAccount()) &&
+                Objects.equals(TYPE, receipt.TYPE);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getId(), getAmount(), getDateOfPayment(), getPlaceOfPayment(), getNote(), getExpenses(), getBankAccount(), TYPE);
     }
 }

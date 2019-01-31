@@ -5,11 +5,18 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.Objects;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -61,5 +68,22 @@ public abstract class Auditable {
 
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Auditable)) return false;
+        Auditable auditable = (Auditable) o;
+        return Objects.equals(getCreatedByUserId(), auditable.getCreatedByUserId()) &&
+                Objects.equals(getCreationDate(), auditable.getCreationDate()) &&
+                Objects.equals(getUpdatedByUserId(), auditable.getUpdatedByUserId()) &&
+                Objects.equals(getUpdatedDate(), auditable.getUpdatedDate());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getCreatedByUserId(), getCreationDate(), getUpdatedByUserId(), getUpdatedDate());
     }
 }

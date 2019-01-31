@@ -37,12 +37,12 @@ public class LoginController {
 
     @GetMapping(value = "/start/login")
     public String loginPage() {
-        return "login-form";
+        return "loginForm";
     }
 
     @GetMapping(value = "/start/register")
     public String registerPage() {
-        return "reg-form";
+        return "regForm";
     }
 
     @PostMapping("/start/register")
@@ -54,7 +54,7 @@ public class LoginController {
             bindingResult.rejectValue("username","username.error", "This email is already registered");
         }
         if (bindingResult.hasErrors()) {
-            return "reg-form";
+            return "regForm";
         } else {
             newUserService.saveNewUser(user);
             return "redirect:/start/login?register";

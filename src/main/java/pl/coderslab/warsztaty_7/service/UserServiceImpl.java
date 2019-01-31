@@ -28,6 +28,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userRepository.save(user);
     }
 
+    public void editUser(User user) {
+        userRepository.save(user);
+    }
+
     public User findUserById(Long id) { return userRepository.findOne(id); }
 
     @Override

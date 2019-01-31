@@ -22,7 +22,7 @@ public class OperationsController {
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "operations")
     public List<Operation> allOperations(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return null;
         } else {
             return operationsService.loadAllOperationsForBudget(user.getBudget());

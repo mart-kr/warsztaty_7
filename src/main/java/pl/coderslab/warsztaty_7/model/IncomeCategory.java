@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "income_categories")
@@ -113,5 +114,24 @@ public class IncomeCategory extends Auditable {
                 ", updatedByUserId=" + updatedByUserId +
                 ", updatedDate=" + updatedDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IncomeCategory)) return false;
+        if (!super.equals(o)) return false;
+        IncomeCategory that = (IncomeCategory) o;
+        return isGlobal() == that.isGlobal() &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getIncomeList(), that.getIncomeList()) &&
+                Objects.equals(getBudget(), that.getBudget());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getId(), getName(), isGlobal(), getIncomeList(), getBudget());
     }
 }

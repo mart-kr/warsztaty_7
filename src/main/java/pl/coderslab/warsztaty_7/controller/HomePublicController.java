@@ -29,7 +29,7 @@ public class HomePublicController {
 
     @GetMapping("/registration")
     public String registrationForm() {
-        return "reg-form";
+        return "regForm";
     }
 
     @PostMapping("/registration")
@@ -45,7 +45,7 @@ public class HomePublicController {
             bindingResult.rejectValue("username","username.error", "This email is already registered");
         }
         if (bindingResult.hasErrors()) {
-            return "reg-form";
+            return "regForm";
         } else {
             // metoda nadaje nowemu uzytkownikowi odpowiednie wartosci pól (póki co wszystko na true)
             newUserService.saveNewUser(user);

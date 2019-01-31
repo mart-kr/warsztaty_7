@@ -27,52 +27,50 @@ public class HomeController {
     private final IncomeService incomeService;
     private final CashflowService cashflowService;
 
-    //    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public String homeAppPage(@AuthenticationPrincipal User user) {
-        if (user == null) {
-            return "redirect:/start";
-        } else if (user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
         } else {
             return "home";
         }
     }
 
-    //    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "lastReceipts")
     public List<Receipt> last5Receipts(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return null;
         } else {
             return receiptService.findLast5ReceiptsForBudget(user.getBudget());
         }
     }
 
-    //    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthIncSum")
     public BigDecimal sumIncomesInThisMonth(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return null;
         } else {
             return incomeService.sumAllFromThisMonth(user.getBudget());
         }
     }
 
-    //    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthRecSum")
     public BigDecimal sumReceiptsInThisMonth(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return null;
         } else {
             return receiptService.sumAllFromThisMonth(user.getBudget());
         }
     }
 
-    //    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthExpSum")
     public Map<String, BigDecimal> sumExpensesInThisMonth(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return null;
         } else {
             List<Expense> expenses = expenseService.findExpensesInThisMonthForBudget(user.getBudget());
@@ -80,56 +78,55 @@ public class HomeController {
         }
     }
 
-    //    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthExpPercent")
     public List<Map.Entry<String, Integer>> expensesInPercentageThisMonth(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return null;
         } else {
             return expenseService.sumOfSortedExpensesToPercentage(sumExpensesInThisMonth(user));
         }
     }
 
-    //    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "accounts")
     public List<BankAccount> accounts(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return null;
         } else {
             return bankAccountService.findByBudgetId(user.getBudget().getId());
         }
     }
 
-//    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "incomePercentCashflow")
     public Integer incomePercentCashflow(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return 0;
         } else {
             return cashflowService.incomePercent(incomeService.sumAllFromThisMonth(user.getBudget()), receiptService.sumAllFromThisMonth(user.getBudget()));
         }
     }
 
-    //    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "receiptPercentCashflow")
     public Integer receiptPercentCashflow(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return 0;
         } else {
             return cashflowService.receiptPercent(receiptService.sumAllFromThisMonth(user.getBudget()), incomeService.sumAllFromThisMonth(user.getBudget()));
         }
     }
 
-    //    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "balanceCashflow")
     public BigDecimal balanceCashflow(@AuthenticationPrincipal User user) {
-        if (user == null || user.getBudget() == null) {
+        if (user.getBudget() == null) {
             return null;
         } else {
             return cashflowService.balanceCashflow(receiptService.sumAllFromThisMonth(user.getBudget()), incomeService.sumAllFromThisMonth(user.getBudget()));
         }
     }
-
 
     @Autowired
     public HomeController(ReceiptService receiptService, ExpenseService expenseService, BankAccountService bankAccountService, IncomeService incomeService, CashflowService cashflowService) {

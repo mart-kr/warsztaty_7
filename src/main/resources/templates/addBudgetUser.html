@@ -10,7 +10,7 @@
     <title>BudgetApp - dodawanie użytkownika</title>
 </head>
 <body>
-<div th:include="fragments/test_topBar :: topBar"></div>
+<div th:include="fragments/topBar :: topBar"></div>
 
     <div sec:authorize="hasRole('USER')" class="container-fluid align-self-center mt-5 w-50 ">
         <h3>
@@ -22,7 +22,7 @@
             <div th:if="${param.error[0] == 'budget'}" class="alert alert-danger">Ten użytkownik korzysta z innego budżetu.</div>
         </th:block>
             <div th:if="${param.success}" class="alert alert-success">Użytkownik został dodany do twojego budżetu</div>
-        <form action="/add-user" method="post">
+        <form action="/home/budget/user/add" method="post">
             <div class="form-group">
                 <label for="user-email">Podaj adres email użytkownika</label>
                 <input type="email" class="form-control" id="user-email" name="user-email"/>

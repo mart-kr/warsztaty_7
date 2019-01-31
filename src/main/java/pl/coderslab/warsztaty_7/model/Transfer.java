@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "transfers")
@@ -101,5 +102,26 @@ public class Transfer extends Auditable implements Operation{
     @Override
     public String getType() {
         return TYPE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Transfer)) return false;
+        if (!super.equals(o)) return false;
+        Transfer transfer = (Transfer) o;
+        return Objects.equals(getId(), transfer.getId()) &&
+                Objects.equals(getAmount(), transfer.getAmount()) &&
+                Objects.equals(getDateOfTransfer(), transfer.getDateOfTransfer()) &&
+                Objects.equals(getNote(), transfer.getNote()) &&
+                Objects.equals(getFromAccount(), transfer.getFromAccount()) &&
+                Objects.equals(getToAccount(), transfer.getToAccount()) &&
+                Objects.equals(TYPE, transfer.TYPE);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getId(), getAmount(), getDateOfTransfer(), getNote(), getFromAccount(), getToAccount(), TYPE);
     }
 }

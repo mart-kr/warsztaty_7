@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "bank_accounts")
@@ -124,5 +125,27 @@ public class BankAccount extends Auditable {
 
     public void setBudget(Budget budget) {
         this.budget = budget;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BankAccount)) return false;
+        if (!super.equals(o)) return false;
+        BankAccount that = (BankAccount) o;
+        return Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getBalance(), that.getBalance()) &&
+                Objects.equals(getWithdrawals(), that.getWithdrawals()) &&
+                Objects.equals(getDeposits(), that.getDeposits()) &&
+                Objects.equals(getFromTransfers(), that.getFromTransfers()) &&
+                Objects.equals(getToTransfers(), that.getToTransfers()) &&
+                Objects.equals(getBudget(), that.getBudget());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getId(), getName(), getBalance(), getWithdrawals(), getDeposits(), getFromTransfers(), getToTransfers(), getBudget());
     }
 }

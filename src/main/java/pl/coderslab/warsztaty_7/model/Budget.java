@@ -3,6 +3,7 @@ package pl.coderslab.warsztaty_7.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "budgets")
@@ -121,5 +122,25 @@ public class Budget extends Auditable{
     public void deleteIncomeCategory(IncomeCategory incomeCategory) {
         incomeCategories.remove(incomeCategory);
         incomeCategory.setBudget(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Budget)) return false;
+        if (!super.equals(o)) return false;
+        Budget budget = (Budget) o;
+        return Objects.equals(getId(), budget.getId()) &&
+                Objects.equals(getName(), budget.getName()) &&
+                Objects.equals(getBankAccounts(), budget.getBankAccounts()) &&
+                Objects.equals(getUsers(), budget.getUsers()) &&
+                Objects.equals(getExpenseCategories(), budget.getExpenseCategories()) &&
+                Objects.equals(getIncomeCategories(), budget.getIncomeCategories());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getId(), getName(), getBankAccounts(), getUsers(), getExpenseCategories(), getIncomeCategories());
     }
 }

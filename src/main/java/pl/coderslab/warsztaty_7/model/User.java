@@ -188,7 +188,7 @@ public class User implements UserDetails {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof User)) return false;
         User user = (User) o;
         return isEnabled() == user.isEnabled() &&
                 isAccountNonExpired() == user.isAccountNonExpired() &&
@@ -198,8 +198,8 @@ public class User implements UserDetails {
                 Objects.equals(getUsername(), user.getUsername()) &&
                 Objects.equals(getFirstName(), user.getFirstName()) &&
                 Objects.equals(getPassword(), user.getPassword()) &&
-                Objects.equals(getRoles(), user.getRoles()) &&
-                Objects.equals(getBudget(), user.getBudget());
+                Objects.equals(getRoles(), user.getRoles()); // &&
+//                Objects.equals(getBudget(), user.getBudget());
     }
 
     @Override

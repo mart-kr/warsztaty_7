@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "expense_categories")
@@ -115,5 +116,25 @@ public class ExpenseCategory extends Auditable {
                 ", updatedByUserId=" + updatedByUserId +
                 ", updatedDate=" + updatedDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ExpenseCategory)) return false;
+        if (!super.equals(o)) return false;
+        ExpenseCategory that = (ExpenseCategory) o;
+        return isGlobal() == that.isGlobal() &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getExpenseList(), that.getExpenseList()) &&
+                Objects.equals(getBudget(), that.getBudget()) &&
+                Objects.equals(getTargetList(), that.getTargetList());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getId(), getName(), isGlobal(), getExpenseList(), getBudget(), getTargetList());
     }
 }

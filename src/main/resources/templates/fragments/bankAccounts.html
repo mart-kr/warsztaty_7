@@ -22,7 +22,7 @@
                         </th:block>
                         <th:block th:unless="${accounts.isEmpty()}">
                             <li class="nav-item" th:each="bankAccount : ${accounts}">
-                                <a class="nav-item nav-link" th:href="@{/home/bankAccount/edit/{id}(id=${bankAccount.id})}">
+                                <a class="nav-item nav-link" th:href="@{/home/account/edit/{id}(id=${bankAccount.id})}">
                                     <span th:text="${bankAccount.name}"></span><br>
                                     <span th:text="${bankAccount.balance}"></span>
                                 </a>

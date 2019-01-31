@@ -9,18 +9,18 @@
     <title>BudgetApp - home</title>
 </head>
 <body>
-    <div th:include="fragments/test_topBar :: topBar"></div>
+    <div th:include="fragments/topBar :: topBar"></div>
     <div class="container">
         <div th:include="fragments/bankAccounts :: accounts"></div>
     </div>
     <div class="container">
         <div class="row">
             <div class="col-md">
-                <div th:include="fragments/expenses-sum :: expensesSum"></div>
+                <div th:include="fragments/expensesSum :: expensesSum"></div>
             </div>
             <div class="col-md">
                 <div th:include="fragments/cashflow :: cashflow"></div>
-                <div th:include="fragments/last-receipts :: lastReceipts"></div>
+                <div th:include="fragments/lastReceipts :: lastReceipts"></div>
             </div>
         </div>
     </div>

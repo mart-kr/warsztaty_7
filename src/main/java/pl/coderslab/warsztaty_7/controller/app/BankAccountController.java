@@ -7,10 +7,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.warsztaty_7.model.Auditable;
 import pl.coderslab.warsztaty_7.model.BankAccount;
 import pl.coderslab.warsztaty_7.model.Budget;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.BankAccountService;
+import pl.coderslab.warsztaty_7.service.BudgetService;
 import pl.coderslab.warsztaty_7.service.SecurityService;
 
 @Controller
@@ -19,11 +21,14 @@ public class BankAccountController {
 
     private final BankAccountService bankAccountService;
     private final SecurityService securityService;
+    private final BudgetService budgetService;
 
     @Autowired
-    public BankAccountController(BankAccountService bankAccountService, SecurityService securityService) {
+    public BankAccountController(BankAccountService bankAccountService, SecurityService securityService,
+                                 BudgetService budgetService) {
         this.bankAccountService = bankAccountService;
         this.securityService = securityService;
+        this.budgetService = budgetService;
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -57,6 +62,7 @@ public class BankAccountController {
         if (user.getBudget()!=null) {
             bankAccount.setBudget(user.getBudget());
             bankAccountService.create(bankAccount);
+            budgetService.edit(user.getBudget());
             return "redirect:/home";
         } else {
             return "redirect:/home/budget/add";

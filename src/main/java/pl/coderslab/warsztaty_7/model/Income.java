@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "incomes")
@@ -138,5 +139,27 @@ public class Income extends Auditable implements Operation {
     @Override
     public String getType() {
         return TYPE;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Income)) return false;
+        if (!super.equals(o)) return false;
+        Income income = (Income) o;
+        return Objects.equals(getId(), income.getId()) &&
+                Objects.equals(getAmount(), income.getAmount()) &&
+                Objects.equals(getPlaceOfPayment(), income.getPlaceOfPayment()) &&
+                Objects.equals(getDateOfPayment(), income.getDateOfPayment()) &&
+                Objects.equals(getIncomeNote(), income.getIncomeNote()) &&
+                Objects.equals(getIncomeCategory(), income.getIncomeCategory()) &&
+                Objects.equals(getBankAccount(), income.getBankAccount()) &&
+                Objects.equals(TYPE, income.TYPE);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getId(), getAmount(), getPlaceOfPayment(), getDateOfPayment(), getIncomeNote(), getIncomeCategory(), getBankAccount(), TYPE);
     }
 }

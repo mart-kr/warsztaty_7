@@ -3,6 +3,7 @@ package pl.coderslab.warsztaty_7.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Table(name = "expenses")
@@ -82,5 +83,23 @@ public class Expense extends Auditable {
                 ", updatedByUserId=" + updatedByUserId +
                 ", updatedDate=" + updatedDate +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Expense)) return false;
+        if (!super.equals(o)) return false;
+        Expense expense = (Expense) o;
+        return Objects.equals(getId(), expense.getId()) &&
+                Objects.equals(getAmount(), expense.getAmount()) &&
+                Objects.equals(getExpenseCategory(), expense.getExpenseCategory()) &&
+                Objects.equals(getReceipt(), expense.getReceipt());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getId(), getAmount(), getExpenseCategory(), getReceipt());
     }
 }
