@@ -36,8 +36,15 @@
             </div>
             <hr class="my-4">
             <button type="submit" class="btn btn-primary">Zaloguj</button>
+            <a class="btn btn-primary mb-4 float-right" role="button" href="/start/register">Rejestracja</a>
         </form>
+
     </div>
+</div>
+<div sec:authorize="isAuthenticated()" class="alert alert-danger container-fluid align-self-center mt-5 w-50" role="alert">
+    <p>Jesteś zalogowany jako: <span th:text="${#authentication.getPrincipal().getFirstName()}"></span>.</p>
+    <p>Aby się zalogować jako inny użytkownik najpierw musisz się wylogować.</p>
+    <a class="btn btn-danger" href="/start/logout">Wyloguj się</a>
 </div>
 </body>
 </html>

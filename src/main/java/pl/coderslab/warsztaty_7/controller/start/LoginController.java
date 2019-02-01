@@ -1,6 +1,8 @@
 package pl.coderslab.warsztaty_7.controller.start;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,10 @@ public class LoginController {
     }
 
     @GetMapping(value = "/start")
-    public String startPage() {
+    public String startPage(@AuthenticationPrincipal User user) {
+        if (user != null) {
+            return "redirect:/home";
+        }
         return "start";
     }
 
@@ -41,12 +46,16 @@ public class LoginController {
     }
 
     @GetMapping(value = "/start/register")
-    public String registerPage() {
+    public String registerPage(@AuthenticationPrincipal User user) {
         return "regForm";
     }
 
     @PostMapping("/start/register")
-    public String registerNewUser(@Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String registerNewUser(@Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                                  @AuthenticationPrincipal User authUser) {
+        if (authUser != null) {
+            return "redirect:/home";
+        }
         if (!newUserService.isPasswordValid(user.getPassword())) {
             bindingResult.rejectValue("password", "password.error", "Password length must be between 8-20 characters");
         }

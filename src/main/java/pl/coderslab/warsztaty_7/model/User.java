@@ -198,13 +198,29 @@ public class User implements UserDetails {
                 Objects.equals(getUsername(), user.getUsername()) &&
                 Objects.equals(getFirstName(), user.getFirstName()) &&
                 Objects.equals(getPassword(), user.getPassword()) &&
-                Objects.equals(getRoles(), user.getRoles()); // &&
-//                Objects.equals(getBudget(), user.getBudget());
+                Objects.equals(getRoles(), user.getRoles()) &&
+                Objects.equals(getBudget().getId(), user.getBudget().getId());
     }
 
     @Override
     public int hashCode() {
 
         return Objects.hash(getId(), getUsername(), getFirstName(), getPassword(), isEnabled(), isAccountNonExpired(), isCredentialsNonExpired(), isAccountNonLocked(), getRoles(), getBudget());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", accountNonExpired=" + accountNonExpired +
+                ", credentialsNonExpired=" + credentialsNonExpired +
+                ", accountNonLocked=" + accountNonLocked +
+                ", roles=" + roles +
+                ", budget=" + budget +
+                '}';
     }
 }

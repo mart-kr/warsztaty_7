@@ -20,7 +20,7 @@ public class SecurityServiceStub implements SecurityService <User, Auditable> {
     }
 
     @Override
-    public boolean canDeleteBudget(User authenticatedUser, Auditable budget) {
+    public boolean canDeleteBudget(User authenticatedUser, Budget budget) {
         return true;
     }
 

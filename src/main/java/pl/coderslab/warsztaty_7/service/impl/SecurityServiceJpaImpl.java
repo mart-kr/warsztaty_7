@@ -93,7 +93,7 @@ public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> 
     }
 
     @Override
-    public boolean canDeleteBudget(User authenticatedUser, Auditable budget) {
+    public boolean canDeleteBudget(User authenticatedUser, Budget budget) {
         if (authenticatedUser == null || budget == null) {
             return false;
         }
@@ -102,11 +102,10 @@ public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> 
                 return true;
             }
         }
-        Budget budgetInstance = (Budget) budget;
         if (budget.getCreatedByUserId().equals(authenticatedUser.getId())) {
             return true;
         } else {
-            return budgetInstance.getUsers().contains(authenticatedUser) && budgetInstance.getUsers().size() == 1;
+            return budget.getUsers().contains(authenticatedUser) && budget.getUsers().size() == 1;
         }
     }
 }

@@ -5,7 +5,6 @@ import pl.coderslab.warsztaty_7.model.ExpenseCategory;
 
 import java.util.List;
 
-
 public interface ExpenseCategoryRepository extends JpaRepository<ExpenseCategory, Long> {
 
     List<ExpenseCategory> findAllByIsGlobalIsTrueOrBudgetIdOrderByName(Long id);

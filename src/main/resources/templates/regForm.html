@@ -10,7 +10,6 @@
     <title>BudgetApp - rejestracja</title>
 </head>
 <body>
-    <!--Formularz (pokaże się tylko jeśli użytkownik nie jest zalogowany)-->
     <div sec:authorize="isAnonymous()" class="container-fluid align-self-center mt-5 w-50">
         <div class="jumbotron">
             <p class="h2">Wypełnij formularz aby móc skorzystać z aplikacji</p>
@@ -44,11 +43,10 @@
             </form>
         </div>
     </div>
-    <!--Wiadomość dla zalogowanego użytkownika-->
     <div sec:authorize="isAuthenticated()" class="alert alert-danger container-fluid align-self-center mt-5 w-50" role="alert">
-        <p>Jesteś zalogowany jako: <span sec:authentication="name"></span>.</p>
+        <p>Jesteś zalogowany jako: <span th:text="${#authentication.getPrincipal().getFirstName()}"></span>.</p>
         <p>Aby zarejestrować nowego użytkownika musisz się wylogować.</p>
-        <a class="btn btn-danger" href="/logout">Wyloguj się</a>
+        <a class="btn btn-danger" href="/start/logout">Wyloguj się</a>
     </div>
 
 

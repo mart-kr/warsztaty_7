@@ -12,7 +12,7 @@ public interface SecurityService <U extends User, T extends Auditable> {
 
     boolean canDeleteEntity(U authenticatedUser, T entity);
 
-    boolean canDeleteBudget(U authenticatedUser, T budget);
+    boolean canDeleteBudget(U authenticatedUser, Budget budget);
 
     Budget findEntityBudget(T entity);
 }
