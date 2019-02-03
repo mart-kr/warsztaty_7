@@ -26,14 +26,25 @@ public class CashflowServiceJpaImpl implements CashflowService {
 
     @Override
     public Integer incomePercent(BigDecimal incomeValue, BigDecimal receiptValue) {
-        int value = bigDecimalComparison(incomeValue, receiptValue);
-        return getInteger(incomeValue, receiptValue, value);
+        BigDecimal zero = BigDecimal.ZERO;
+        if (receiptValue.equals(zero) && incomeValue.equals(zero)){
+            return zero.intValue();
+        } else{
+            int value = bigDecimalComparison(incomeValue, receiptValue);
+            return getInteger(incomeValue, receiptValue, value);
+        }
     }
 
     @Override
     public Integer receiptPercent(BigDecimal receiptValue, BigDecimal incomeValue) {
-        int value = bigDecimalComparison(receiptValue, incomeValue);
-        return getInteger(receiptValue, incomeValue, value);
+        BigDecimal zero = BigDecimal.ZERO;
+        if (receiptValue.equals(zero) && incomeValue.equals(zero)){
+            return zero.intValue();
+        } else{
+            int value = bigDecimalComparison(receiptValue, incomeValue);
+            return getInteger(receiptValue, incomeValue, value);
+        }
+
     }
 
     @Override
@@ -41,18 +52,20 @@ public class CashflowServiceJpaImpl implements CashflowService {
         return incomeValue.subtract(receiptValue);
     }
 
-    private Integer bigDecimalComparison(BigDecimal firstBigDecimal, BigDecimal secondBigDecimal) {
+    @Override
+    public Integer bigDecimalComparison(BigDecimal firstBigDecimal, BigDecimal secondBigDecimal) {
         return firstBigDecimal.compareTo(secondBigDecimal);
     }
 
-    private Integer getInteger(BigDecimal firstValue, BigDecimal secondValue, int value) {
+    @Override
+    public Integer getInteger(BigDecimal firstValue, BigDecimal secondValue, int value) {
         Integer maxPercentage = 100;
         BigDecimal bd100 = new BigDecimal(100);
 
         if (value == 0){
             return maxPercentage;
         } else if (value == -1){
-            return firstValue.multiply(new BigDecimal(100)).divide(secondValue, RoundingMode.HALF_UP).intValue();
+            return firstValue.multiply(bd100).divide(secondValue, RoundingMode.HALF_UP).intValue();
         } else {
             return maxPercentage;
         }
