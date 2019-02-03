@@ -1,7 +1,10 @@
 package pl.coderslab.warsztaty_7.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -19,13 +22,26 @@ public class Target extends Auditable {
     @JoinColumn(name = "expense_category_id")
     private ExpenseCategory expenseCategory;
 
+    @Column(name = "start_date")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate endDate;
+
+    @ManyToOne
+    @JoinColumn(name = "budget_id")
+    private Budget budget;
 
     public Target() {
     }
 
-    public Target(BigDecimal amount, ExpenseCategory expenseCategory) {
+    public Target(BigDecimal amount, LocalDate startDate, ExpenseCategory expenseCategory, Budget budget) {
         this.amount = amount;
+        this.startDate = startDate;
         this.expenseCategory = expenseCategory;
+        this.budget = budget;
     }
 
     public Long getId() {
@@ -44,6 +60,22 @@ public class Target extends Auditable {
         this.amount = amount;
     }
 
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
     public ExpenseCategory getExpenseCategory() {
         return expenseCategory;
     }
@@ -52,12 +84,23 @@ public class Target extends Auditable {
         this.expenseCategory = expenseCategory;
     }
 
+    public Budget getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Budget budget) {
+        this.budget = budget;
+    }
+
     @Override
     public String toString() {
         return "Target{" +
                 "id=" + id +
                 ", amount=" + amount +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", expenseCategory=" + expenseCategory +
+                ", budget=" + budget +
                 ", createdByUserId=" + createdByUserId +
                 ", creationDate=" + creationDate +
                 ", updatedByUserId=" + updatedByUserId +

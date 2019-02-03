@@ -28,9 +28,10 @@ public class Budget extends Auditable{
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
     private List<IncomeCategory> incomeCategories = new ArrayList<>();
 
-    //TODO: transfery
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
+    private List<Target> targets = new ArrayList<>();
 
-    //TODO: targety
+    //TODO: transfery
 
 
     public Budget() {
@@ -124,6 +125,24 @@ public class Budget extends Auditable{
         incomeCategory.setBudget(null);
     }
 
+    public List<Target> getTargets() {
+        return targets;
+    }
+
+    public void setTargets(List<Target> targets) {
+        this.targets = targets;
+    }
+
+    public void addTarget(Target target) {
+        targets.add(target);
+        target.setBudget(this);
+    }
+
+    public void deleteTarget(Target target) {
+        targets.remove(target);
+        target.setBudget(null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -143,4 +162,6 @@ public class Budget extends Auditable{
 
         return Objects.hash(super.hashCode(), getId(), getName(), getBankAccounts(), getUsers(), getExpenseCategories(), getIncomeCategories());
     }
+
+
 }

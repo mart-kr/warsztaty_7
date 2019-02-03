@@ -11,14 +11,10 @@ import java.util.List;
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     List<Expense> findAllByExpenseCategory(ExpenseCategory expenseCategory);
-
     List<Expense> findAllByExpenseCategoryId(Long id);
-
     List<Expense> findAllByReceiptId(Long id);
-
     List<Expense> findAllByCreatedByUserIdInAndReceiptDateOfPaymentBetween
             (Collection<Long> userIds, LocalDate begin, LocalDate end);
-
     void deleteAllByIdIn(Collection<Long> ids);
 
 }

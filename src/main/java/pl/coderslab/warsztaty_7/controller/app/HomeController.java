@@ -26,6 +26,8 @@ public class HomeController {
     private final BankAccountService bankAccountService;
     private final IncomeService incomeService;
     private final CashflowService cashflowService;
+    private final TargetService targetService;
+
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping
@@ -129,11 +131,12 @@ public class HomeController {
     }
 
     @Autowired
-    public HomeController(ReceiptService receiptService, ExpenseService expenseService, BankAccountService bankAccountService, IncomeService incomeService, CashflowService cashflowService) {
+    public HomeController(ReceiptService receiptService, ExpenseService expenseService, BankAccountService bankAccountService, IncomeService incomeService, CashflowService cashflowService, TargetService targetService) {
         this.receiptService = receiptService;
         this.expenseService = expenseService;
         this.bankAccountService = bankAccountService;
         this.incomeService = incomeService;
         this.cashflowService = cashflowService;
+        this.targetService = targetService;
     }
 }
