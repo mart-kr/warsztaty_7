@@ -42,8 +42,8 @@ public class TargetController {
     }
 
     @ModelAttribute(name = "expenseCategories")
-    public List<ExpenseCategory> findAllCategories(){
-        return expenseCategoryService.findAll();
+    public List<ExpenseCategory> findAllCategories(@AuthenticationPrincipal User user){
+        return expenseCategoryService.findAllForBudgetId(user.getId());
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -72,7 +72,7 @@ public class TargetController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createTarget(@AuthenticationPrincipal @Valid User user, @ModelAttribute Target target,
+    public String createTarget(@AuthenticationPrincipal User user, @ModelAttribute  @Valid Target target,
                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (user.getBudget() != null){
             List<Target> targets = targetService.findByCategoryId(target.getExpenseCategory().getId());
@@ -90,7 +90,7 @@ public class TargetController {
                 return "targetForm";
             } else {
                 target.setBudget(user.getBudget());
-                target.setStartDate(target.getStartDate().withDayOfMonth(01));
+                target.setStartDate(target.getStartDate().withDayOfMonth(1));
                 targetService.create(target);
                 return "redirect:/home/target/thisMonth";
             }
