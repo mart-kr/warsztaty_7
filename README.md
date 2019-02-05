@@ -8,3 +8,13 @@ Main functionalities:
 - creating financial goals in individual expense categories;
 - adding expense and income categories;
 - cashflow and generating other reports.
+
+Technology stack:
+- Java 8;
+- Spring (Spring Boot, Spring Security, Spring data);
+- Hibernate;
+- Thymeleaf;
+- Bootrstap;
+- MySQL;
+- Maven;
+- Apache Tomcat.
