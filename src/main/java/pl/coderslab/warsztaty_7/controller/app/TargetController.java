@@ -8,16 +8,20 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.ExpenseCategory;
 import pl.coderslab.warsztaty_7.model.Target;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.ExpenseCategoryService;
+import pl.coderslab.warsztaty_7.service.ExpenseService;
 import pl.coderslab.warsztaty_7.service.SecurityService;
 import pl.coderslab.warsztaty_7.service.TargetService;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/home/target")
@@ -26,13 +30,15 @@ public class TargetController {
     private final TargetService targetService;
     private final ExpenseCategoryService expenseCategoryService;
     private final SecurityService securityService;
+    private final ExpenseService expenseService;
 
     @Autowired
     public TargetController(TargetService targetService, ExpenseCategoryService expenseCategoryService,
-                            SecurityService securityService) {
+                            SecurityService securityService, ExpenseService expenseService) {
         this.targetService = targetService;
         this.expenseCategoryService = expenseCategoryService;
         this.securityService = securityService;
+        this.expenseService = expenseService;
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -103,8 +109,11 @@ public class TargetController {
     @GetMapping(value = "/thisMonth")
     public String targetsInThisMonth(@AuthenticationPrincipal User user, Model model) {
         if (user.getBudget() != null) {
-            model.addAttribute("monthTarSum", targetService.sumAllFromThisMonth(user.getBudget()));
-            return "targets";
+            List<Target> targets = targetService.findAllFromThisMonth(user.getBudget());
+            List<Expense> expensesInThisMonth = expenseService.findExpensesInThisMonthForBudget(user.getBudget());
+            Map<String, BigDecimal> expensesSum = expenseService.sortedSumOfExpensesInCategory(expensesInThisMonth);
+            model.addAttribute("monthTarExp", targetService.targetAndExpensesToPercentage(targets, expensesSum));
+            return "targetsMonth";
         } else {
             return "redirect:/home/budget/add";
         }

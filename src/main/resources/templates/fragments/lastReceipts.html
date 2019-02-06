@@ -15,7 +15,7 @@
             <th:block th:if="${lastReceipts}" >
                 <a href="/home/receipt/add" th:if="${lastReceipts.isEmpty()}" th:text="'W twoim budżecie nie ma żadnych wydatków. Kliknij aby dodać nowy wydatek'"
                    class="list-group-item list-group-item-action">Brak wydatków w budżecie</a>
-                <a th:href="@{/home/receipt/edit/{id}(id=${receipt.id})}" th:unless="${lastReceipts.isEmpty()}" th:each="receipt : ${lastReceipts}" th:text="|Kwota: ${receipt.amount} Data: ${receipt.dateOfPayment} Notka: ${receipt.note}|"
+                <a th:href="@{/home/receipt/edit/{id}(id=${receipt.id})}" th:unless="${lastReceipts.isEmpty()}" th:each="receipt : ${lastReceipts}" th:text="|Kwota: ${receipt.amount} Data: ${receipt.dateOfPayment}|"
                    class="list-group-item list-group-item-action">Receipt1</a>
             </th:block>
         </div>

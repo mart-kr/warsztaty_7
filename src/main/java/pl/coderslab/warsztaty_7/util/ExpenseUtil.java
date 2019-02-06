@@ -20,12 +20,10 @@ public class ExpenseUtil {
     }
 
     public List<Map.Entry<String, Integer>> sortedSumOfExpensesToPercentages(Map<String, BigDecimal> expensesSum) {
-        BigDecimal maxValue;
         if (expensesSum.isEmpty()) {
             return Collections.emptyList();
-        } else {
-            maxValue = expensesSum.entrySet().iterator().next().getValue();
         }
+        BigDecimal maxValue = expensesSum.entrySet().iterator().next().getValue();
         List<Map.Entry<String, Integer>> result = new ArrayList<>();
         Integer value;
         BigDecimal bd100 = new BigDecimal(100);

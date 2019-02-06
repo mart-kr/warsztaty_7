@@ -8,10 +8,13 @@ import pl.coderslab.warsztaty_7.model.ExpenseCategory;
 import pl.coderslab.warsztaty_7.model.Target;
 import pl.coderslab.warsztaty_7.repository.TargetRepository;
 import pl.coderslab.warsztaty_7.service.TargetService;
+import pl.coderslab.warsztaty_7.util.TargetExpenseAmountsTransfer;
 import pl.coderslab.warsztaty_7.util.TargetUtil;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -21,8 +24,9 @@ public class TargetServiceJpaImpl implements TargetService {
     private TargetUtil targetUtil;
 
     @Autowired
-    public TargetServiceJpaImpl(TargetRepository targetRepository) {
+    public TargetServiceJpaImpl(TargetRepository targetRepository, TargetUtil targetUtil) {
         this.targetRepository = targetRepository;
+        this.targetUtil = targetUtil;
     }
 
     @Override
@@ -61,7 +65,7 @@ public class TargetServiceJpaImpl implements TargetService {
     }
 
     @Override
-    public List<Target> sumAllFromThisMonth(Budget budget) {
+    public List<Target> findAllFromThisMonth(Budget budget) {
         return targetRepository.findAllInCurrentMonth(budget);
 
     }
@@ -102,4 +106,11 @@ public class TargetServiceJpaImpl implements TargetService {
     public List<Target> findAllByBudget(Budget budget) {
         return targetRepository.findAllByBudget(budget);
     }
+
+    @Override
+    public List<TargetExpenseAmountsTransfer> targetAndExpensesToPercentage(List<Target> targets, Map<String, BigDecimal> expensesSum) {
+        return targetUtil.targetExpensesPercentageAmounts(targets, expensesSum);
+    }
+
+
 }
