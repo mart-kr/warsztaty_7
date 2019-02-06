@@ -128,7 +128,7 @@ public class ExpenseCategory extends Auditable {
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getExpenseList(), that.getExpenseList()) &&
-                Objects.equals(getBudget(), that.getBudget()) &&
+                Objects.equals(getBudget().getId(), that.getBudget().getId()) &&
                 Objects.equals(getTargetList(), that.getTargetList());
     }
 

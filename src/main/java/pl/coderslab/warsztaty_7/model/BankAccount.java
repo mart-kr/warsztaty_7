@@ -140,7 +140,7 @@ public class BankAccount extends Auditable {
                 Objects.equals(getDeposits(), that.getDeposits()) &&
                 Objects.equals(getFromTransfers(), that.getFromTransfers()) &&
                 Objects.equals(getToTransfers(), that.getToTransfers()) &&
-                Objects.equals(getBudget(), that.getBudget());
+                Objects.equals(getBudget().getId(), that.getBudget().getId());
     }
 
     @Override

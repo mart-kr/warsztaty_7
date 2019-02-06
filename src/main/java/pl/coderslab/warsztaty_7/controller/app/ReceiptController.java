@@ -75,8 +75,9 @@ public class ReceiptController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/add")
     public String showCreateReceiptForm(@AuthenticationPrincipal User user, Model model) {
-        if (user.getBudget() == null) {
-            return "redirect:/home/budget/add";
+        List<BankAccount> accounts = bankAccountService.findByBudgetId(user.getBudget().getId());
+        if (user.getBudget() == null || accounts.isEmpty()) {
+            return "redirect:/home/account/add";
         }
         model.addAttribute("action", "/home/receipt/add");
         return "receiptForm";
@@ -102,11 +103,12 @@ public class ReceiptController {
     @PostMapping(value = "/add")
     public String createReceipt(@AuthenticationPrincipal User user, @Valid @ModelAttribute Receipt receipt,
                                 BindingResult bindingResult) {
-        if (user.getBudget()!=null && receiptService.validateExpensesAmount(receipt)) {
+        List<BankAccount> accounts = bankAccountService.findByBudgetId(user.getBudget().getId());
+        if (user.getBudget()!=null && accounts.size()>0 && receiptService.validateExpensesAmount(receipt)) {
             receiptService.create(receipt);
             return "redirect:/home";
-        } else if (user.getBudget()==null) {
-            return "redirect:/home/budget/add";
+        } else if (user.getBudget()==null || user.getBudget().getBankAccounts().isEmpty()) {
+            return "redirect:/home/account/add";
         } else {
             bindingResult.rejectValue("amount", "amount.error");
             return "receiptForm";

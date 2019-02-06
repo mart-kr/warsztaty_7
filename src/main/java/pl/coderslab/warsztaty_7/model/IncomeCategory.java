@@ -126,7 +126,7 @@ public class IncomeCategory extends Auditable {
                 Objects.equals(getId(), that.getId()) &&
                 Objects.equals(getName(), that.getName()) &&
                 Objects.equals(getIncomeList(), that.getIncomeList()) &&
-                Objects.equals(getBudget(), that.getBudget());
+                Objects.equals(getBudget().getId(), that.getBudget().getId());
     }
 
     @Override

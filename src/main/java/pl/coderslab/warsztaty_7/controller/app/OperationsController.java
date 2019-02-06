@@ -31,8 +31,12 @@ public class OperationsController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping
-    public String allOperationsView() {
-        return "operations";
+    public String allOperationsView(@AuthenticationPrincipal User user) {
+        if (user.getBudget() != null) {
+            return "operations";
+        } else {
+            return "redirect:/home/budget/add";
+        }
     }
 
     @Autowired

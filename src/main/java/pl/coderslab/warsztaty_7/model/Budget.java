@@ -1,9 +1,7 @@
 package pl.coderslab.warsztaty_7.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "budgets")

@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label for="balance">Saldo początkowe</label>
-                <input type="text" class="form-control" id="balance" th:field="*{balance}">
+                <input type="number" step="0.01" class="form-control" id="balance" th:field="*{balance}">
                 <input type="hidden" th:field="*{budget}">
             </div>
             <div class="form-row">

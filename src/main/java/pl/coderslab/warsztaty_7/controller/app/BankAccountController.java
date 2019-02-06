@@ -51,9 +51,13 @@ public class BankAccountController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/add")
-    public String showCreateBankAccountForm(Model model) {
-        model.addAttribute("action", "/home/account/add");
-        return "bankAccountForm";
+    public String showCreateBankAccountForm(@AuthenticationPrincipal User user, Model model) {
+        if (user.getBudget() != null) {
+            model.addAttribute("action", "/home/account/add");
+            return "bankAccountForm";
+        } else {
+            return "redirect:/home/budget/add";
+        }
     }
 
     @PreAuthorize("hasRole('USER')")

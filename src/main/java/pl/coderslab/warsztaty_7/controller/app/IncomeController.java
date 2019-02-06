@@ -1,5 +1,6 @@
 package pl.coderslab.warsztaty_7.controller.app;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -81,21 +82,23 @@ public class IncomeController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/add")
     public String showCreateIncomeForm(@AuthenticationPrincipal User user, Model model) {
-        if (user.getBudget() != null) {
+        List<BankAccount> accounts = bankAccountService.findByBudgetId(user.getBudget().getId());
+        if (user.getBudget() != null && accounts.size()>0) {
             model.addAttribute("action", "/home/income/add");
             return "incomeForm";
         }
-        return "redirect:/home/budget/add";
+        return "redirect:/home/account/add";
     }
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
     public String createIncome(@AuthenticationPrincipal User user, @ModelAttribute Income income) {
-        if (user.getBudget() != null) {
+        List<BankAccount> accounts = bankAccountService.findByBudgetId(user.getBudget().getId());
+        if (user.getBudget() != null && accounts.size()>0) {
             incomeService.create(income);
             return "redirect:/home";
         }
-        return "redirect:/home/budget/add";
+        return "redirect:/home/account/add";
     }
 
     @PreAuthorize("hasRole('USER')")

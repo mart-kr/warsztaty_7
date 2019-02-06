@@ -116,7 +116,10 @@ public class Target extends Auditable {
         Target target = (Target) o;
         return Objects.equals(getId(), target.getId()) &&
                 Objects.equals(getAmount(), target.getAmount()) &&
-                Objects.equals(getExpenseCategory(), target.getExpenseCategory());
+                Objects.equals(getExpenseCategory(), target.getExpenseCategory()) &&
+                Objects.equals(getStartDate(), target.getStartDate()) &&
+                Objects.equals(getEndDate(), target.getEndDate()) &&
+                Objects.equals(getBudget().getId(), target.getBudget().getId());
     }
 
     @Override
