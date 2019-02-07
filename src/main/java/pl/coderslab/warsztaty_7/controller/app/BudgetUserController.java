@@ -22,16 +22,17 @@ public class BudgetUserController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/add")
-    public String addUserToBudgetForm(@AuthenticationPrincipal User user) {
+    public String addUserToBudgetForm(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
+        } else {
+            return "addBudgetUser";
         }
-        return "addBudgetUser";
     }
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/add")
-    public String addUserToBudget(@AuthenticationPrincipal User currentUser, @RequestParam("user-email") String userEmail) {
+    public String addUserToBudget(@AuthenticationPrincipal final User currentUser, @RequestParam("user-email") String userEmail) {
         Optional<User> newUser = userServiceImpl.findUserByUsername(userEmail);
         if (currentUser.getBudget() == null) {
             return "redirect:/home/budget/add";

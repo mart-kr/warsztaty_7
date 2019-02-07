@@ -31,7 +31,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping
-    public String homeAppPage(@AuthenticationPrincipal User user) {
+    public String homeAppPage(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
         } else {
@@ -41,7 +41,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "lastReceipts")
-    public List<Receipt> last5Receipts(@AuthenticationPrincipal User user) {
+    public List<Receipt> last5Receipts(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return null;
         } else {
@@ -51,7 +51,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthIncSum")
-    public BigDecimal sumIncomesInThisMonth(@AuthenticationPrincipal User user) {
+    public BigDecimal sumIncomesInThisMonth(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return null;
         } else {
@@ -61,7 +61,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthRecSum")
-    public BigDecimal sumReceiptsInThisMonth(@AuthenticationPrincipal User user) {
+    public BigDecimal sumReceiptsInThisMonth(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return null;
         } else {
@@ -71,7 +71,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthExpSum")
-    public Map<String, BigDecimal> sumExpensesInThisMonth(@AuthenticationPrincipal User user) {
+    public Map<String, BigDecimal> sumExpensesInThisMonth(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return null;
         } else {
@@ -82,7 +82,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "monthExpPercent")
-    public List<Map.Entry<String, Integer>> expensesInPercentageThisMonth(@AuthenticationPrincipal User user) {
+    public List<Map.Entry<String, Integer>> expensesInPercentageThisMonth(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return null;
         } else {
@@ -92,7 +92,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "accounts")
-    public List<BankAccount> accounts(@AuthenticationPrincipal User user) {
+    public List<BankAccount> accounts(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return null;
         } else {
@@ -102,7 +102,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "incomePercentCashflow")
-    public Integer incomePercentCashflow(@AuthenticationPrincipal User user) {
+    public Integer incomePercentCashflow(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return 0;
         } else {
@@ -112,7 +112,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "receiptPercentCashflow")
-    public Integer receiptPercentCashflow(@AuthenticationPrincipal User user) {
+    public Integer receiptPercentCashflow(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return 0;
         } else {
@@ -122,7 +122,7 @@ public class HomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "balanceCashflow")
-    public BigDecimal balanceCashflow(@AuthenticationPrincipal User user) {
+    public BigDecimal balanceCashflow(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return null;
         } else {

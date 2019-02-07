@@ -2,6 +2,7 @@ package pl.coderslab.warsztaty_7.controller.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,13 +30,15 @@ public class TransferController {
         this.securityService = securityService;
     }
 
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "transfer")
     public Transfer createEmptyTransfer() {
         return new Transfer();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "bankAccounts")
-    public List<BankAccount> findBankAccountsForBudget(@AuthenticationPrincipal User user) {
+    public List<BankAccount> findBankAccountsForBudget(@AuthenticationPrincipal final User user) {
         if (user.getBudget() != null) {
             return bankAccountService.findByBudgetId(user.getBudget().getId());
         } else {
@@ -49,10 +52,14 @@ public class TransferController {
 //        return "test_transfers";
 //    }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/add")
-    public String showCreateTransferForm(@AuthenticationPrincipal User user, Model model) {
+    public String showCreateTransferForm(@AuthenticationPrincipal final User user, Model model) {
+        if (user.getBudget() == null) {
+            return "redirect:/home/budget/add";
+        }
         List<BankAccount> accounts = bankAccountService.findByBudgetId(user.getBudget().getId());
-        if (user.getBudget() != null && accounts.size()>1) {
+        if (accounts.size()>1) {
             model.addAttribute("action", "/home/transfer/add");
             return "transferForm";
         } else {
@@ -60,10 +67,14 @@ public class TransferController {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createTransfer(@AuthenticationPrincipal User user, @ModelAttribute Transfer transfer) {
+    public String createTransfer(@AuthenticationPrincipal final User user, @ModelAttribute Transfer transfer) {
+        if (user.getBudget() == null) {
+            return "redirect:/home/budget/add";
+        }
         List<BankAccount> accounts = bankAccountService.findByBudgetId(user.getBudget().getId());
-        if (user.getBudget() != null && accounts.size()>1) {
+        if (accounts.size()>1) {
             transferService.create(transfer);
             return "redirect:/home";
         } else {
@@ -71,8 +82,9 @@ public class TransferController {
         }
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/edit/{id}")
-    public String showEditTransferForm(@AuthenticationPrincipal User user, @PathVariable Long id, Model model) {
+    public String showEditTransferForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
         if (securityService.canViewOrEditEntity(user, transferService.findById(id))) {
             model.addAttribute("action", "/home/transfer/edit/" + id);
             model.addAttribute("transfer", transferService.findById(id));
@@ -83,7 +95,7 @@ public class TransferController {
     }
 
     @PostMapping(value = "/edit/{id}")
-    public String editTransfer(@AuthenticationPrincipal User user, @PathVariable Long id, @ModelAttribute Transfer transfer) {
+    public String editTransfer(@AuthenticationPrincipal final User user, @PathVariable Long id, @ModelAttribute Transfer transfer) {
         if (securityService.canViewOrEditEntity(user, transfer) && id.equals(transfer.getId())) {
             transferService.edit(transfer);
             return "redirect:/home";
@@ -93,7 +105,7 @@ public class TransferController {
     }
 
     @GetMapping(value = "delete/{id}")
-    public String deleteTransfer(@AuthenticationPrincipal User user, @PathVariable Long id) {
+    public String deleteTransfer(@AuthenticationPrincipal final User user, @PathVariable Long id) {
         if (securityService.canDeleteEntity(user, transferService.findById(id))) {
             transferService.deleteById(id);
             return "redirect:/home";

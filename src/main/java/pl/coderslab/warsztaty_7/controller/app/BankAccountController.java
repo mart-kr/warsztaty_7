@@ -39,7 +39,7 @@ public class BankAccountController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/all" )
-    public String allBankAccounts(@AuthenticationPrincipal User user, Model model) {
+    public String allBankAccounts(@AuthenticationPrincipal final User user, Model model) {
         Budget userBudget = user.getBudget();
         if (userBudget != null) {
             model.addAttribute("bankAccounts", bankAccountService.findByBudgetId(userBudget.getId()));
@@ -51,7 +51,7 @@ public class BankAccountController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/add")
-    public String showCreateBankAccountForm(@AuthenticationPrincipal User user, Model model) {
+    public String showCreateBankAccountForm(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() != null) {
             model.addAttribute("action", "/home/account/add");
             return "bankAccountForm";
@@ -62,8 +62,8 @@ public class BankAccountController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createBankAccount(@AuthenticationPrincipal User user, @ModelAttribute BankAccount bankAccount) {
-        if (user.getBudget()!=null) {
+    public String createBankAccount(@AuthenticationPrincipal final User user, @ModelAttribute BankAccount bankAccount) {
+        if (user.getBudget() != null) {
             bankAccount.setBudget(user.getBudget());
             bankAccountService.create(bankAccount);
             budgetService.edit(user.getBudget());
@@ -75,7 +75,7 @@ public class BankAccountController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/edit/{id}")
-    public String showEditBankAccountForm(@AuthenticationPrincipal User user, @PathVariable Long id, Model model) {
+    public String showEditBankAccountForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
         BankAccount accountToEdit = bankAccountService.findById(id);
         if (securityService.canViewOrEditEntity(user, accountToEdit)) {
             model.addAttribute("action", "/home/account/edit/" + id);
@@ -88,7 +88,7 @@ public class BankAccountController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/edit/{id}")
-    public String editBankAccount(@AuthenticationPrincipal User user, @PathVariable Long id, @ModelAttribute BankAccount bankAccount) {
+    public String editBankAccount(@AuthenticationPrincipal final User user, @PathVariable Long id, @ModelAttribute BankAccount bankAccount) {
         if (securityService.canViewOrEditEntity(user, bankAccount) && id.equals(bankAccount.getId())) {
             bankAccountService.edit(bankAccount);
             return "redirect:/home";
@@ -99,7 +99,7 @@ public class BankAccountController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/delete/{id}")
-    public String deleteBankAccount(@AuthenticationPrincipal User user,@PathVariable Long id) {
+    public String deleteBankAccount(@AuthenticationPrincipal final User user, @PathVariable Long id) {
         BankAccount accountToEdit = bankAccountService.findById(id);
         if (securityService.canDeleteEntity(user, accountToEdit)) {
             bankAccountService.deleteById(id);

@@ -48,13 +48,13 @@ public class TargetController {
     }
 
     @ModelAttribute(name = "expenseCategories")
-    public List<ExpenseCategory> findAllCategories(@AuthenticationPrincipal User user){
+    public List<ExpenseCategory> findAllCategories(@AuthenticationPrincipal final User user){
         return expenseCategoryService.findAllForBudgetId(user.getId());
     }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/all" )
-    public String allTargets(@AuthenticationPrincipal User user, Model model) {
+    public String allTargets(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() != null) {
             model.addAttribute("monthTarAll", targetService.findAllByBudget(user.getBudget()));
             return "targetsHistory";
@@ -65,7 +65,7 @@ public class TargetController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/add")
-    public String showCreateTargetForm(@AuthenticationPrincipal User user, Model model) {
+    public String showCreateTargetForm(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() != null) {
             LocalDate today = LocalDate.now();
             model.addAttribute("action", "/home/target/add");
@@ -78,7 +78,7 @@ public class TargetController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createTarget(@AuthenticationPrincipal User user, @ModelAttribute  @Valid Target target,
+    public String createTarget(@AuthenticationPrincipal final User user, @ModelAttribute  @Valid Target target,
                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (user.getBudget() != null){
             List<Target> targets = targetService.findByCategoryId(target.getExpenseCategory().getId());
@@ -107,7 +107,7 @@ public class TargetController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/thisMonth")
-    public String targetsInThisMonth(@AuthenticationPrincipal User user, Model model) {
+    public String targetsInThisMonth(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() != null) {
             List<Target> targets = targetService.findAllFromThisMonth(user.getBudget());
             List<Expense> expensesInThisMonth = expenseService.findExpensesInThisMonthForBudget(user.getBudget());

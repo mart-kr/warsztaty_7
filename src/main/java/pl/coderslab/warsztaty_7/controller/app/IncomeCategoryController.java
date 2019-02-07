@@ -33,7 +33,7 @@ public class IncomeCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/all")
-    public String allIncomeCategories(@AuthenticationPrincipal User user, Model model){
+    public String allIncomeCategories(@AuthenticationPrincipal final User user, Model model){
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
         }
@@ -43,28 +43,30 @@ public class IncomeCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/add")
-    public String showCreateIncomeCategoryForm(@AuthenticationPrincipal User user, Model model) {
+    public String showCreateIncomeCategoryForm(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
+        } else {
+            model.addAttribute("action", "/home/incomeCategory/add");
+            return "incomeCategoryForm";
         }
-        model.addAttribute("action", "/home/incomeCategory/add");
-        return "incomeCategoryForm";
     }
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createIncomeCategory(@AuthenticationPrincipal User user, @ModelAttribute IncomeCategory incomeCategory) {
+    public String createIncomeCategory(@AuthenticationPrincipal final User user, @ModelAttribute IncomeCategory incomeCategory) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
+        } else {
+            incomeCategory.setBudget(user.getBudget());
+            incomeCategoryService.create(incomeCategory);
+            return "redirect:/home/incomeCategory/all";
         }
-        incomeCategory.setBudget(user.getBudget());
-        incomeCategoryService.create(incomeCategory);
-        return "redirect:/home/incomeCategory/all";
     }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/edit/{id}")
-    public String showEditIncomeCategoryForm(@AuthenticationPrincipal User user, @PathVariable Long id, Model model) {
+    public String showEditIncomeCategoryForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
         if (securityService.canViewOrEditEntity(user, incomeCategoryService.findById(id))) {
             model.addAttribute("action", "/home/incomeCategory/edit/" + id);
             model.addAttribute("incomeCategory", incomeCategoryService.findById(id));
@@ -76,7 +78,7 @@ public class IncomeCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/edit/{id}")
-    public String editIncomeCategory(@AuthenticationPrincipal User user, @PathVariable Long id,
+    public String editIncomeCategory(@AuthenticationPrincipal final User user, @PathVariable Long id,
                                      @ModelAttribute IncomeCategory incomeCategory) {
         if (securityService.canViewOrEditEntity(user, incomeCategory) && incomeCategory.getId().equals(id)) {
             incomeCategoryService.edit(incomeCategory);
@@ -88,7 +90,7 @@ public class IncomeCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "delete/{id}")
-    public String deleteIncomeCategory(@AuthenticationPrincipal User user, @PathVariable Long id) {
+    public String deleteIncomeCategory(@AuthenticationPrincipal final User user, @PathVariable Long id) {
         if (securityService.canDeleteEntity(user, incomeCategoryService.findById(id))) {
             incomeCategoryService.deleteById(id);
             return "redirect:/home/incomeCategory/all";

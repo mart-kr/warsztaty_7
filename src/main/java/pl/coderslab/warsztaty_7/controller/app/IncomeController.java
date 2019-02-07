@@ -36,11 +36,12 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "incomeCategories")
-    public List<IncomeCategory> findAllCategoriesForBudget(@AuthenticationPrincipal User user){
+    public List<IncomeCategory> findAllCategoriesForBudget(@AuthenticationPrincipal final User user){
         if (user.getBudget() == null) {
             return null;
+        } else {
+            return incomeCategoryService.findAllForBudgetId(user.getBudget().getId());
         }
-        return incomeCategoryService.findAllForBudgetId(user.getBudget().getId());
     }
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "income")
@@ -50,16 +51,17 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "bankAccounts")
-    public List<BankAccount> findBankAccountsForBudget(@AuthenticationPrincipal User user) {
-        if (user.getBudget() != null) {
+    public List<BankAccount> findBankAccountsForBudget(@AuthenticationPrincipal final User user) {
+        if (user.getBudget() == null) {
+            return null;
+        } else {
             return bankAccountService.findByBudgetId(user.getBudget().getId());
         }
-        return null;
     }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/all")
-    public String allIncomes(@AuthenticationPrincipal User user, Model model) {
+    public String allIncomes(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() != null) {
             model.addAttribute("incomes", incomeService.findAllForBudgetOrderedByDate(user.getBudget()));
             //TODO: WIDOK DO LISTY WSZYSTKICH WPŁYWÓW
@@ -70,7 +72,7 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/category/{id}")
-    public String findIncomesByCategory(@AuthenticationPrincipal User user, @PathVariable Long id, Model model) {
+    public String findIncomesByCategory(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
         if (user.getBudget() != null && securityService.canViewOrEditEntity(user, incomeService.findById(id))) {
             model.addAttribute("incomes", incomeService.findByCategoryId(id));
             //TODO: WIDOK DO LISTY WSZYSTKICH WPŁYWÓW
@@ -81,9 +83,12 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/add")
-    public String showCreateIncomeForm(@AuthenticationPrincipal User user, Model model) {
+    public String showCreateIncomeForm(@AuthenticationPrincipal final User user, Model model) {
+        if (user.getBudget() == null) {
+            return "redirect:/home/budget/add";
+        }
         List<BankAccount> accounts = bankAccountService.findByBudgetId(user.getBudget().getId());
-        if (user.getBudget() != null && accounts.size()>0) {
+        if (accounts.size()>0) {
             model.addAttribute("action", "/home/income/add");
             return "incomeForm";
         }
@@ -92,9 +97,12 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createIncome(@AuthenticationPrincipal User user, @ModelAttribute Income income) {
+    public String createIncome(@AuthenticationPrincipal final User user, @ModelAttribute Income income) {
+        if (user.getBudget() == null) {
+            return "redirect:/home/budget/add";
+        }
         List<BankAccount> accounts = bankAccountService.findByBudgetId(user.getBudget().getId());
-        if (user.getBudget() != null && accounts.size()>0) {
+        if (accounts.size()>0) {
             incomeService.create(income);
             return "redirect:/home";
         }
@@ -103,7 +111,7 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/edit/{id}")
-    public String showEditIncomeForm(@AuthenticationPrincipal User user, @PathVariable Long id, Model model) {
+    public String showEditIncomeForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
         if (securityService.canViewOrEditEntity(user, incomeService.findById(id))) {
             model.addAttribute("action", "/home/income/edit/" + id);
             model.addAttribute("income", incomeService.findById(id));
@@ -114,7 +122,7 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/edit/{id}")
-    public String editIncome(@AuthenticationPrincipal User user, @PathVariable Long id, @ModelAttribute Income income) {
+    public String editIncome(@AuthenticationPrincipal final User user, @PathVariable Long id, @ModelAttribute Income income) {
         if (securityService.canViewOrEditEntity(user, income) && income.getId().equals(id)) {
             incomeService.edit(income);
             return "redirect:/home";
@@ -124,7 +132,7 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/delete/{id}")
-    public String deleteIncome(@AuthenticationPrincipal User user, @PathVariable Long id) {
+    public String deleteIncome(@AuthenticationPrincipal final User user, @PathVariable Long id) {
         if (securityService.canDeleteEntity(user, incomeService.findById(id))) {
             incomeService.deleteById(id);
             return "redirect:/home";

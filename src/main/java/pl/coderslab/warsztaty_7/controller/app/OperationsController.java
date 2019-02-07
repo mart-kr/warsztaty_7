@@ -21,7 +21,7 @@ public class OperationsController {
 
     @PreAuthorize("hasRole('USER')")
     @ModelAttribute(name = "operations")
-    public List<Operation> allOperations(@AuthenticationPrincipal User user) {
+    public List<Operation> allOperations(@AuthenticationPrincipal final User user) {
         if (user.getBudget() == null) {
             return null;
         } else {
@@ -31,11 +31,11 @@ public class OperationsController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping
-    public String allOperationsView(@AuthenticationPrincipal User user) {
-        if (user.getBudget() != null) {
-            return "operations";
-        } else {
+    public String allOperationsView(@AuthenticationPrincipal final User user) {
+        if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
+        } else {
+            return "operations";
         }
     }
 

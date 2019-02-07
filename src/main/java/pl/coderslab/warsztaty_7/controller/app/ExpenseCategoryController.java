@@ -37,43 +37,45 @@ public class ExpenseCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/all")
-    public String allExpenseCategories(@AuthenticationPrincipal User user, Model model) {
+    public String allExpenseCategories(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
+        } else {
+            model.addAttribute("expenseCategories", expenseCategoryService.findAllForBudgetId(user.getBudget().getId()));
+            return "expenseCategories";
         }
-        model.addAttribute("expenseCategories", expenseCategoryService.findAllForBudgetId(user.getBudget().getId()));
-        return "expenseCategories";
     }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/add")
-    public String showCreateExpenseCategoryForm(@AuthenticationPrincipal User user, Model model) {
+    public String showCreateExpenseCategoryForm(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
+        } else {
+            model.addAttribute("action", "/home/expenseCategory/add");
+            return "expenseCategoryForm";
         }
-        model.addAttribute("action", "/home/expenseCategory/add");
-        return "expenseCategoryForm";
     }
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createExpenseCategory(@AuthenticationPrincipal User user,
+    public String createExpenseCategory(@AuthenticationPrincipal final User user,
                                         @Valid @ModelAttribute ExpenseCategory expenseCategory,
                                         BindingResult bindingResult) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
-        }
-        if (bindingResult.hasErrors()) {
+        } else if (bindingResult.hasErrors()) {
             return "expenseCategoryForm";
+        } else {
+            expenseCategory.setBudget(user.getBudget());
+            expenseCategoryService.create(expenseCategory);
+            return "redirect:/home/expenseCategory/all";
         }
-        expenseCategory.setBudget(user.getBudget());
-        expenseCategoryService.create(expenseCategory);
-        return "redirect:/home/expenseCategory/all";
     }
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "edit/{id}")
-    public String showEditExpenseCategoryForm(@AuthenticationPrincipal User user, @PathVariable Long id, Model model) {
+    public String showEditExpenseCategoryForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
         if (securityService.canViewOrEditEntity(user, expenseCategoryService.findById(id))) {
             model.addAttribute("action", "/home/expenseCategory/edit/" + id);
             model.addAttribute("expenseCategory", expenseCategoryService.findById(id));
@@ -86,7 +88,7 @@ public class ExpenseCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "edit/{id}")
-    public String editExpenseCategory(@AuthenticationPrincipal User user, @PathVariable Long id, @ModelAttribute ExpenseCategory expenseCategory) {
+    public String editExpenseCategory(@AuthenticationPrincipal final User user, @PathVariable Long id, @ModelAttribute ExpenseCategory expenseCategory) {
         if (securityService.canViewOrEditEntity(user, expenseCategoryService.findById(id))) {
             expenseCategoryService.edit(expenseCategory);
             return "redirect:/home/expenseCategory/all";
@@ -97,7 +99,7 @@ public class ExpenseCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "delete/{id}")
-    public String deleteExpenseCategory(@AuthenticationPrincipal User user, @PathVariable Long id) {
+    public String deleteExpenseCategory(@AuthenticationPrincipal final User user, @PathVariable Long id) {
         if (securityService.canDeleteEntity(user, expenseCategoryService.findById(id))) {
             expenseCategoryService.deleteById(id);
             return "redirect:/home/expenseCategory/all";
