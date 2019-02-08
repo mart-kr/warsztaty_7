@@ -12,6 +12,8 @@ import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.BudgetService;
 import pl.coderslab.warsztaty_7.service.SecurityService;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping(value = "home/budget")
 public class BudgetController {
@@ -44,7 +46,7 @@ public class BudgetController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createBudget(@AuthenticationPrincipal final User user, @ModelAttribute Budget budget) {
+    public String createBudget(@AuthenticationPrincipal final User user, @ModelAttribute final Budget budget) {
         if (user.getBudget() == null) {
             budgetService.create(budget); // TODO: rozwiązać w lepszy sposób problem "org.hibernate.PersistentObjectException: detached entity passed to persist: pl.coderslab.warsztaty_7.model.User"
             budget.addUser(user);
@@ -55,7 +57,8 @@ public class BudgetController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/edit/{id}")
-    public String showEditBudgetForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
+    public String showEditBudgetForm(@AuthenticationPrincipal final User user, @PathVariable final Long id,
+                                     Model model) {
         Budget budgetToEdit = budgetService.findById(id);
         if(securityService.canViewOrEditEntity(user, budgetToEdit)) {
             model.addAttribute("action", "/home/budget/edit/" + id);
@@ -68,8 +71,9 @@ public class BudgetController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/edit/{id}")
-    public String editBudget(@AuthenticationPrincipal final User user, @PathVariable Long id, @ModelAttribute Budget budget) {
-        if (securityService.canViewOrEditEntity(user, budget) && budget.getId().equals(id)) {
+    public String editBudget(@AuthenticationPrincipal final User user, @PathVariable final Long id,
+                             @ModelAttribute @Valid final Budget budget) {
+        if (securityService.canViewOrEditEntity(user, budgetService.findById(id)) && budget.getId().equals(id)) {
             budgetService.edit(budget);
             return "redirect:/home";
         } else {
@@ -79,7 +83,7 @@ public class BudgetController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "delete/{id}")
-    public String deleteBudget(@AuthenticationPrincipal final User user, @PathVariable Long id) {
+    public String deleteBudget(@AuthenticationPrincipal final User user, @PathVariable final Long id) {
         Budget budgetToDelete = budgetService.findById(id);
         if (securityService.canDeleteBudget(user, budgetToDelete)) {
             budgetService.deleteById(id);

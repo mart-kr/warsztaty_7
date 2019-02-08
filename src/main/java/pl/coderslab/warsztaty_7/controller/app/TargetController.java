@@ -78,7 +78,7 @@ public class TargetController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createTarget(@AuthenticationPrincipal final User user, @ModelAttribute  @Valid Target target,
+    public String createTarget(@AuthenticationPrincipal final User user, @ModelAttribute @Valid final Target target,
                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (user.getBudget() != null){
             List<Target> targets = targetService.findByCategoryId(target.getExpenseCategory().getId());

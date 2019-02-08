@@ -120,22 +120,6 @@ public class Receipt extends Auditable implements Operation{
     }
 
     @Override
-    public String toString() {
-        return "Receipt{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", dateOfPayment=" + dateOfPayment +
-                ", placeOfPayment='" + placeOfPayment + '\'' +
-                ", note='" + note + '\'' +
-                ", expenses=" + expenses +
-                ", createdByUserId=" + createdByUserId +
-                ", creationDate=" + creationDate +
-                ", updatedByUserId=" + updatedByUserId +
-                ", updatedDate=" + updatedDate +
-                '}';
-    }
-
-    @Override
     public LocalDate getOperationDate() {
         return dateOfPayment;
     }
@@ -144,6 +128,24 @@ public class Receipt extends Auditable implements Operation{
     public String getType() {
         return TYPE;
     }
+
+//    @Override
+//    public String toString() {
+//        return "Receipt{" +
+//                "id=" + id +
+//                ", amount=" + amount +
+//                ", dateOfPayment=" + dateOfPayment +
+//                ", placeOfPayment='" + placeOfPayment + '\'' +
+//                ", note='" + note + '\'' +
+//                ", expenses=" + expenses +
+//                ", bankAccount=" + bankAccount +
+//                ", TYPE='" + TYPE + '\'' +
+//                ", createdByUserId=" + createdByUserId +
+//                ", creationDate=" + creationDate +
+//                ", updatedByUserId=" + updatedByUserId +
+//                ", updatedDate=" + updatedDate +
+//                '}';
+//    }
 
     @Override
     public boolean equals(Object o) {

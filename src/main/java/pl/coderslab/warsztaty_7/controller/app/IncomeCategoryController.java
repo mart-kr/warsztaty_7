@@ -54,7 +54,7 @@ public class IncomeCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createIncomeCategory(@AuthenticationPrincipal final User user, @ModelAttribute IncomeCategory incomeCategory) {
+    public String createIncomeCategory(@AuthenticationPrincipal final User user, @ModelAttribute final IncomeCategory incomeCategory) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
         } else {
@@ -66,7 +66,7 @@ public class IncomeCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/edit/{id}")
-    public String showEditIncomeCategoryForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
+    public String showEditIncomeCategoryForm(@AuthenticationPrincipal final User user, @PathVariable final Long id, Model model) {
         if (securityService.canViewOrEditEntity(user, incomeCategoryService.findById(id))) {
             model.addAttribute("action", "/home/incomeCategory/edit/" + id);
             model.addAttribute("incomeCategory", incomeCategoryService.findById(id));
@@ -78,8 +78,8 @@ public class IncomeCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/edit/{id}")
-    public String editIncomeCategory(@AuthenticationPrincipal final User user, @PathVariable Long id,
-                                     @ModelAttribute IncomeCategory incomeCategory) {
+    public String editIncomeCategory(@AuthenticationPrincipal final User user, @PathVariable final Long id,
+                                     @ModelAttribute final IncomeCategory incomeCategory) {
         if (securityService.canViewOrEditEntity(user, incomeCategory) && incomeCategory.getId().equals(id)) {
             incomeCategoryService.edit(incomeCategory);
             return "redirect:/home/incomeCategory/all";
@@ -90,7 +90,7 @@ public class IncomeCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "delete/{id}")
-    public String deleteIncomeCategory(@AuthenticationPrincipal final User user, @PathVariable Long id) {
+    public String deleteIncomeCategory(@AuthenticationPrincipal final User user, @PathVariable final Long id) {
         if (securityService.canDeleteEntity(user, incomeCategoryService.findById(id))) {
             incomeCategoryService.deleteById(id);
             return "redirect:/home/incomeCategory/all";

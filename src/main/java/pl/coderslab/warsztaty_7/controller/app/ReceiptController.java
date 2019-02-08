@@ -88,7 +88,7 @@ public class ReceiptController {
 
     @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = {"/add", "/edit/{id}"}, params = {"addExpense"})
-    public String addExpense(final Receipt receipt) {
+    public String addExpense(@ModelAttribute final Receipt receipt) {
         Expense expense = receiptService.createNewExpense(receipt);
         receipt.getExpenses().add(expense);
         return "receiptForm";
@@ -96,7 +96,7 @@ public class ReceiptController {
 
     @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = {"/add", "/edit/{id}"}, params = {"removeExpense"})
-    public String removeExpense(final Receipt receipt, final HttpServletRequest req) {
+    public String removeExpense(@ModelAttribute final Receipt receipt, final HttpServletRequest req) {
         final Integer expenseId = Integer.valueOf(req.getParameter("removeExpense"));
         receipt.getExpenses().remove(expenseId.intValue());
         return "receiptForm";
@@ -104,7 +104,7 @@ public class ReceiptController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createReceipt(@AuthenticationPrincipal final User user, @Valid Receipt receipt,
+    public String createReceipt(@AuthenticationPrincipal final User user, @ModelAttribute @Valid final Receipt receipt,
                                 BindingResult bindingResult) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
@@ -123,7 +123,7 @@ public class ReceiptController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/edit/{id}")
-    public String showEditReceiptForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
+    public String showEditReceiptForm(@AuthenticationPrincipal final User user, @PathVariable final Long id, Model model) {
         if (securityService.canViewOrEditEntity(user, receiptService.findById(id))) {
             model.addAttribute("action", "/home/receipt/edit/" + id);
             model.addAttribute("receipt", receiptService.findById(id));
@@ -135,9 +135,9 @@ public class ReceiptController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/edit/{id}")
-    public String editReceipt(@AuthenticationPrincipal final User user, @PathVariable Long id,
+    public String editReceipt(@AuthenticationPrincipal final User user, @PathVariable final Long id,
                               @Valid @ModelAttribute Receipt receipt, BindingResult bindingResult) {
-        if (securityService.canViewOrEditEntity(user, receipt) && receiptService.validateExpensesAmount(receipt)
+        if (securityService.canViewOrEditEntity(user, receiptService.findById(id)) && receiptService.validateExpensesAmount(receipt)
                 && receipt.getId().equals(id)) {
             receiptService.edit(receipt);
             return "redirect:/home";
@@ -151,7 +151,7 @@ public class ReceiptController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "delete/{id}")
-    public String deleteReceipt(@AuthenticationPrincipal final User user, @PathVariable Long id) {
+    public String deleteReceipt(@AuthenticationPrincipal final User user, @PathVariable final Long id) {
         if (securityService.canDeleteEntity(user, receiptService.findById(id))) {
             receiptService.deleteById(id);
             return "redirect:/home";

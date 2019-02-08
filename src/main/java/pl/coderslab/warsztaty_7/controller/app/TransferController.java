@@ -69,7 +69,7 @@ public class TransferController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createTransfer(@AuthenticationPrincipal final User user, @ModelAttribute Transfer transfer) {
+    public String createTransfer(@AuthenticationPrincipal final User user, @ModelAttribute final Transfer transfer) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
         }
@@ -84,7 +84,7 @@ public class TransferController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/edit/{id}")
-    public String showEditTransferForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
+    public String showEditTransferForm(@AuthenticationPrincipal final User user, @PathVariable final Long id, Model model) {
         if (securityService.canViewOrEditEntity(user, transferService.findById(id))) {
             model.addAttribute("action", "/home/transfer/edit/" + id);
             model.addAttribute("transfer", transferService.findById(id));
@@ -95,8 +95,8 @@ public class TransferController {
     }
 
     @PostMapping(value = "/edit/{id}")
-    public String editTransfer(@AuthenticationPrincipal final User user, @PathVariable Long id, @ModelAttribute Transfer transfer) {
-        if (securityService.canViewOrEditEntity(user, transfer) && id.equals(transfer.getId())) {
+    public String editTransfer(@AuthenticationPrincipal final User user, @PathVariable final Long id, @ModelAttribute final Transfer transfer) {
+        if (securityService.canViewOrEditEntity(user, transferService.findById(id)) && id.equals(transfer.getId())) {
             transferService.edit(transfer);
             return "redirect:/home";
         } else {
@@ -105,7 +105,7 @@ public class TransferController {
     }
 
     @GetMapping(value = "delete/{id}")
-    public String deleteTransfer(@AuthenticationPrincipal final User user, @PathVariable Long id) {
+    public String deleteTransfer(@AuthenticationPrincipal final User user, @PathVariable final Long id) {
         if (securityService.canDeleteEntity(user, transferService.findById(id))) {
             transferService.deleteById(id);
             return "redirect:/home";

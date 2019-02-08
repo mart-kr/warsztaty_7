@@ -32,7 +32,7 @@ public class BudgetUserController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/add")
-    public String addUserToBudget(@AuthenticationPrincipal final User currentUser, @RequestParam("user-email") String userEmail) {
+    public String addUserToBudget(@AuthenticationPrincipal final User currentUser, @RequestParam("user-email") final String userEmail) {
         Optional<User> newUser = userServiceImpl.findUserByUsername(userEmail);
         if (currentUser.getBudget() == null) {
             return "redirect:/home/budget/add";

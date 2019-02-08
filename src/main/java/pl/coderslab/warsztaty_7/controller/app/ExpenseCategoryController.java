@@ -60,7 +60,7 @@ public class ExpenseCategoryController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
     public String createExpenseCategory(@AuthenticationPrincipal final User user,
-                                        @Valid @ModelAttribute ExpenseCategory expenseCategory,
+                                        @ModelAttribute @Valid final ExpenseCategory expenseCategory,
                                         BindingResult bindingResult) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
@@ -75,7 +75,8 @@ public class ExpenseCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "edit/{id}")
-    public String showEditExpenseCategoryForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
+    public String showEditExpenseCategoryForm(@AuthenticationPrincipal final User user, final @PathVariable Long id,
+                                              Model model) {
         if (securityService.canViewOrEditEntity(user, expenseCategoryService.findById(id))) {
             model.addAttribute("action", "/home/expenseCategory/edit/" + id);
             model.addAttribute("expenseCategory", expenseCategoryService.findById(id));
@@ -88,7 +89,8 @@ public class ExpenseCategoryController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "edit/{id}")
-    public String editExpenseCategory(@AuthenticationPrincipal final User user, @PathVariable Long id, @ModelAttribute ExpenseCategory expenseCategory) {
+    public String editExpenseCategory(@AuthenticationPrincipal final User user, @PathVariable final Long id,
+                                      @ModelAttribute final ExpenseCategory expenseCategory) {
         if (securityService.canViewOrEditEntity(user, expenseCategoryService.findById(id))) {
             expenseCategoryService.edit(expenseCategory);
             return "redirect:/home/expenseCategory/all";

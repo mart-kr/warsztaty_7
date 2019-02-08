@@ -4,19 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderslab.warsztaty_7.model.*;
-import pl.coderslab.warsztaty_7.service.SecurityService;
-import pl.coderslab.warsztaty_7.service.UserServiceImpl;
+import pl.coderslab.warsztaty_7.service.*;
 
 
 @Service
 @Primary
 public class SecurityServiceJpaImpl implements SecurityService<User, Auditable> {
 
-    private UserServiceImpl userServiceImpl;
+    private final BankAccountService bankAccountService;
+    private final BudgetService budgetService;
+    private final ExpenseCategoryService expenseCategoryService;
 
     @Autowired
-    public SecurityServiceJpaImpl(UserServiceImpl userServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
+    public SecurityServiceJpaImpl(BankAccountService bankAccountService, BudgetService budgetService, ExpenseCategoryService expenseCategoryService) {
+        this.bankAccountService = bankAccountService;
+        this.budgetService = budgetService;
+        this.expenseCategoryService = expenseCategoryService;
     }
 
     @Override

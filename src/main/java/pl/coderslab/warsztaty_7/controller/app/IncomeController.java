@@ -97,7 +97,7 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createIncome(@AuthenticationPrincipal final User user, @ModelAttribute Income income) {
+    public String createIncome(@AuthenticationPrincipal final User user, @ModelAttribute final Income income) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
         }
@@ -111,7 +111,8 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/edit/{id}")
-    public String showEditIncomeForm(@AuthenticationPrincipal final User user, @PathVariable Long id, Model model) {
+    public String showEditIncomeForm(@AuthenticationPrincipal final User user, @PathVariable final Long id,
+                                     Model model) {
         if (securityService.canViewOrEditEntity(user, incomeService.findById(id))) {
             model.addAttribute("action", "/home/income/edit/" + id);
             model.addAttribute("income", incomeService.findById(id));
@@ -122,8 +123,9 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/edit/{id}")
-    public String editIncome(@AuthenticationPrincipal final User user, @PathVariable Long id, @ModelAttribute Income income) {
-        if (securityService.canViewOrEditEntity(user, income) && income.getId().equals(id)) {
+    public String editIncome(@AuthenticationPrincipal final User user, @PathVariable final Long id,
+                             @ModelAttribute final Income income) {
+        if (securityService.canViewOrEditEntity(user, incomeService.findById(id)) && income.getId().equals(id)) {
             incomeService.edit(income);
             return "redirect:/home";
         }
@@ -132,7 +134,7 @@ public class IncomeController {
 
     @PreAuthorize("hasRole('USER')")
     @GetMapping(value = "/delete/{id}")
-    public String deleteIncome(@AuthenticationPrincipal final User user, @PathVariable Long id) {
+    public String deleteIncome(@AuthenticationPrincipal final User user, @PathVariable final Long id) {
         if (securityService.canDeleteEntity(user, incomeService.findById(id))) {
             incomeService.deleteById(id);
             return "redirect:/home";
