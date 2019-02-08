@@ -10,13 +10,23 @@
 </head>
 <body>
 <div th:include="fragments/topBar :: topBar"></div>
-
-<h3>Moje transfery</h3>
-<table>
-    <tr th:each="transfer : ${transfers}">
-        <td th:text="${transfer.amount}">1</td>
-        <td th:text="${transfer.dateOfTransfer}">...</td>
-    </tr>
-</table>
+<div class="container">
+    <div class="container-fluid align-self-center mt-5 w-50">
+        <div th:if="${transfers}" class="list-group">
+            <h3 class="text-center">Wszystkie transfery</h3>
+            <div th:each="transfer : ${transfers}" class="list-group-item text-center rounded border border-primary">
+                <p th:text="'Kwota: '+${transfer.amount}">1</p>
+                <p th:text="'Data: '+${transfer.dateOfTransfer}">...</p>
+                <p th:text="'Z konta: '+${transfer.fromAccount}">..</p>
+                <p th:text="'Na konto: '+${transfer.toAccount}">.</p>
+                <p th:unless="${transfer.note==''}" th:text="'Notka: '+${transfer.note}"></p>
+                <a th:href="@{/home/transfer/edit/{id}(id=${transfer.id})}" class="btn btn-primary">Edytuj</a>
+            </div>
+        </div>
+        <div th:if="${transfers.isEmpty()}">
+            <p class="text-center h3">Brak transferów w budżecie.</p>
+        </div>
+    </div>
+</div>
 </body>
 </html>

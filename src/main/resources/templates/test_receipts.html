@@ -10,15 +10,22 @@
 </head>
 <body>
     <div th:include="fragments/topBar :: topBar"></div>
-
-    <h3>Moje wydatki</h3>
-    <table>
-        <tr th:each="receipt : ${receipts}">
-            <td th:text="${receipt.amount}">1</td>
-            <td th:text="${receipt.dateOfPayment}">...</td>
-            <td th:text="${receipt.placeOfPayment}">...</td>
-            <td th:text="${receipt.note}">...</td>
-        </tr>
-    </table>
+    <div class="container">
+        <div class="container-fluid align-self-center mt-5 w-50">
+            <div th:if="${receipts}" class="list-group">
+                <h3 class="text-center">Wszystkie wydatki</h3>
+                <div th:each="receipt : ${receipts}" class="list-group-item text-center rounded border border-warning">
+                    <p th:text="'Kwota: '+${receipt.amount}">1</p>
+                    <p th:text="'Data: '+${receipt.dateOfPayment}">...</p>
+                    <p th:text="'Miejsce: '+${receipt.placeOfPayment}">...</p>
+                    <p th:unless="${receipt.note==''}" th:text="'Notka: '+${receipt.note}">...</p>
+                    <a th:href="@{/home/receipt/edit/{id}(id=${receipt.id})}" class="btn btn-primary">Edytuj</a>
+                </div>
+            </div>
+            <div th:if="${receipts.isEmpty()}">
+                <p class="text-center h3">Brak wydatków w budżecie.</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

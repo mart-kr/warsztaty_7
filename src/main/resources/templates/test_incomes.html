@@ -10,13 +10,22 @@
 </head>
 <body>
     <div th:include="fragments/topBar :: topBar"></div>
-
-    <h3>Moje przychody</h3>
-    <table>
-        <tr th:each="income : ${incomes}">
-            <td th:text="${income.amount}">1</td>
-            <td th:text="${income.incomeCategory.name}">...</td>
-        </tr>
-    </table>
+    <div class="container">
+        <div class="container-fluid align-self-center mt-5 w-50">
+            <div th:if="${incomes}" class="list-group">
+                <h3 class="text-center">Wszystkie wydatki</h3>
+                <div th:each="income : ${incomes}" class="list-group-item text-center rounded border border-success">
+                    <p th:text="'Kwota: '+${income.amount}">1</p>
+                    <p th:text="'Kategoria: '+${income.incomeCategory.name}">...</p>
+                    <p th:text="'Data: '+${income.dateOfPayment}">...</p>
+                    <p th:unless="${income.incomeNote==''}" th:text="'Notka:'+${income.incomeNote}">...</p>
+                    <a th:href="@{/home/income/edit/{id}(id=${income.id})}" class="btn btn-primary">Edytuj</a>
+                </div>
+            </div>
+            <div th:if="${incomes.isEmpty()}">
+                <p class="text-center h3">Brak przychodów w budżecie.</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

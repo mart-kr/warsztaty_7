@@ -11,7 +11,7 @@
 <body>
 <div th:include="fragments/topBar :: topBar"></div>
 <div class="container">
-
+    <!---->
     <div th:if="${operations}" class="container-fluid align-self-center mt-5 w-50">
         <div th:each="operation : ${operations}" th:classappend="${operation.getType()=='Przychód'}? 'border-success' : (${operation.getType()=='Transfer'}? 'border-primary' : 'border-warning')"
             class="card border">
@@ -54,8 +54,8 @@
                 </div>
             </div>
         </div>
-        <div th:if="${operations.isEmpty()}" class="card border border-secondary">
-            <div class="card-header"><p class="h5 card-title text-center">Brak operacji w budżecie.</p></div>
+        <div th:if="${operations.isEmpty()}">
+            <p class="h3 text-center">Brak operacji w budżecie.</p></div>
         </div>
     </div>
 </div>

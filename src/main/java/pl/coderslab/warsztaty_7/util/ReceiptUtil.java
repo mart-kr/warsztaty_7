@@ -5,6 +5,7 @@ import pl.coderslab.warsztaty_7.model.Expense;
 import pl.coderslab.warsztaty_7.model.Receipt;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Component
 public class ReceiptUtil {
@@ -29,10 +30,8 @@ public class ReceiptUtil {
 
     public boolean validateExpensesAmount(Receipt receipt) {
         BigDecimal expensesSum = calculateExpensesSum(receipt);
-        if (receipt.getAmount().equals(expensesSum)) {
-            return true;
-        }
-        return false;
+        return receipt.getAmount().setScale(2, RoundingMode.HALF_UP)
+                .equals(expensesSum.setScale(2, RoundingMode.HALF_UP));
     }
 
 

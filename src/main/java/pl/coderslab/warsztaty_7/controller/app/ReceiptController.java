@@ -16,7 +16,6 @@ import pl.coderslab.warsztaty_7.service.SecurityService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -105,7 +104,7 @@ public class ReceiptController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping(value = "/add")
-    public String createReceipt(@AuthenticationPrincipal final User user, @Valid @ModelAttribute Receipt receipt,
+    public String createReceipt(@AuthenticationPrincipal final User user, @Valid Receipt receipt,
                                 BindingResult bindingResult) {
         if (user.getBudget() == null) {
             return "redirect:/home/budget/add";
