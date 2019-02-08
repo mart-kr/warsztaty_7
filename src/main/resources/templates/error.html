@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <head>
     <meta charset="UTF-8"/>
     <title>Wystąpił błąd</title>
 </head>
 <body>
 <div>
-    <h3>Wystąpił błąd</h3>
-    <div class="error-title">
-            <p th:if="${status == 404}">Strona nie została znaleziona!</p>
-            <p th:unless="${status == 404}">Coś poszło nie tak...</p>
+    <div class="jumbotron">
+            <div>
+                <h3>Wystąpił błąd</h3>
+                <div class="error-title">
+                    <p th:if="${status == 404}">Strona nie została znaleziona!</p>
+                    <p th:unless="${status == 404}">Coś poszło nie tak...</p>
+                </div>
+            </div>
+            <div th:switch="${status}" class="error-text">
+                <p th:case="404">Sprawdź czy wpisałeś poprawny adres :)</p>
+                <p th:case="403">Czy na pewno masz dostęp do tej strony?</p>
+                <p th:case="*">Postaramy się to naprawić!</p>
+                <a href="/home" class="btn btn-primary" th:href="@{/home}">Powrót do strony głównej</a>
+            </div>
     </div>
-    <div th:switch="${status}" class="error-text">
-        <p th:case="404">Sprawdź czy wpisałeś poprawny adres :)</p>
-        <p th:case="403">Czy na pewno masz dostęp do tej strony?</p>
-        <p th:case="*">Postaramy się to naprawić!</p>
-    </div>
-    <div><a href="/home" th:href="@{/home}">Powrót do strony głównej</a></div>
 
-        <!--dodane na potrzeby developmentu-->
     <br>
     <p th:text="${message}">Exception message</p>
     <pre th:text="${trace}">Stacktrace</pre>

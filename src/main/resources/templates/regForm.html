@@ -26,11 +26,18 @@
                 <div class="form-group">
                     <div th:if="${#fields.hasErrors('password')}" th:text="'Podane hasło nie spełnia wymagań.'"
                           class="alert alert-danger" role="alert">Błędne hasło</div>
+                    <div th:if="${#fields.hasErrors('confirm')}" th:text="'Podane hasła muszą być identyczne'"
+                          class="alert alert-danger" role="alert">Hasła nie zgadzają się</div>
                     <label for="first-name">Podaj hasło</label>
                     <input type="password" th:field="${user.password}" id="password" placeholder="Hasło" class="form-control" required="required">
                     <small id="password-help" class="form-text text-muted">
                         Hasło musi się składać z 8-20 znaków, zawierać cyfry oraz małe i duże litery.
                         Nie może zawierać białych znaków (np. spacji)</small>
+                </div>
+                <div class="form-group">
+                    <label for="first-name">Potwierdź hasło</label>
+                    <input type="password" th:field="${user.confirm}" id="confirm" placeholder="Hasło" class="form-control" required="required">
+                    <small id="confirm-help" class="form-text text-muted">Podane hasła muszą być identyczne.</small>
                 </div>
                 <div class="form-group">
                     <div th:if="${#fields.hasErrors('firstName')}" th:text="'Podane imię jest niepoprawne.'"

@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -34,7 +33,11 @@ public class User implements UserDetails {
     private String firstName;
 
     @Column(name = "password", nullable = false)
+    @NotBlank
     private String password;
+
+    @Transient
+    private String confirm;
 
     @Column(name = "enabled")
     private boolean enabled;
@@ -135,6 +138,14 @@ public class User implements UserDetails {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
+
+    public String getConfirm() {
+        return confirm;
     }
 
     public boolean isEnabled() {
