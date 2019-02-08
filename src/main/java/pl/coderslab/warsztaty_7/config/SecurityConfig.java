@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.coderslab.warsztaty_7.repository.UserRepository;
@@ -29,17 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                .authorizeRequests().antMatchers("/add-admin", "/home", "/home/**", "/exception").permitAll()
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/**").authenticated()
-//                .and().formLogin()
-//                .and().logout();
         http
                 .csrf().disable()
-                .authorizeRequests().antMatchers("/add-admin","/home/**","/home","/start","/start/**","/").permitAll()
-                .antMatchers("/**").authenticated()
+                .authorizeRequests()
+                .antMatchers("/start", "/start/**").permitAll()
+                .antMatchers("/home", "/home/**").hasRole("USER")
+                .antMatchers("/admin", "/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/start/login").permitAll()
                 .defaultSuccessUrl("/home", false)
@@ -48,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/start/logout")
                 .permitAll()
                 .logoutSuccessUrl("/start/login?logout");
-
     }
 
     @Override

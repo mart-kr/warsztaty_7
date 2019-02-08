@@ -10,7 +10,7 @@
 <body>
 <div th:fragment="expensesSum" class="container">
     <div class="card border-secondary m-3">
-        <div class="card-header font-weight-bold">Wydatki w tym miesiącu</div>
+        <div class="card-header font-weight-bold">Sumy wydatków w tym miesiącu</div>
         <div class="card-body">
             <th:block th:if="${monthExpSum}">
                 <div th:each="expenseSum : ${monthExpSum}" class="list-group-item">
