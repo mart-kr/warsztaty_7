@@ -64,7 +64,7 @@ public class IncomeController {
         if (user.getBudget() != null) {
             model.addAttribute("incomes", incomeService.findAllForBudgetOrderedByDate(user.getBudget()));
             //TODO: WIDOK DO LISTY WSZYSTKICH WPŁYWÓW
-            return "incomes";
+            return "allIncomes";
         }
         return "redirect:/home/budget/add";
     }
@@ -75,7 +75,7 @@ public class IncomeController {
         if (user.getBudget() != null && securityService.canViewOrEditEntity(user, incomeService.findById(id))) {
             model.addAttribute("incomes", incomeService.findByCategoryId(id));
             //TODO: WIDOK DO LISTY WSZYSTKICH WPŁYWÓW
-            return "incomes";
+            return "allIncomes";
         }
         return "redirect:/home/budget/add";
     }

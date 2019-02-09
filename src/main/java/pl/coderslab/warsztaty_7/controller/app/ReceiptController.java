@@ -68,7 +68,7 @@ public class ReceiptController {
             return "redirect:/home/budget/add";
         }
         model.addAttribute("receipts", receiptService.findAllForBudgetOrderedByDate(user.getBudget()));
-        return "test_receipts";
+        return "allReceipts";
     }
 
     @PreAuthorize("hasRole('USER')")

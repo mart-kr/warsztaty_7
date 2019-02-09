@@ -12,11 +12,11 @@
 </head>
 <body>
 <div>
-    <div class="jumbotron">
+    <div class="jumbotron bg-light">
             <div>
                 <h3>Wystąpił błąd</h3>
                 <div class="error-title">
-                    <p th:if="${status == 404}">Strona nie została znaleziona!</p>
+                    <p th:if="${status == 404}">Strona nie została znaleziona.</p>
                     <p th:unless="${status == 404}">Coś poszło nie tak...</p>
                 </div>
             </div>
@@ -27,11 +27,6 @@
                 <a href="/home" class="btn btn-primary" th:href="@{/home}">Powrót do strony głównej</a>
             </div>
     </div>
-
-    <br>
-    <p th:text="${message}">Exception message</p>
-    <pre th:text="${trace}">Stacktrace</pre>
 </div>
-
 </body>
 </html>

@@ -49,7 +49,7 @@ public class TransferController {
     @GetMapping(value = "/all")
     public String allTransfers(@AuthenticationPrincipal final User user, Model model) {
         model.addAttribute("transfers", transferService.findAllForBudgetOrderedByDate(user.getBudget()));
-        return "transfers";
+        return "allTransfers";
     }
 
     @PreAuthorize("hasRole('USER')")
