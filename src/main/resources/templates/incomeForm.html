@@ -12,57 +12,60 @@
     <div th:include="fragments/topBar :: topBar"></div>
 
     <div class="container-fluid align-self-center mt-5 w-50 ">
-
-        <h3>
-            <span th:if="${income.id == null}">Dodaj przychód</span>
-            <span th:unless="${income.id == null}">Edytuj przychód</span>
-        </h3>
-        <form action="#" th:action="@{${action}}" th:object="${income}" method="post">
-            <div class="form-group">
-                <label for="bankAccount">Konto</label>
-                <select class="form-control" id="bankAccount" th:field="*{bankAccount.id}">
-                    <option
-                            th:each="bankAccount: ${bankAccounts}"
-                            th:value="${bankAccount.id}"
-                            th:text="|${bankAccount.name}, saldo: ${bankAccount.balance}|">
-                    </option>
-                </select>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="amount">Kwota</label>
-                    <input type="number" step="0.01" class="form-control" id="amount" th:field="*{amount}" />
-                </div>
-                <div class="form-group col-md-8">
-                    <label for="incomeCategory">Kategoria</label>
-                    <select class="form-control" id="incomeCategory" th:field="*{incomeCategory.id}">
+        <div class="jumbotron">
+            <h3>
+                <span th:if="${income.id == null}">Dodaj przychód</span>
+                <span th:unless="${income.id == null}">Edytuj przychód</span>
+            </h3>
+            <hr class="my-4">
+            <form action="#" th:action="@{${action}}" th:object="${income}" method="post">
+                <div class="form-group">
+                    <label for="bankAccount">Konto</label>
+                    <select class="form-control" id="bankAccount" th:field="*{bankAccount.id}">
                         <option
-                                th:each="incomeCategory: ${incomeCategories}"
-                                th:value="${incomeCategory.id}"
-                                th:text="${incomeCategory.name}">
+                                th:each="bankAccount: ${bankAccounts}"
+                                th:value="${bankAccount.id}"
+                                th:text="|${bankAccount.name}, saldo: ${bankAccount.balance}|">
                         </option>
                     </select>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <label for="date">Data</label>
-                    <input type="date" class="form-control" id="date" th:value="*{dateOfPayment}" th:field="*{dateOfPayment}">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="amount">Kwota</label>
+                        <input type="number" step="0.01" class="form-control" id="amount" th:field="*{amount}" />
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="incomeCategory">Kategoria</label>
+                        <select class="form-control" id="incomeCategory" th:field="*{incomeCategory.id}">
+                            <option
+                                    th:each="incomeCategory: ${incomeCategories}"
+                                    th:value="${incomeCategory.id}"
+                                    th:text="${incomeCategory.name}">
+                            </option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group col-md-8">
-                    <label for="placeOfPayment">Źródło przychodu</label>
-                    <input type="text" class="form-control" id="placeOfPayment" th:field="*{placeOfPayment}">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="date">Data</label>
+                        <input type="date" class="form-control" id="date" th:value="*{dateOfPayment}" th:field="*{dateOfPayment}">
+                    </div>
+                    <div class="form-group col-md-8">
+                        <label for="placeOfPayment">Źródło przychodu</label>
+                        <input type="text" class="form-control" id="placeOfPayment" th:field="*{placeOfPayment}">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="note">Notatka</label>
-                <textarea cols="30" rows="3" class="form-control" id="note" th:field="*{incomeNote}"></textarea>
-            </div>
-            <div class="form-row">
-                <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
-                <a class="btn btn-primary" role="button" th:if="${income.id != null}" th:href="@{/home/income/delete/{id}(id=${income.id})}">Usuń</a>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label for="note">Notatka</label>
+                    <textarea cols="30" rows="3" class="form-control" id="note" th:field="*{incomeNote}"></textarea>
+                </div>
+                <hr class="my-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
+                    <a class="btn btn-primary" role="button" th:if="${income.id != null}" th:href="@{/home/income/delete/{id}(id=${income.id})}">Usuń</a>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>

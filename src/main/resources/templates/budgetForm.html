@@ -12,21 +12,26 @@
     <div th:include="fragments/topBar :: topBar"></div>
 
     <div class="container-fluid align-self-center mt-5 w-50 ">
-        <h3>
-            <span th:if="${budget.id == null}">Dodaj budżet</span>
-            <span th:unless="${budget.id == null}">Edytuj budżet</span>
-        </h3>
-        <p class="font-italic">Zanim zaczniesz używać aplikacji musisz dodać swój budżet. Potem możesz zaprosić innych użytkowników do Twojego budżetu.</p>
-        <form action="#" th:action="@{${action}}" th:object="${budget}" method="post">
-            <div class="form-group">
-                <label for="name">Podaj nazwę</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}" />
-            </div>
-            <div class="form-row">
-                <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
-                <a class="btn btn-primary" role="button" th:if="${budget.id != null}" th:href="@{/home/budget/delete/{id}(id=${budget.id})}">Usuń</a>
-            </div>
-        </form>
+        <div class="jumbotron">
+            <h3>
+                <span th:if="${budget.id == null}">Dodaj budżet</span>
+                <span th:unless="${budget.id == null}">Edytuj budżet</span>
+            </h3>
+            <hr class="my-4">
+            <p class="font-italic">Zanim zaczniesz używać aplikacji musisz dodać swój budżet. Potem możesz zaprosić innych użytkowników do Twojego budżetu.</p>
+            <form action="#" th:action="@{${action}}" th:object="${budget}" method="post">
+                <div class="form-group">
+                    <label for="name">Podaj nazwę</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" />
+                </div>
+                <hr class="my-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
+                    <a class="btn btn-primary" role="button" th:if="${budget.id != null}" th:href="@{/home/budget/delete/{id}(id=${budget.id})}">Usuń</a>
+                </div>
+            </form>
+        </div>
+
     </div>
 </body>
 </html>

@@ -1,6 +1,5 @@
 package pl.coderslab.warsztaty_7.controller.app;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -65,7 +64,7 @@ public class IncomeController {
         if (user.getBudget() != null) {
             model.addAttribute("incomes", incomeService.findAllForBudgetOrderedByDate(user.getBudget()));
             //TODO: WIDOK DO LISTY WSZYSTKICH WPŁYWÓW
-            return "test_incomes";
+            return "incomes";
         }
         return "redirect:/home/budget/add";
     }
@@ -76,7 +75,7 @@ public class IncomeController {
         if (user.getBudget() != null && securityService.canViewOrEditEntity(user, incomeService.findById(id))) {
             model.addAttribute("incomes", incomeService.findByCategoryId(id));
             //TODO: WIDOK DO LISTY WSZYSTKICH WPŁYWÓW
-            return "test_incomes";
+            return "incomes";
         }
         return "redirect:/home/budget/add";
     }

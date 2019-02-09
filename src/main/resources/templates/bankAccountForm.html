@@ -12,26 +12,31 @@
     <div th:include="fragments/topBar :: topBar"></div>
 
     <div class="container-fluid align-self-center mt-5 w-50 ">
-        <h3>
-            <span th:if="${bankAccount.id == null}">Dodaj konto</span>
-            <span th:unless="${bankAccount.id == null}">Edytuj konto</span>
-        </h3>
-        <form action="#" th:action="@{${action}}" th:object="${bankAccount}" method="post">
-            <div class="form-group">
-                <label for="name">Nazwa</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}" />
-            </div>
-            <div class="form-group">
-                <label for="balance">Saldo początkowe</label>
-                <input type="number" step="0.01" class="form-control" id="balance" th:field="*{balance}">
-                <input type="hidden" th:field="*{budget}">
-            </div>
-            <div class="form-row">
-                <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
-                <a class="btn btn-primary" role="button" th:if="${bankAccount.id != null}" th:href="@{/home/account/delete/{id}(id=${bankAccount.id})}">Usuń</a>
-            </div>
-        </form>
+        <div class="jumbotron">
+            <h3>
+                <span th:if="${bankAccount.id == null}">Dodaj konto</span>
+                <span th:unless="${bankAccount.id == null}">Edytuj konto</span>
+            </h3>
+            <hr class="my-4">
+            <form action="#" th:action="@{${action}}" th:object="${bankAccount}" method="post">
+                <div class="form-group">
+                    <label for="name">Nazwa</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" />
+                </div>
+                <div class="form-group">
+                    <label for="balance">Saldo początkowe</label>
+                    <input type="number" step="0.01" class="form-control" id="balance" th:field="*{balance}">
+                    <input type="hidden" th:field="*{budget}">
+                </div>
+                <hr class="my-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
+                    <a class="btn btn-primary" role="button" th:if="${bankAccount.id != null}" th:href="@{/home/account/delete/{id}(id=${bankAccount.id})}">Usuń</a>
+                </div>
+            </form>
+        </div>
     </div>
+
 
 </body>
 </html>
