@@ -10,12 +10,18 @@
 </head>
 <body>
     <div th:include="fragments/topBar :: topBar"></div>
-
-    <h3>Kategorie wydatków</h3>
-    <div class="list-group">
-        <a th:each="expenseCategory : ${expenseCategories}" th:href="@{/home/expenseCategory/edit/{id}(id=${expenseCategory.id})}" th:text="${expenseCategory.name}"
-           class="list-group-item list-group-item-action">Kategoria</a>
-        <a class="nav-item nav-link" href="/home/expenseCategory/add">Dodaj</a>
+    <div class="container-fluid align-self-center mt-5 w-50">
+        <h3 class="text-center">Kategorie wydatków</h3>
+        <div class="list-group">
+            <div th:each="expenseCategory : ${expenseCategories}">
+                <a th:if="${expenseCategory.budget != null}" th:href="@{/home/expenseCategory/edit/{id}(id=${expenseCategory.id})}" th:text="${expenseCategory.name}"
+                   class="list-group-item list-group-item-action text-center">Kategoria</a>
+                <a th:unless="${expenseCategory.budget != null}" th:text="${expenseCategory.name}" class="list-group-item list-group-item-action text-center">Kategoria</a>
+            </div>
+        </div>
+        <div class="text-center">
+            <a class="btn btn-primary mt-2" role="button" href="/home/expenseCategory/add">Dodaj</a>
+        </div>
     </div>
 </body>
 </html>
