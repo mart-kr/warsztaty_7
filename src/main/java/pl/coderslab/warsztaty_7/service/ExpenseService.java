@@ -12,27 +12,17 @@ import java.util.Map;
 public interface ExpenseService {
 
     List<Expense> findAll();
-
     List<Expense> findByCategory(ExpenseCategory expenseCategory);
-
     List<Expense> findByCategoryId(Long id);
-
     List<Expense> findByReceiptId(Long id);
-
     Expense findById(Long id);
-
     Expense create(Expense expense);
-
     Expense edit(Expense expense);
-
     void deleteById(Long id);
-
     void deleteByIds(Collection<Long> ids);
-
     List<Expense> findExpensesInThisMonthForBudget(Budget budget);
-
     Map<String, BigDecimal> sortedSumOfExpensesInCategory(List<Expense> expenses);
-
     List<Map.Entry<String, Integer>> sumOfSortedExpensesToPercentage(Map<String, BigDecimal> sortedExpenses);
+    BigDecimal sumOfAllExpensesFromThisMonth(Budget budget);
 
 }

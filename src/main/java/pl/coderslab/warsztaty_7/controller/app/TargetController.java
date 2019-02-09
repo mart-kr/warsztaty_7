@@ -8,20 +8,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.coderslab.warsztaty_7.model.Expense;
-import pl.coderslab.warsztaty_7.model.ExpenseCategory;
-import pl.coderslab.warsztaty_7.model.Target;
-import pl.coderslab.warsztaty_7.model.User;
-import pl.coderslab.warsztaty_7.service.ExpenseCategoryService;
-import pl.coderslab.warsztaty_7.service.ExpenseService;
-import pl.coderslab.warsztaty_7.service.SecurityService;
-import pl.coderslab.warsztaty_7.service.TargetService;
+import pl.coderslab.warsztaty_7.model.*;
+import pl.coderslab.warsztaty_7.service.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping(value = "/home/target")
@@ -31,14 +27,16 @@ public class TargetController {
     private final ExpenseCategoryService expenseCategoryService;
     private final SecurityService securityService;
     private final ExpenseService expenseService;
+    private final GlobalTargetService globalTargetService;
 
     @Autowired
     public TargetController(TargetService targetService, ExpenseCategoryService expenseCategoryService,
-                            SecurityService securityService, ExpenseService expenseService) {
+                            SecurityService securityService, ExpenseService expenseService, GlobalTargetService globalTargetService) {
         this.targetService = targetService;
         this.expenseCategoryService = expenseCategoryService;
         this.securityService = securityService;
         this.expenseService = expenseService;
+        this.globalTargetService = globalTargetService;
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -83,7 +81,7 @@ public class TargetController {
         if (user.getBudget() != null){
             List<Target> targets = targetService.findByCategoryId(target.getExpenseCategory().getId());
             if (targets.size() > 0) {
-                Target nullTarget = targetService.findTargetWithEndDateIsNull(targets, target.getBudget());
+                Target nullTarget = targetService.findTargetWithEndDateIsNull(targets, user.getBudget());
                 if (nullTarget != null) {
                     if (nullTarget.getStartDate().isAfter(target.getStartDate())) {
                         bindingResult.rejectValue("startDate", "error message");
@@ -109,10 +107,24 @@ public class TargetController {
     @GetMapping(value = "/thisMonth")
     public String targetsInThisMonth(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() != null) {
+            BigDecimal bd100 = new BigDecimal(100);
+            GlobalTarget globalTargetForThisMonth = globalTargetService.findGlobalTargetForThisMonth(user.getBudget());
+            BigDecimal expensesFromThisMonth = expenseService.sumOfAllExpensesFromThisMonth(user.getBudget());
+
             List<Target> targets = targetService.findAllFromThisMonth(user.getBudget());
             List<Expense> expensesInThisMonth = expenseService.findExpensesInThisMonthForBudget(user.getBudget());
             Map<String, BigDecimal> expensesSum = expenseService.sortedSumOfExpensesInCategory(expensesInThisMonth);
             model.addAttribute("monthTarExp", targetService.targetAndExpensesToPercentage(targets, expensesSum));
+
+            model.addAttribute("globalTarget", globalTargetForThisMonth);
+            model.addAttribute("expenses", expensesFromThisMonth);
+            if (!Objects.equals(globalTargetForThisMonth.getAmount(), null) && !expensesFromThisMonth.equals(BigDecimal.ZERO)) {
+                model.addAttribute("expensePercent", expensesFromThisMonth.multiply(bd100)
+                        .divide(globalTargetForThisMonth.getAmount(), RoundingMode.HALF_UP)
+                        .intValue());
+            } else {
+                model.addAttribute("expensePercent", 0);
+            }
             return "targetsMonth";
         } else {
             return "redirect:/home/budget/add";

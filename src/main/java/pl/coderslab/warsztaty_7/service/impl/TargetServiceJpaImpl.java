@@ -72,34 +72,13 @@ public class TargetServiceJpaImpl implements TargetService {
 
     @Override
     public Target findTargetWithEndDateIsNull(List<Target> targets, Budget budget){
-        Target nullTarget = targets.stream()
-                                   .filter(tar -> tar.getBudget().equals(budget))
-                                   .filter(tar -> tar.getEndDate() == null)
-                                   .findFirst()
-                                   .orElse(null);
-        return nullTarget;
-//        return targetUtil.getTargetWhereDateIsNull(targets);
+        return targetUtil.getTargetWhereDateIsNull(targets, budget);
     }
 
     @Override
     public Target setEndDateInNullTarget(Target nullTarget, Target formTarget){
-        LocalDate startDate = formTarget.getStartDate();
-        LocalDate endDateWork = null;
 
-        int december = 12;
-        int lastDayOfDecember = 31;
-
-        if (startDate.getMonthValue() == 1) {
-            endDateWork = startDate.withYear(startDate.getYear() - 1).withMonth(december).withDayOfMonth(lastDayOfDecember);
-        } else {
-            endDateWork = startDate.withMonth(startDate.getMonthValue() - 1);
-            endDateWork = endDateWork.withDayOfMonth(endDateWork.lengthOfMonth());
-        }
-        LocalDate endDate = endDateWork;
-        nullTarget.setEndDate(endDate);
-
-        return nullTarget;
-//        return targetUtil.setEndDateInNulltarget(nullTarget, formTarget);
+        return targetUtil.setEndDateInNulltarget(nullTarget, formTarget);
     }
 
     @Override

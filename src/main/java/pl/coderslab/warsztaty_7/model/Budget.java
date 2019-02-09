@@ -29,6 +29,9 @@ public class Budget extends Auditable{
     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
     private List<Target> targets = new ArrayList<>();
 
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL)
+    private List<GlobalTarget> globalTargets = new ArrayList<>();
+
     //TODO: transfery
 
 
@@ -141,6 +144,24 @@ public class Budget extends Auditable{
         target.setBudget(null);
     }
 
+    public List<GlobalTarget> getGlobalTargets() {
+        return globalTargets;
+    }
+
+    public void setGlobalTargets(List<GlobalTarget> globalTargets) {
+        this.globalTargets = globalTargets;
+    }
+
+    public void addGlobalTarget(GlobalTarget globalTarget) {
+        globalTargets.add(globalTarget);
+        globalTarget.setBudget(this);
+    }
+
+    public void deleteGlobalTarget(GlobalTarget globalTarget) {
+        targets.remove(globalTarget);
+        globalTarget.setBudget(null);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -152,13 +173,16 @@ public class Budget extends Auditable{
                 Objects.equals(getBankAccounts(), budget.getBankAccounts()) &&
                 Objects.equals(getUsers(), budget.getUsers()) &&
                 Objects.equals(getExpenseCategories(), budget.getExpenseCategories()) &&
-                Objects.equals(getIncomeCategories(), budget.getIncomeCategories());
+                Objects.equals(getIncomeCategories(), budget.getIncomeCategories()) &&
+                Objects.equals(getTargets(), budget.getTargets()) &&
+                Objects.equals(getGlobalTargets(), budget.getGlobalTargets());
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(super.hashCode(), getId(), getName(), getBankAccounts(), getUsers(), getExpenseCategories(), getIncomeCategories());
+        return Objects.hash(super.hashCode(), getId(), getName(), getBankAccounts(), getUsers(), getExpenseCategories(),
+                getIncomeCategories(), getTargets(), getGlobalTargets());
     }
 
 

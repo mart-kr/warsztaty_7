@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "targets")
-public class Target extends Auditable {
+@Table(name = "global_targets")
+public class GlobalTarget extends Auditable {
 
     @Id
     @GeneratedValue
@@ -17,10 +17,6 @@ public class Target extends Auditable {
 
     @Column
     private BigDecimal amount;
-
-    @ManyToOne
-    @JoinColumn(name = "expense_category_id")
-    private ExpenseCategory expenseCategory;
 
     @Column(name = "start_date")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -34,15 +30,15 @@ public class Target extends Auditable {
     @JoinColumn(name = "budget_id")
     private Budget budget;
 
-    public Target() {
+    public GlobalTarget() {
     }
 
-    public Target(BigDecimal amount, LocalDate startDate, ExpenseCategory expenseCategory, Budget budget) {
+    public GlobalTarget(BigDecimal amount, LocalDate startDate, Budget budget) {
         this.amount = amount;
         this.startDate = startDate;
-        this.expenseCategory = expenseCategory;
         this.budget = budget;
     }
+
 
     public Long getId() {
         return id;
@@ -76,14 +72,6 @@ public class Target extends Auditable {
         this.endDate = endDate;
     }
 
-    public ExpenseCategory getExpenseCategory() {
-        return expenseCategory;
-    }
-
-    public void setExpenseCategory(ExpenseCategory expenseCategory) {
-        this.expenseCategory = expenseCategory;
-    }
-
     public Budget getBudget() {
         return budget;
     }
@@ -94,12 +82,11 @@ public class Target extends Auditable {
 
     @Override
     public String toString() {
-        return "Target{" +
+        return "GlobalTarget{" +
                 "id=" + id +
                 ", amount=" + amount +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
-                ", expenseCategory=" + expenseCategory +
                 ", budget=" + budget +
                 ", createdByUserId=" + createdByUserId +
                 ", creationDate=" + creationDate +
@@ -113,13 +100,9 @@ public class Target extends Auditable {
         if (this == o) return true;
         if (!(o instanceof Target)) return false;
         if (!super.equals(o)) return false;
-        Target target = (Target) o;
-        return Objects.equals(getId(), target.getId()) &&
-                Objects.equals(getAmount(), target.getAmount()) &&
-                Objects.equals(getExpenseCategory(), target.getExpenseCategory()) &&
-                Objects.equals(getStartDate(), target.getStartDate()) &&
-                Objects.equals(getEndDate(), target.getEndDate()) &&
-                Objects.equals(getBudget().getId(), target.getBudget().getId());
+        GlobalTarget globalTarget = (GlobalTarget) o;
+        return Objects.equals(getId(), globalTarget.getId()) &&
+                Objects.equals(getAmount(), globalTarget.getAmount());
     }
 
     @Override
@@ -128,4 +111,3 @@ public class Target extends Auditable {
         return Objects.hash(super.hashCode(), getId(), getAmount());
     }
 }
-

@@ -6,38 +6,38 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <title>Historia celów</title>
+    <title>Historia głównych celów</title>
 </head>
 <body>
 <div th:include="fragments/topBar :: topBar"></div>
 <div class="container">
-    <h3>Historia celów</h3>
-    <div th:if="${monthTarAll}">
+    <h3>Historia głównych celów</h3>
+    <div th:if="${monthGlobalTarAll}">
         <div class="card mt-5 w-50">
-            <div th:each="target : ${monthTarAll}" class="card">
+            <div th:each="target : ${monthGlobalTarAll}" class="card">
                 <a th:attr="data-target='#target'+${targetStat.index}, aria-controls='operation'+${targetStat.index}"
                    data-toggle="collapse" aria-expanded="false" class="card-header">
-                    <span th:text="${target.expenseCategory.name}" class="float-left">Kategoria wydatków</span>
-                    <span th:text="${target.amount}" class="float-right">Kwota</span>
+                    <span th:text="|Kwota: ${target.amount}|" class="float-right">Kwota</span>
+
+                    <!--<span th:text="||" class="float-right">Od kiedy</span>-->
+                    <span th:if="${target.endDate == null}" th:text="|Od: ${target.startDate}, do: brak końcowej daty|" class="float-left">Od/do</span>
+                    <span th:unless="${target.endDate == null}" th:text="|Od: ${target.startDate}, o: ${target.endDate}|" class="float-left">Od/do</span>
                 </a>
                 <div th:id="'target'+${targetStat.index}" id="target" class="collapse card-body" >
-                    <p th:text="|Cel ustalony od: ${target.startDate}|">Data od kiedy</p>
-                    <p th:if="${target.endDate == null}" th:text="|Cel ustalony do: brak końcowej daty|">Data od kiedy</p>
-                    <p th:unless="${target.endDate == null}" th:text="|Cel ustalony do: ${target.endDate}|">Data od kiedy</p>
                     <a  class="btn btn-primary">Edytuj</a>
-                    <!--<a th:href="@{/home/target/edit/{id}(id=${target.getId()})}" class="btn btn-primary">Edytuj</a>-->
+                    <!--<a th:href="@{/home/globalTarget/edit/{id}(id=${target.getId()})}" class="btn btn-primary">Edytuj</a>-->
                     <a  class="btn btn-primary">Usuń</a>
-                    <!--<a th:href="@{/home/target/delete/{id}(id=${target.getId()})}" class="btn btn-primary">Usuń</a>-->
+                    <!--<a th:href="@{/home/globalTarget/delete/{id}(id=${target.getId()})}" class="btn btn-primary">Usuń</a>-->
                 </div>
             </div>
         </div>
     </div>
-    <div th:if="${monthTarAll.isEmpty()}">
-        <p>Brak celów miesięcznych w tym miesiącu</p>
+    <div th:if="${monthGlobalTarAll.isEmpty()}">
+        <p>Brak głównych celów miesięcznych w tym miesiącu</p>
     </div>
     <div class="form-group" style="margin-top: 20px">
         <a href="/home/target/thisMonth" class="btn btn-primary" role="button" aria-pressed="true">Wróć</a>
-        <a href="/home/target/add" class="btn btn-primary" role="button" aria-pressed="true">Dodaj cel miesięczny</a>
+        <a href="/home/globalTarget/add" class="btn btn-primary" role="button" aria-pressed="true">Dodaj cel główny</a>
 
     </div>
 </div >

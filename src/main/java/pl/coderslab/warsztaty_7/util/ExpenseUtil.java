@@ -37,4 +37,11 @@ public class ExpenseUtil {
         return result;
     }
 
+    public BigDecimal getSumOfAllExpenses(List<Expense> expenses){
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Expense expense : expenses){
+            sum = sum.add(expense.getAmount());
+        }
+        return sum;
+    }
 }

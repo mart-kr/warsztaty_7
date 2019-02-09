@@ -125,5 +125,10 @@ public class ExpenseServiceStubImpl implements ExpenseService {
         return Collections.emptyList();
     }
 
+    @Override
+    public BigDecimal sumOfAllExpensesFromThisMonth(Budget budget) {
+        return null;
+    }
+
 
 }

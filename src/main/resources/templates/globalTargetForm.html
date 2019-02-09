@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <title>Target form</title>
+</head>
+<body>
+<div th:include="fragments/topBar :: topBar"></div>
+<div class="container-fluid align-self-center mt-5 w-50 ">
+    <div class="jumbotron">
+        <h3>
+            <span th:if="${globalTarget.id == null}">Dodaj cel dla całego budżetu</span>
+            <span th:unless="${globalTarget.id == null}">Edytuj cel</span>
+        </h3>
+        <form action="#" th:action="@{${action}}" th:object="${globalTarget}" method="post">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="amount">Kwota</label>
+                    <input type="text" class="form-control" id="amount" th:field="*{amount}" required="required"/>
+                </div>
+                <div class="form-group">
+                    <div th:if="${#fields.hasErrors('startDate')}" th:text="'Podana data jest niepoprawna.Termin dodawanego celu koliduje już z zapisanymi (wybierz późniejszą datę)'"
+                         class="alert alert-danger" role="alert">Błędna data</div>
+                    <label for="date">Od którego miesiąca cel ma obowiązywać:</label>
+                    <input type="date" th:min="${today}" class="form-control" id="date" th:value="*{startDate}" th:field="*{startDate}" required="required">
+                </div>
+            </div>
+            <div class="form-row">
+                <button type="submit" class="btn btn-primary mr-1">Zapisz</button>
+                <a class="btn btn-primary" role="button" th:if="${globalTarget.id != null}" th:href="@{/home/target/delete/{id}(id=${globalTarget.id})}">Usuń</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -98,4 +98,9 @@ public class ExpenseServiceJpaImpl implements ExpenseService {
     public List<Map.Entry<String, Integer>> sumOfSortedExpensesToPercentage(Map<String, BigDecimal> sortedExpenses) {
         return expenseUtil.sortedSumOfExpensesToPercentages(sortedExpenses);
     }
+
+    @Override
+    public BigDecimal sumOfAllExpensesFromThisMonth(Budget budget) {
+        return expenseUtil.getSumOfAllExpenses(findExpensesInThisMonthForBudget(budget));
+    }
 }

@@ -17,4 +17,5 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             (Collection<Long> userIds, LocalDate begin, LocalDate end);
     void deleteAllByIdIn(Collection<Long> ids);
 
+
 }
