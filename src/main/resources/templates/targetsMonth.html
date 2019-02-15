@@ -18,13 +18,19 @@
         <div class="card-body">
             <div>
                 <h4>Cel Główny:</h4>
-                <div>Twój cel główny:
-                    <span th:text="${globalTarget.getAmount() != null} ? ${globalTarget.getAmount()} : '0'">target</span>
-                    <span th:text="| Łączne Twoje wydatki w tym miesiącu: ${expenses}">expenses</span>
-                </div>
-                <div class="progress m-20 p-20" style="height: 20px;">
-                    <div th:style="'width: '+ ${expensePercent} +'%'" class="progress-bar my-20" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                    <div th:if="${globalTarget.getAmount() != null}">
+                        <div>Twój cel główny:
+                            <span th:text="${globalTarget.getAmount() != null} ? ${globalTarget.getAmount()} : '0'">target</span>
+                            <span th:text="| Łączne Twoje wydatki w tym miesiącu: ${expenses}">expenses</span>
+                        </div>
+                        <div class="progress m-20 p-20" style="height: 20px;">
+                            <div th:style="'width: '+ ${expensePercent} +'%'" class="progress-bar my-20" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div th:if="${globalTarget.getAmount() == null  }">
+                        <p>Nie określiłeś głównego celu na ten miesiąc.</p>
+                    </div>
+
             </div>
             <div class="mt-5">
                 <h4>Cele dla poszczególnych kategorii:</h4>
