@@ -107,24 +107,24 @@ public class TargetController {
     @GetMapping(value = "/thisMonth")
     public String targetsInThisMonth(@AuthenticationPrincipal final User user, Model model) {
         if (user.getBudget() != null) {
-            BigDecimal bd100 = new BigDecimal(100);
-            GlobalTarget globalTargetForThisMonth = globalTargetService.findGlobalTargetForThisMonth(user.getBudget());
-            BigDecimal expensesFromThisMonth = expenseService.sumOfAllExpensesFromThisMonth(user.getBudget());
-
+            //the ratio bar of expenses to the targets in each category
             List<Target> targets = targetService.findAllFromThisMonth(user.getBudget());
             List<Expense> expensesInThisMonth = expenseService.findExpensesInThisMonthForBudget(user.getBudget());
             Map<String, BigDecimal> expensesSum = expenseService.sortedSumOfExpensesInCategory(expensesInThisMonth);
             model.addAttribute("monthTarExp", targetService.targetAndExpensesToPercentage(targets, expensesSum));
 
+            //the ratio bar of whole expenses to the global target
+            GlobalTarget globalTargetForThisMonth = globalTargetService.findGlobalTargetForThisMonth(user.getBudget());
+            BigDecimal expensesFromThisMonth = expenseService.sumOfAllExpensesFromThisMonth(user.getBudget());
+
             model.addAttribute("globalTarget", globalTargetForThisMonth);
             model.addAttribute("expenses", expensesFromThisMonth);
             if (!Objects.equals(globalTargetForThisMonth.getAmount(), null) && !expensesFromThisMonth.equals(BigDecimal.ZERO)) {
-                model.addAttribute("expensePercent", expensesFromThisMonth.multiply(bd100)
-                        .divide(globalTargetForThisMonth.getAmount(), RoundingMode.HALF_UP)
-                        .intValue());
+                model.addAttribute("expensePercent", globalTargetService.getExpensePercent(expensesFromThisMonth, globalTargetForThisMonth));
             } else {
                 model.addAttribute("expensePercent", 0);
             }
+
             return "targetsMonth";
         } else {
             return "redirect:/home/budget/add";

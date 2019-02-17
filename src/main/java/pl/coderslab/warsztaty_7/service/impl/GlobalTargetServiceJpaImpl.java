@@ -9,6 +9,7 @@ import pl.coderslab.warsztaty_7.repository.GlobalTargetRepository;
 import pl.coderslab.warsztaty_7.service.GlobalTargetService;
 import pl.coderslab.warsztaty_7.util.TargetUtil;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -58,6 +59,10 @@ public class GlobalTargetServiceJpaImpl implements GlobalTargetService {
          return globaltargets.stream()
                  .findFirst()
                  .orElse(new GlobalTarget());
+    }
+
+    public Integer getExpensePercent(BigDecimal expensesFromThisMonth, GlobalTarget globalTargetForThisMonth){
+        return targetUtil.getExpensesPercent(expensesFromThisMonth, globalTargetForThisMonth);
     }
 
 

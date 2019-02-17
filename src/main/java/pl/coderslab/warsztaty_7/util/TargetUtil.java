@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TargetUtil {
+    BigDecimal bd100 = new BigDecimal(100);
 
 
     public Integer getGlobalTargetPercent(List<Expense> expenses, GlobalTarget globalTarget){
@@ -48,6 +49,12 @@ public class TargetUtil {
         } else {
             return maxPercentage;
         }
+    }
+
+    public Integer getExpensesPercent(BigDecimal expensesFromThisMonth, GlobalTarget globalTargetForThisMonth){
+        return expensesFromThisMonth.multiply(bd100)
+                .divide(globalTargetForThisMonth.getAmount(), RoundingMode.HALF_UP)
+                .intValue();
     }
 
 
