@@ -14,7 +14,7 @@ Technology stack:
 - Spring (Spring Boot, Spring Security, Spring data);
 - Hibernate;
 - Thymeleaf;
-- Bootrstap;
+- Bootstrap;
 - MySQL;
 - Maven;
 - Apache Tomcat.
