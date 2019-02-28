@@ -1,19 +1,15 @@
 package pl.coderslab.warsztaty_7.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.coderslab.warsztaty_7.event.UserRegistrationEvent;
 import pl.coderslab.warsztaty_7.event.UserRegistrationEventPublisher;
 import pl.coderslab.warsztaty_7.model.Role;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.model.VerificationToken;
 import pl.coderslab.warsztaty_7.service.VerificationTokenService;
 
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Optional;
@@ -61,7 +57,7 @@ public class NewUserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userServiceImpl.saveUser(user);
         verificationTokenService.generateAndSaveNewTokenForUser(user);
-        registrationEventPublisher.publishRegistrationEvent(user, getUsersLatestTokenString(user));
+        registrationEventPublisher.publishRegistrationEvent(user, getUsersLastTokenString(user));
     }
 
     public void confirmNewUser(String tokenString) {
@@ -76,7 +72,7 @@ public class NewUserService {
         }
     }
 
-    public String getUsersLatestTokenString(User user) {
+    public String getUsersLastTokenString(User user) {
         Optional<VerificationToken> optToken = verificationTokenService.findAllVerificationTokensByUser(user).stream()
                 .min(Comparator.comparing(VerificationToken::getExpireTime));
         return optToken.isPresent()? optToken.get().getToken() : "";
