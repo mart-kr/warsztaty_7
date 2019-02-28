@@ -1,5 +1,6 @@
 package pl.coderslab.warsztaty_7.controller.app;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.service.BudgetService;
-import pl.coderslab.warsztaty_7.service.UserServiceImpl;
+import pl.coderslab.warsztaty_7.service.impl.UserServiceImpl;
 
 import java.util.Optional;
 
@@ -47,6 +48,7 @@ public class BudgetUserController {
         }
     }
 
+    @Autowired
     public BudgetUserController(UserServiceImpl userServiceImpl, BudgetService budgetService) {
         this.userServiceImpl = userServiceImpl;
         this.budgetService = budgetService;
