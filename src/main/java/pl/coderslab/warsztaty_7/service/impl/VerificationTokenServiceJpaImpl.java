@@ -8,6 +8,7 @@ import pl.coderslab.warsztaty_7.repository.VerificationTokenRepository;
 import pl.coderslab.warsztaty_7.service.VerificationTokenService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +20,11 @@ public class VerificationTokenServiceJpaImpl implements VerificationTokenService
     @Override
     public Optional<VerificationToken> findVerificationTokenByTokenString(String tokenString) {
         return verificationTokenRepository.findOneByToken(tokenString);
+    }
+
+    @Override
+    public List<VerificationToken> findAllVerificationTokensByUser(User user) {
+        return verificationTokenRepository.findAllByUser(user);
     }
 
     @Override

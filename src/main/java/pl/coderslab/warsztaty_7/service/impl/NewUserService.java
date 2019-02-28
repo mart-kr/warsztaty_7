@@ -1,15 +1,20 @@
 package pl.coderslab.warsztaty_7.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.coderslab.warsztaty_7.event.UserRegistrationEvent;
+import pl.coderslab.warsztaty_7.event.UserRegistrationEventPublisher;
 import pl.coderslab.warsztaty_7.model.Role;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.model.VerificationToken;
 import pl.coderslab.warsztaty_7.service.VerificationTokenService;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -26,14 +31,17 @@ public class NewUserService {
     private final UserServiceImpl userServiceImpl;
     private final RoleService roleService;
     private final VerificationTokenService verificationTokenService;
+    private final UserRegistrationEventPublisher registrationEventPublisher;
 
     @Autowired
     public NewUserService(PasswordEncoder passwordEncoder, UserServiceImpl userServiceImpl,
-                          RoleService roleService, VerificationTokenService verificationTokenService) {
+                          RoleService roleService, VerificationTokenService verificationTokenService,
+                          UserRegistrationEventPublisher registrationEventPublisher) {
         this.passwordEncoder = passwordEncoder;
         this.userServiceImpl = userServiceImpl;
         this.roleService = roleService;
         this.verificationTokenService = verificationTokenService;
+        this.registrationEventPublisher = registrationEventPublisher;
     }
 
     public boolean isPasswordValid(String password) {
@@ -45,8 +53,7 @@ public class NewUserService {
     public void saveNewUser(User user) {
         Set<Role> roles = new HashSet<>();
         roles.add(roleService.findRoleByName("USER"));
-        // TODO zmiana Enabled na false po wprowadzeniu weryfikacji email
-        user.setEnabled(true);
+        user.setEnabled(false);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
@@ -54,6 +61,7 @@ public class NewUserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userServiceImpl.saveUser(user);
         verificationTokenService.generateAndSaveNewTokenForUser(user);
+        registrationEventPublisher.publishRegistrationEvent(user, getUsersLatestTokenString(user));
     }
 
     public void confirmNewUser(String tokenString) {
@@ -66,6 +74,12 @@ public class NewUserService {
                 userServiceImpl.saveUser(user.get());
             }
         }
+    }
+
+    public String getUsersLatestTokenString(User user) {
+        Optional<VerificationToken> optToken = verificationTokenService.findAllVerificationTokensByUser(user).stream()
+                .min(Comparator.comparing(VerificationToken::getExpireTime));
+        return optToken.isPresent()? optToken.get().getToken() : "";
     }
 
 }

@@ -1,11 +1,13 @@
 package pl.coderslab.warsztaty_7.controller.start;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.coderslab.warsztaty_7.event.UserRegistrationEvent;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.model.VerificationToken;
 import pl.coderslab.warsztaty_7.service.VerificationTokenService;
@@ -22,6 +24,7 @@ public class RegistrationController {
     private final NewUserService newUserService;
     private final UserServiceImpl userServiceImpl;
     private final VerificationTokenService tokenService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @ModelAttribute(name = "user")
     public User newUser() {
@@ -52,6 +55,7 @@ public class RegistrationController {
             return "regForm";
         } else {
             newUserService.saveNewUser(user);
+
             //TODO alert o potwierdzeniu maila w widoku logowania
             return "redirect:/start/login?confirm";
         }
@@ -73,9 +77,10 @@ public class RegistrationController {
 
     @Autowired
     public RegistrationController(NewUserService newUserService, UserServiceImpl userServiceImpl,
-                                  VerificationTokenService tokenService) {
+                                  VerificationTokenService tokenService, ApplicationEventPublisher eventPublisher) {
         this.newUserService = newUserService;
         this.userServiceImpl = userServiceImpl;
         this.tokenService = tokenService;
+        this.eventPublisher = eventPublisher;
     }
 }
