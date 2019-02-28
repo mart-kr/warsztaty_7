@@ -18,7 +18,7 @@ public class MailServiceImpl implements MailService {
         mailMessage.setSubject(subject);
         mailMessage.setText(text);
         mailSender.send(mailMessage);
-        System.out.println("Wyslano maila z rejestracji");
+//        System.out.println("Wyslano maila z rejestracji  "+System.currentTimeMillis());
     }
 
     @Autowired

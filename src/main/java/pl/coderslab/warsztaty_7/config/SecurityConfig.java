@@ -16,7 +16,6 @@ import pl.coderslab.warsztaty_7.service.impl.UserServiceImpl;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 

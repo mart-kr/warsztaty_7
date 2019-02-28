@@ -2,10 +2,12 @@ package pl.coderslab.warsztaty_7.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import pl.coderslab.warsztaty_7.service.MailService;
 
 @Component
+@Async
 public class UserRegistrationEventListener implements ApplicationListener<UserRegistrationEvent> {
 
     private MailService mailService;

@@ -16,6 +16,8 @@ public class UserRegistrationEventPublisher implements ApplicationEventPublisher
     }
 
     public void publishRegistrationEvent(User user, String token) {
+//        System.out.println("Event publish start  "+System.currentTimeMillis());
         eventPublisher.publishEvent(new UserRegistrationEvent(user, token));
+//        System.out.println("Event publish stop  "+System.currentTimeMillis());
     }
 }
