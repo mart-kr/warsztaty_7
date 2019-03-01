@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 public class VerificationTokenServiceJpaImpl implements VerificationTokenService {
 
-    private static final int TOKEN_EXPIRATION_HOURS = 1;
+    private static final int TOKEN_EXPIRATION_HOURS = 24;
     private final VerificationTokenRepository verificationTokenRepository;
 
     @Override
@@ -31,7 +31,7 @@ public class VerificationTokenServiceJpaImpl implements VerificationTokenService
     @Override
     public void generateAndSaveNewTokenForUser(User user) {
         String tokenString = UUID.randomUUID().toString();
-        LocalDateTime expireTime = LocalDateTime.now().plusMinutes(TOKEN_EXPIRATION_HOURS);
+        LocalDateTime expireTime = LocalDateTime.now().plusHours(TOKEN_EXPIRATION_HOURS);
         VerificationToken verificationToken = new VerificationToken(tokenString, user, expireTime);
         verificationTokenRepository.save(verificationToken);
     }
@@ -40,8 +40,7 @@ public class VerificationTokenServiceJpaImpl implements VerificationTokenService
     public void invalidateTokens(User user) {
         List<VerificationToken> allTokens = findAllVerificationTokensByUser(user);
         for (VerificationToken token : allTokens) {
-            System.out.println(token.getToken());
-            token.setExpireTime(LocalDateTime.now().minusYears(10));
+            token.setExpireTime(LocalDateTime.now().minusYears(1000));
         }
         verificationTokenRepository.save(allTokens);
     }
