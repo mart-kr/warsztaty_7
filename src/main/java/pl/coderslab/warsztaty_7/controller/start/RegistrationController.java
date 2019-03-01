@@ -1,16 +1,14 @@
 package pl.coderslab.warsztaty_7.controller.start;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.coderslab.warsztaty_7.event.UserRegistrationEvent;
 import pl.coderslab.warsztaty_7.model.User;
 import pl.coderslab.warsztaty_7.model.VerificationToken;
-import pl.coderslab.warsztaty_7.service.VerificationTokenService;
 import pl.coderslab.warsztaty_7.service.impl.NewUserService;
 import pl.coderslab.warsztaty_7.service.impl.UserServiceImpl;
 
@@ -23,8 +21,6 @@ public class RegistrationController {
 
     private final NewUserService newUserService;
     private final UserServiceImpl userServiceImpl;
-    private final VerificationTokenService tokenService;
-    private final ApplicationEventPublisher eventPublisher;
 
     @ModelAttribute(name = "user")
     public User newUser() {
@@ -62,25 +58,41 @@ public class RegistrationController {
     }
 
     @GetMapping(path = "/confirm", params = "token")
-    public String confirmUserEmail(@RequestParam(name = "token") final String tokenString) {
-        Optional<VerificationToken> verificationToken = tokenService.findVerificationTokenByTokenString(tokenString);
+    public String confirmUserEmail(@RequestParam(name = "token") final String tokenString, RedirectAttributes model) {
+        Optional<VerificationToken> verificationToken = newUserService.findVerificationTokenByTokenString(tokenString);
         if (!verificationToken.isPresent()) {
             // TODO widok potwierdzenia maila z alertami
-            return "redirect:/start/register/confirm?error";
+            return "redirect:/start/register/resend/token?error";
         } else if (verificationToken.get().isExpired()) {
-            return "redirect:/start/register/confirm?expired";
+            model.addFlashAttribute("token", tokenString);
+            return "redirect:/start/register/resend/token?expired";
         } else {
             newUserService.confirmNewUser(tokenString);
             return "redirect:/start/login?register";
         }
     }
 
+    @GetMapping(path = "/resend/token")
+    public String confirmUserEmailError(@ModelAttribute(name = "token") String token, Model model) {
+        model.addAttribute("token", token);
+        return "tokenExpired";
+    }
+
+    @GetMapping(path = "/resend", params = "token")
+    public String resendVerificationLinkForToken(@RequestParam(name = "token") final String expiredToken) {
+        newUserService.resendConfirmationLinkForToken(expiredToken);
+        return "redirect:/start/login?confirm";
+    }
+
+    @PostMapping(path = "/resend")
+    public String resendVerificationLinkForEmail(@RequestParam(name = "email") final String email) {
+        newUserService.resendConfirmationLinkForEmail(email);
+        return "redirect:/start/login?confirm";
+    }
+
     @Autowired
-    public RegistrationController(NewUserService newUserService, UserServiceImpl userServiceImpl,
-                                  VerificationTokenService tokenService, ApplicationEventPublisher eventPublisher) {
+    public RegistrationController(NewUserService newUserService, UserServiceImpl userServiceImpl) {
         this.newUserService = newUserService;
         this.userServiceImpl = userServiceImpl;
-        this.tokenService = tokenService;
-        this.eventPublisher = eventPublisher;
     }
 }

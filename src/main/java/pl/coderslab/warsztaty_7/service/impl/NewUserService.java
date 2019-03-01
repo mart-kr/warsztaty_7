@@ -72,9 +72,34 @@ public class NewUserService {
         }
     }
 
-    public String getUsersLastTokenString(User user) {
+    public Optional<VerificationToken> findVerificationTokenByTokenString(String token) {
+        return verificationTokenService.findVerificationTokenByTokenString(token);
+    }
+
+    public void resendConfirmationLinkForToken(String expiredTokenString) {
+        Optional<VerificationToken> expiredVerificationToken =
+                verificationTokenService.findVerificationTokenByTokenString(expiredTokenString);
+        if (expiredVerificationToken.isPresent()){
+            User user = expiredVerificationToken.get().getUser();
+            verificationTokenService.invalidateTokens(user);
+            verificationTokenService.generateAndSaveNewTokenForUser(user);
+            registrationEventPublisher.publishRegistrationEvent(user, getUsersLastTokenString(user));
+        }
+    }
+
+    public void resendConfirmationLinkForEmail(String email) {
+        Optional<User> optUser = userServiceImpl.findUserByUsername(email);
+        if (optUser.isPresent() && !optUser.get().isEnabled()) {
+            User user = optUser.get();
+            verificationTokenService.invalidateTokens(user);
+            verificationTokenService.generateAndSaveNewTokenForUser(user);
+            registrationEventPublisher.publishRegistrationEvent(user, getUsersLastTokenString(user));
+        }
+    }
+
+    private String getUsersLastTokenString(User user) {
         Optional<VerificationToken> optToken = verificationTokenService.findAllVerificationTokensByUser(user).stream()
-                .min(Comparator.comparing(VerificationToken::getExpireTime));
+                .max(Comparator.comparing(VerificationToken::getExpireTime));
         return optToken.isPresent()? optToken.get().getToken() : "";
     }
 

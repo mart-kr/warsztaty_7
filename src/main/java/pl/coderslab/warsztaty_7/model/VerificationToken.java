@@ -22,7 +22,7 @@ public class VerificationToken {
     @NotNull
     private User user;
 
-    @Column(name = "expires", nullable = false, updatable = false)
+    @Column(name = "expires", nullable = false)
     private LocalDateTime expireTime;
 
     public VerificationToken() {

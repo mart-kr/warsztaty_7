@@ -13,4 +13,5 @@ public interface VerificationTokenService {
     Optional<VerificationToken> findVerificationTokenByTokenString(String tokenString);
     List<VerificationToken> findAllVerificationTokensByUser(User user);
     void generateAndSaveNewTokenForUser(User user);
+    void invalidateTokens(User user);
 }
