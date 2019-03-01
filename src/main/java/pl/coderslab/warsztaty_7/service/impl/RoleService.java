@@ -1,4 +1,4 @@
-package pl.coderslab.warsztaty_7.service;
+package pl.coderslab.warsztaty_7.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

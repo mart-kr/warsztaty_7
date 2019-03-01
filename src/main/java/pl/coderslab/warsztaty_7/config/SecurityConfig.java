@@ -9,15 +9,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.coderslab.warsztaty_7.repository.UserRepository;
-import pl.coderslab.warsztaty_7.service.UserServiceImpl;
+import pl.coderslab.warsztaty_7.service.impl.UserServiceImpl;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 

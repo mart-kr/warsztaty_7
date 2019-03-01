@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pl.coderslab.warsztaty_7.model.*;
 import pl.coderslab.warsztaty_7.repository.UserRepository;
 import pl.coderslab.warsztaty_7.service.SecurityService;
-import pl.coderslab.warsztaty_7.service.UserServiceImpl;
+import pl.coderslab.warsztaty_7.service.impl.UserServiceImpl;
 
 import java.util.HashSet;
 import java.util.Set;
